@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter/rendering.dart';
 
 class WelcomePage extends StatefulWidget {
   final void Function()? onTap;
@@ -18,6 +19,15 @@ class _WelcomePageState extends State<WelcomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Container(
+                padding: const EdgeInsets.only(left: 20),
+                child: const Text(
+                  'WELCOME to Oasis Teledensity',
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Color.fromARGB(255, 0, 0, 0),
+                      fontWeight: FontWeight.bold),
+                )),
             Container(
                 padding: const EdgeInsets.only(left: 120),
                 child: const Image(
