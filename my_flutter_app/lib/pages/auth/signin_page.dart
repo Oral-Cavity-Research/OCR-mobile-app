@@ -88,7 +88,17 @@ class _SigninPageState extends State<SigninPage> {
                 controller: hospitalController,
                 hintText: "Hospital Name",
                 obscureText: false),
-            my_button(onTap: () {}, text: "Sign Up"),
+            MyButton(
+              onTap: () {
+                // Handle button tap
+                print('Log in button tapped!');
+              },
+              text: 'Log in',
+              backgroundColor: Color.fromARGB(255, 4, 20, 52), // Solid color
+              width: 350.0, // Custom width
+              height: 45.0, // Custom height
+            ),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
