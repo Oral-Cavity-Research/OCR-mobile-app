@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_flutter_app/pages/auth/add_methods/add_rolePage.dart';
 import 'package:my_flutter_app/pages/auth/login_page.dart';
 import 'package:my_flutter_app/pages/auth/welcome_page.dart';
 import 'package:my_flutter_app/themes/theme_provider.dart';
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginPage(
+      home: addRole(
         onTap: () {},
       ),
       theme: Provider.of<ThemeProvider>(context).themeData,
