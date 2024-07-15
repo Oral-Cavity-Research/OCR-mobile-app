@@ -5,15 +5,15 @@ import 'package:flutter/widgets.dart';
 import 'package:my_flutter_app/components/my_button.dart';
 import 'package:my_flutter_app/components/my_input.dart';
 
-class SigninPage extends StatefulWidget {
+class LoginPage extends StatefulWidget {
   final void Function()? onTap;
-  const SigninPage({super.key, required this.onTap});
+  const LoginPage({super.key, required this.onTap});
 
   @override
-  State<SigninPage> createState() => _SigninPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _SigninPageState extends State<SigninPage> {
+class _LoginPageState extends State<LoginPage> {
   //textEditing controllers
   final TextEditingController emailController = TextEditingController();
 
@@ -58,7 +58,7 @@ class _SigninPageState extends State<SigninPage> {
                 Container(
                     padding: const EdgeInsets.only(left: 20),
                     child: const Text(
-                      'Sign Up',
+                      'User Login',
                       style: TextStyle(
                           fontSize: 20,
                           color: Color.fromARGB(255, 0, 0, 0),
@@ -67,7 +67,7 @@ class _SigninPageState extends State<SigninPage> {
                 Container(
                     padding: const EdgeInsets.only(left: 20),
                     child: const Text(
-                      'This only sends a login request to the admin',
+                      'Use this email to log in',
                       style: TextStyle(
                         fontSize: 16,
                         color: Color.fromARGB(255, 79, 78, 78),
@@ -75,30 +75,7 @@ class _SigninPageState extends State<SigninPage> {
                     )),
 
                 //email textfield
-                my_input(
-                    controller: emailController,
-                    hintText: "Email",
-                    obscureText: false),
-                //username textfield
-                my_input(
-                    controller: usernameController,
-                    hintText: "UserName",
-                    obscureText: false),
-                //registration textfield
-                my_input(
-                    controller: registrationController,
-                    hintText: "SLMC Registration Number",
-                    obscureText: false),
-                //phone number text field
-                my_input(
-                    controller: phoneController,
-                    hintText: "Phone Number",
-                    obscureText: false),
-                //hostpital textfield
-                my_input(
-                    controller: hospitalController,
-                    hintText: "Hospital Name",
-                    obscureText: false),
+
                 Padding(
                   padding: const EdgeInsets.fromLTRB(40, 10, 10, 10),
                   child: MyButton(
