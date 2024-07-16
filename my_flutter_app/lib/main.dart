@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_flutter_app/pages/auth/add_methods/add_patientPage.dart';
+import 'package:my_flutter_app/pages/add_methods/add_patientPage.dart';
+import 'package:my_flutter_app/pages/auth/logout_page.dart';
 import 'package:my_flutter_app/pages/auth/welcome_page.dart';
 import 'package:my_flutter_app/themes/theme_provider.dart';
 import 'package:provider/provider.dart';
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: AddPatientpage(
+      home: LogoutPage(
         onTap: () {},
       ),
       theme: Provider.of<ThemeProvider>(context).themeData,
