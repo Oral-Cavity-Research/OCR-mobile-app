@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:my_flutter_app/pages/auth/add_methods/add_rolePage.dart';
-import 'package:my_flutter_app/pages/auth/login_page.dart';
+import 'package:my_flutter_app/pages/auth/add_methods/add_patientPage.dart';
 import 'package:my_flutter_app/pages/auth/welcome_page.dart';
 import 'package:my_flutter_app/themes/theme_provider.dart';
 import 'package:provider/provider.dart';
-import 'pages/auth/signin_page.dart';
 
 void main() {
   runApp(
@@ -23,7 +21,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: addRole(
+      home: AddPatientpage(
         onTap: () {},
       ),
       theme: Provider.of<ThemeProvider>(context).themeData,

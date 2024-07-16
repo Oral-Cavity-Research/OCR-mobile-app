@@ -8,13 +8,13 @@ class MyButton2 extends StatefulWidget {
   final double height;
 
   const MyButton2({
-    Key? key,
+    super.key,
     required this.onTap,
     required this.text,
     required this.backgroundColor,
     this.width = 200.0,
     this.height = 50.0,
-  }) : super(key: key);
+  });
 
   @override
   _MyButtonState createState() => _MyButtonState();
@@ -46,7 +46,7 @@ class _MyButtonState extends State<MyButton2> {
                 : [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.2),
-                      offset: Offset(0, 4),
+                      offset: const Offset(0, 4),
                       blurRadius: 8.0,
                     ),
                   ],
