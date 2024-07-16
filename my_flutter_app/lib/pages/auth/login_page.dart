@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:my_flutter_app/components/my_button.dart';
-import 'package:my_flutter_app/components/my_input.dart';
 
 class LoginPage extends StatefulWidget {
   final void Function()? onTap;
@@ -85,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
                     },
                     text: 'Log in',
                     backgroundColor:
-                        Color.fromARGB(255, 31, 114, 216), // Solid color
+                        const Color.fromARGB(255, 31, 114, 216), // Solid color
                     width: 350.0, // Custom width
                     height: 45.0, // Custom height
                   ),

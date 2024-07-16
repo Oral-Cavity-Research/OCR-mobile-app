@@ -7,12 +7,12 @@ class MyDropdownInput extends StatelessWidget {
   final ValueChanged<String?>? onChanged;
 
   const MyDropdownInput({
-    Key? key,
+    super.key,
     required this.labelText,
     required this.items,
     required this.selectedItem,
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,27 +21,36 @@ class MyDropdownInput extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(20.0),
         decoration: BoxDecoration(
-          color: Color.fromARGB(255, 152, 195, 235), // Blue background color
+          color: Color.fromARGB(255, 159, 196, 230), // Blue background color
           borderRadius: BorderRadius.circular(20.0), // Rounded corners
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 2,
+              blurRadius: 5,
+              offset: Offset(0, 3), // changes position of shadow
+            ),
+          ],
         ),
         child: Row(
           children: [
             Text(
               '$labelText:',
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 18.0,
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(width: 40.0), // Space between text and DropdownButton
+            const SizedBox(
+                width: 40.0), // Space between text and DropdownButton
             Expanded(
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(8.0),
-                  border: Border.all(color: Colors.black),
+                  border: Border.all(color: Color.fromARGB(255, 0, 179, 255)),
                 ),
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton<String>(

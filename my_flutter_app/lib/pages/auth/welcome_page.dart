@@ -4,7 +4,7 @@ import 'package:my_flutter_app/components/my_button.dart';
 class WelcomePage extends StatefulWidget {
   final void Function()? onTap;
 
-  const WelcomePage({Key? key, required this.onTap}) : super(key: key);
+  const WelcomePage({super.key, required this.onTap});
 
   @override
   State<WelcomePage> createState() => _WelcomePageState();
@@ -21,7 +21,7 @@ class _WelcomePageState extends State<WelcomePage> {
             end: Alignment.bottomCenter,
             colors: [
               Color.fromARGB(255, 224, 235, 250),
-              Color.fromARGB(255, 78, 129, 177),
+              Color.fromARGB(255, 152, 195, 235),
             ],
           ),
         ),
@@ -117,7 +117,7 @@ class _WelcomePageState extends State<WelcomePage> {
             Center(
               child: Column(
                 children: [
-                  SizedBox(height: 30), // Add padding between buttons
+                  const SizedBox(height: 30), // Add padding between buttons
                   MyButton(
                     onTap: () {
                       // Handle button tap
@@ -125,11 +125,11 @@ class _WelcomePageState extends State<WelcomePage> {
                     },
                     text: 'Log in',
                     backgroundColor:
-                        Color.fromARGB(255, 4, 20, 52), // Solid color
+                        const Color.fromARGB(255, 4, 20, 52), // Solid color
                     width: 350.0, // Custom width
                     height: 45.0, // Custom height
                   ),
-                  SizedBox(height: 5), // Add padding between buttons
+                  const SizedBox(height: 5), // Add padding between buttons
                   MyButton(
                     onTap: () {
                       // Handle button tap
@@ -137,7 +137,7 @@ class _WelcomePageState extends State<WelcomePage> {
                     },
                     text: 'Cancel',
                     backgroundColor:
-                        Color.fromARGB(255, 4, 79, 141), // Solid color
+                        const Color.fromARGB(255, 4, 79, 141), // Solid color
                     width: 350.0, // Custom width
                     height: 45.0, // Custom height
                   ),
