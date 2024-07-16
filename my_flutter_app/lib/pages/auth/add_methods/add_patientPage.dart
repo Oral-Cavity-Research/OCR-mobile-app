@@ -60,24 +60,15 @@ class _addRolePageState extends State<AddPatientpage> {
 
                 MyInput2(
                   controller: RoleNameController,
-                  hintText: 'Role Name',
+                  hintText: 'Enter name',
                   obscureText: false,
-                  labelText: 'Role Name',
+                  labelText: 'Name',
                 ),
-                MyDropdownInput(
-                  labelText: 'Option I',
-                  items: const [
-                    'Access I',
-                    'Access II',
-                    'Access III',
-                    'Access IV'
-                  ],
-                  selectedItem: selectedItem,
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      selectedItem = newValue!;
-                    });
-                  },
+                MyInput2(
+                  controller: RoleNameController,
+                  hintText: 'Enter Age',
+                  obscureText: false,
+                  labelText: 'Age',
                 ),
                 MyDropdownInput(
                   labelText: 'Option I',

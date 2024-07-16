@@ -42,7 +42,7 @@ class MyInput2 extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(width: 10.0), // Space between text and TextField
+            const SizedBox(width: 20.0), // Space between text and TextField
             Expanded(
               child: TextField(
                 controller: controller,
