@@ -144,23 +144,6 @@ class _WelcomePageState extends State<WelcomePage> {
                 ],
               ),
             ),
-            Expanded(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  padding: const EdgeInsets.fromLTRB(30, 20, 40, 5),
-                  child: const Text(
-                    '@mobile version of OASIS',
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Color.fromARGB(255, 52, 54, 57),
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Rubik',
-                    ),
-                  ),
-                ),
-              ),
-            ),
           ],
         ),
       ),

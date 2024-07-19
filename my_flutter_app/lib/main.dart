@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_flutter_app/pages/add_methods/add_patientPage.dart';
+import 'package:my_flutter_app/pages/add_methods/add_rolePage.dart';
 import 'package:my_flutter_app/pages/auth/logout_page.dart';
 import 'package:my_flutter_app/pages/auth/welcome_page.dart';
 import 'package:my_flutter_app/pages/home/home_page_1.dart';
@@ -22,11 +23,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      debugShowCheckedModeBanner: false,
       home: HomePage(),
+      theme: Provider.of<ThemeProvider>(context).themeData,
     );
   }
 }

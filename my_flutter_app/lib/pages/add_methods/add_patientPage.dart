@@ -49,7 +49,7 @@ class _addRolePageState extends State<AddPatientpage> {
                 Container(
                     padding: const EdgeInsets.fromLTRB(35, 0, 0, 0),
                     child: const Text(
-                      'Add a Role to,',
+                      'Add Details',
                       style: TextStyle(
                         fontSize: 35,
                         color: Color.fromARGB(255, 46, 74, 95),
@@ -107,7 +107,7 @@ class _addRolePageState extends State<AddPatientpage> {
                               borderRadius: BorderRadius.circular(8.0),
                             ),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
+                              borderSide: const BorderSide(
                                   color: Color.fromARGB(255, 255, 255, 255)),
                               borderRadius: BorderRadius.circular(8.0),
                             ),
@@ -115,11 +115,11 @@ class _addRolePageState extends State<AddPatientpage> {
                             fillColor: Colors
                                 .white, // Background color of the TextField
                             hintText: "Add a Description",
-                            hintStyle: TextStyle(color: Colors.grey),
+                            hintStyle: const TextStyle(color: Colors.grey),
                             contentPadding:
                                 const EdgeInsets.symmetric(horizontal: 20.0),
                           ),
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 16, // Adjust the font size
                           ),
                           maxLines: 10, // Adjust the number of lines
