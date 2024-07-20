@@ -65,6 +65,7 @@ flutter:
     - lib/images/whatsappBack.jpg
     - lib/images/sampleDoc.jpg
     - lib/animation/welcome.json
+    - lib/images/icon1light.png
 
 
 
@@ -89,6 +90,9 @@ flutter:
     - family: Rubik
       fonts:
         - asset: fonts/Rubik-VariableFont_wght.ttf
+    - family: EduAUVICWANTHand
+      fonts:
+        - asset: fonts/EduAUVICWANTHand-VariableFont_wght.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
