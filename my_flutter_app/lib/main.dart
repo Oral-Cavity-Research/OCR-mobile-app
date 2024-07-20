@@ -4,6 +4,7 @@ import 'package:my_flutter_app/pages/add_methods/add_rolePage.dart';
 import 'package:my_flutter_app/pages/auth/logout_page.dart';
 import 'package:my_flutter_app/pages/auth/welcome_page.dart';
 import 'package:my_flutter_app/pages/home/home_page_1.dart';
+import 'package:my_flutter_app/pages/home/sentFiles_page.dart';
 import 'package:my_flutter_app/themes/theme_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -24,9 +25,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: AddPatientpage(
-        onTap: () {},
-      ),
+      home: SentFiles(
+          // onTap: () {},
+          ),
       theme: Provider.of<ThemeProvider>(context).themeData,
     );
   }
