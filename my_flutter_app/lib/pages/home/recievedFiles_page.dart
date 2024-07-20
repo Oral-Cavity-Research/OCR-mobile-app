@@ -86,7 +86,7 @@ class _RecievFilesState extends State<RecievFiles>
                     gradient: LinearGradient(
                       colors: [
                         Color.fromARGB(255, 87, 199, 255), // Dodger blue
-                        Color.fromARGB(255, 110, 177, 236), // Royal blue
+                        Color.fromARGB(255, 110, 133, 236), // Royal blue
                       ],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
