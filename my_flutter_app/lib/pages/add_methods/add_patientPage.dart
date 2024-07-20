@@ -49,7 +49,7 @@ class _addRolePageState extends State<AddPatientpage> {
                 Container(
                     padding: const EdgeInsets.fromLTRB(35, 0, 0, 0),
                     child: const Text(
-                      'Add a Role to,',
+                      'Add Details',
                       style: TextStyle(
                         fontSize: 35,
                         color: Color.fromARGB(255, 46, 74, 95),

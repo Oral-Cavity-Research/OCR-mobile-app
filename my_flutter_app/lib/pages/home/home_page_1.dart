@@ -1,5 +1,13 @@
+import 'dart:isolate';
 import 'dart:ui';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
+import 'package:my_flutter_app/components/menubutton.dart';
+import 'package:my_flutter_app/components/user_notification_1.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -11,6 +19,7 @@ class _HomePageState extends State<HomePage>
   late AnimationController _controller;
   late Animation<Offset> _offsetAnimation;
   bool isMenuOpen = false;
+  int _selectedIndex = 0;
 
   @override
   void initState() {
@@ -22,10 +31,7 @@ class _HomePageState extends State<HomePage>
     _offsetAnimation = Tween<Offset>(
       begin: Offset(-1.0, 0.0),
       end: Offset(0.0, 0.0),
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInOut,
-    ));
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   void toggleMenu() {
@@ -39,6 +45,12 @@ class _HomePageState extends State<HomePage>
     });
   }
 
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,15 +61,15 @@ class _HomePageState extends State<HomePage>
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Color.fromARGB(255, 138, 179, 250),
-                  Color.fromARGB(255, 46, 189, 255)
+                  Color.fromARGB(255, 77, 196, 243), // Sky blue
+                  Color(0xFF87CEFA), // Light sky blue
+                  Colors.white, // White
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
             ),
           ),
-          // Main content
           GestureDetector(
             onTap: () {
               if (isMenuOpen) {
@@ -69,9 +81,12 @@ class _HomePageState extends State<HomePage>
                 Container(
                   height: 100,
                   padding: EdgeInsets.symmetric(horizontal: 16),
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [Color(0xFF448AFF), Colors.lightBlueAccent],
+                      colors: [
+                        Color.fromARGB(255, 87, 199, 255), // Dodger blue
+                        Color.fromARGB(255, 110, 177, 236), // Royal blue
+                      ],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
@@ -83,39 +98,36 @@ class _HomePageState extends State<HomePage>
                       ),
                     ],
                   ),
-                  child: Row(
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.arrow_back, color: Colors.white),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                      Spacer(),
-                      Text(
-                        'Home',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 30),
+                    child: Row(
+                      children: [
+                        Spacer(),
+                        Text(
+                          'Home',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      Spacer(),
-                      IconButton(
-                        icon: Icon(Icons.menu, color: Colors.white),
-                        onPressed: toggleMenu,
-                      ),
-                    ],
+                        Spacer(),
+                        IconButton(
+                          icon: Icon(Icons.arrow_forward, color: Colors.white),
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Expanded(
                   child: ListView(
-                    padding: EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(16),
                     children: [
-                      // Recents Section
                       Text(
-                        'RECENTS',
+                        "RECENTS",
                         style: TextStyle(
+                          fontFamily: 'Rubik',
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -125,10 +137,10 @@ class _HomePageState extends State<HomePage>
                       buildReportCard(),
                       buildReportCard(),
                       SizedBox(height: 32),
-                      // Recommended Section
                       Text(
-                        'Recommended',
+                        "RECOMMENDED",
                         style: TextStyle(
+                          fontFamily: 'Rubik',
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -143,11 +155,10 @@ class _HomePageState extends State<HomePage>
               ],
             ),
           ),
-          // Blur and darken effect
           if (isMenuOpen)
             AnimatedOpacity(
-              opacity: isMenuOpen ? 1.0 : 0.0,
-              duration: Duration(milliseconds: 300),
+              opacity: isMenuOpen ? 1.0 : 0,
+              duration: Duration(microseconds: 300),
               child: GestureDetector(
                 onTap: toggleMenu,
                 child: Container(
@@ -161,14 +172,17 @@ class _HomePageState extends State<HomePage>
                 ),
               ),
             ),
-          // Sliding Menu
           SlideTransition(
             position: _offsetAnimation,
             child: Container(
               width: 250,
-              padding: EdgeInsets.symmetric(vertical: 40),
+              padding: EdgeInsets.only(top: 110),
               decoration: BoxDecoration(
                 color: Color.fromARGB(255, 152, 195, 235),
+                image: DecorationImage(
+                  image: AssetImage('lib/images/whatsappBack.jpg'),
+                  fit: BoxFit.cover,
+                ),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black26,
@@ -182,95 +196,98 @@ class _HomePageState extends State<HomePage>
                 ),
               ),
               child: ListView(
-                padding: EdgeInsets.only(top: 50),
+                padding: EdgeInsets.zero,
                 children: [
-                  buildMenuButton(Icons.person, 'See Profile'),
-                  buildMenuButton(Icons.add, 'Add a Patient'),
-                  buildMenuButton(Icons.add, 'Add a Doctor'),
-                  buildMenuButton(Icons.remove, 'Remove a Doctor'),
-                  buildMenuButton(Icons.add, 'Add a Consultant'),
-                  buildMenuButton(Icons.remove, 'Remove a Consultant'),
-                  buildMenuButton(Icons.add, 'Add a Role'),
-                  buildMenuButton(Icons.logout, 'Log Out'),
-                  buildMenuButton(Icons.info, 'About Us'),
+                  buildMenuButton(Icons.person, 'See Profile', toggleMenu),
+                  buildMenuButton(Icons.add, 'Add a Patient', toggleMenu),
+                  buildMenuButton(Icons.add, 'Add a Doctor', toggleMenu),
+                  buildMenuButton(Icons.remove, 'Remove a Doctor', toggleMenu),
+                  buildMenuButton(Icons.add, 'Add a Consultant', toggleMenu),
+                  buildMenuButton(
+                      Icons.remove, 'Remove a Consultant', toggleMenu),
+                  buildMenuButton(Icons.add, 'Add a Role', toggleMenu),
+                  buildMenuButton(Icons.logout, 'Log Out', toggleMenu),
+                  buildMenuButton(Icons.info, 'About Us', toggleMenu),
                 ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 30,
+            left: 16,
+            child: GestureDetector(
+              onTap: toggleMenu,
+              child: Container(
+                height: 65.0,
+                width: 65.0,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: Colors.white,
+                    width: 2.0,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      spreadRadius: 1,
+                      blurRadius: 6,
+                      offset: Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: ClipOval(
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      splashColor: Colors.white24,
+                      onTap: toggleMenu,
+                      child: Image.asset(
+                        'lib/images/icon1.png',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ),
           ),
         ],
       ),
-    );
-  }
-
-  Widget buildReportCard() {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      elevation: 4,
-      shadowColor: Colors.black26,
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Image.asset(
-                'lib/images/image.jpg',
-                height: 100,
-                width: double.infinity,
-                fit: BoxFit.cover,
-              ),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.7),
+              spreadRadius: 1,
+              blurRadius: 10,
+              offset: Offset(0, 4),
             ),
-            SizedBox(height: 8),
-            Text(
-              'Name: Sahan Dissanayake',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            Text('Age: 34'),
-            Text('ID: ABCD'),
-            Text('District: Kandy'),
-            Text('Date: 12/12/2022'),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget buildMenuButton(IconData icon, String title) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: ElevatedButton.icon(
-        style: ElevatedButton.styleFrom(
-          padding: EdgeInsets.symmetric(vertical: 16),
-          foregroundColor: Colors.blue,
-          backgroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          elevation: 2,
-          shadowColor: Colors.black26,
+        child: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.search),
+              label: 'Search',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.send),
+              label: 'Sent reports',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.call_received),
+              label: 'Receive reports',
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.blue,
+          onTap: _onItemTapped,
         ),
-        icon: Icon(icon, color: Colors.blue),
-        label: Text(title, style: TextStyle(color: Colors.blue)),
-        onPressed: () {
-          // Handle button tap here
-          toggleMenu();
-        },
       ),
     );
   }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: HomePage(),
-  ));
 }
