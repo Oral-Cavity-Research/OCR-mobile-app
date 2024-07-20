@@ -23,11 +23,11 @@ class _addRolePageState extends State<AddPatientpage> {
         body: Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
                 colors: [
-                  Color.fromARGB(255, 224, 235, 250),
                   Color.fromARGB(255, 152, 195, 235),
+                  Color.fromARGB(255, 224, 235, 250),
                 ],
               ),
             ),
