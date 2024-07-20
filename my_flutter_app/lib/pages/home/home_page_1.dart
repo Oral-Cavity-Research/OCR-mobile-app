@@ -10,20 +10,16 @@ import 'package:my_flutter_app/components/menubutton.dart';
 import 'package:my_flutter_app/components/user_notification_1.dart';
 
 class HomePage extends StatefulWidget {
-  // const MyWidget({super.key});
-
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
-  @override
-  late AnimationController
-      _controller; // = AnimationController(vsync: this, duration: Duration(milliseconds: 500));
-  late Animation<Offset>
-      _offsetAnimation; // = Tween<Offset>(begin: Offset(0, 0), end: Offset(0.5, 0)).animate(_controller);
+  late AnimationController _controller;
+  late Animation<Offset> _offsetAnimation;
   bool isMenuOpen = false;
+  int _selectedIndex = 0;
 
   @override
   void initState() {
@@ -33,8 +29,9 @@ class _HomePageState extends State<HomePage>
       vsync: this,
     );
     _offsetAnimation = Tween<Offset>(
-            begin: Offset(-1.0, 0.0), end: Offset(0.0, 0.0))
-        .animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+      begin: Offset(-1.0, 0.0),
+      end: Offset(0.0, 0.0),
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   void toggleMenu() {
@@ -48,6 +45,12 @@ class _HomePageState extends State<HomePage>
     });
   }
 
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,14 +59,17 @@ class _HomePageState extends State<HomePage>
           // Gradient background
           Container(
             decoration: const BoxDecoration(
-              gradient: LinearGradient(colors: [
-                Color.fromARGB(255, 77, 196, 243), // Sky blue
-                Color(0xFF87CEFA), // Light sky blue
-                Colors.white, // White
-              ], begin: Alignment.topLeft, end: Alignment.bottomRight),
+              gradient: LinearGradient(
+                colors: [
+                  Color.fromARGB(255, 77, 196, 243), // Sky blue
+                  Color(0xFF87CEFA), // Light sky blue
+                  Colors.white, // White
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
             ),
           ),
-
           GestureDetector(
             onTap: () {
               if (isMenuOpen) {
@@ -121,6 +127,7 @@ class _HomePageState extends State<HomePage>
                       Text(
                         "RECENTS",
                         style: TextStyle(
+                          fontFamily: 'Rubik',
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -133,6 +140,7 @@ class _HomePageState extends State<HomePage>
                       Text(
                         "RECOMMENDED",
                         style: TextStyle(
+                          fontFamily: 'Rubik',
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -168,8 +176,7 @@ class _HomePageState extends State<HomePage>
             position: _offsetAnimation,
             child: Container(
               width: 250,
-              padding: EdgeInsets.only(
-                  top: 110), // Adjust padding to start below app bar
+              padding: EdgeInsets.only(top: 110),
               decoration: BoxDecoration(
                 color: Color.fromARGB(255, 152, 195, 235),
                 image: DecorationImage(
@@ -189,7 +196,7 @@ class _HomePageState extends State<HomePage>
                 ),
               ),
               child: ListView(
-                padding: EdgeInsets.zero, // Remove additional padding
+                padding: EdgeInsets.zero,
                 children: [
                   buildMenuButton(Icons.person, 'See Profile', toggleMenu),
                   buildMenuButton(Icons.add, 'Add a Patient', toggleMenu),
@@ -209,37 +216,34 @@ class _HomePageState extends State<HomePage>
             top: 30,
             left: 16,
             child: GestureDetector(
-              onTap: toggleMenu, // This will handle the button press
+              onTap: toggleMenu,
               child: Container(
-                height: 65.0, // Adjust the size as needed
+                height: 65.0,
                 width: 65.0,
                 decoration: BoxDecoration(
-                  shape: BoxShape.circle, // Makes the border circular
+                  shape: BoxShape.circle,
                   border: Border.all(
-                    color: Colors.white, // Border color
-                    width: 2.0, // Border width
+                    color: Colors.white,
+                    width: 2.0,
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.2), // Shadow color
-                      spreadRadius: 1, // How much the shadow spreads
-                      blurRadius: 6, // How blurry the shadow is
-                      offset:
-                          Offset(0, 4), // Shadow offset (horizontal, vertical)
+                      color: Colors.black.withOpacity(0.2),
+                      spreadRadius: 1,
+                      blurRadius: 6,
+                      offset: Offset(0, 4),
                     ),
                   ],
                 ),
                 child: ClipOval(
                   child: Material(
-                    color:
-                        Colors.transparent, // Make Material color transparent
+                    color: Colors.transparent,
                     child: InkWell(
-                      splashColor: Colors.white24, // Splash color on tap
+                      splashColor: Colors.white24,
                       onTap: toggleMenu,
                       child: Image.asset(
                         'lib/images/icon1.png',
-                        fit: BoxFit
-                            .cover, // Ensures the image fits within the circular shape
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
@@ -248,6 +252,41 @@ class _HomePageState extends State<HomePage>
             ),
           ),
         ],
+      ),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.7),
+              spreadRadius: 1,
+              blurRadius: 10,
+              offset: Offset(0, 4),
+            ),
+          ],
+        ),
+        child: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.search),
+              label: 'Search',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.send),
+              label: 'Sent reports',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.call_received),
+              label: 'Receive reports',
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.blue,
+          onTap: _onItemTapped,
+        ),
       ),
     );
   }

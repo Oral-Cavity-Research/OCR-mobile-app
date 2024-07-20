@@ -27,7 +27,7 @@ Widget buildMenuButton(icon, String title, Function function) {
               0, // Set elevation to 0 to avoid conflict with BoxDecoration shadow
         ),
         icon: Icon(icon, color: Colors.blue),
-        label: Text(title, style: TextStyle(color: Colors.blue)),
+        label: Text(title, style: TextStyle(color: Colors.blue, fontSize: 17)),
         onPressed: () {
           function();
         },
