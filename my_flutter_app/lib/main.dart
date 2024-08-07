@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_flutter_app/pages/add_methods/add_patientPage.dart';
 import 'package:my_flutter_app/pages/add_methods/add_rolePage.dart';
+import 'package:my_flutter_app/pages/auth/google_sign.dart';
+import 'package:my_flutter_app/pages/auth/login_page.dart';
 import 'package:my_flutter_app/pages/auth/logout_page.dart';
 import 'package:my_flutter_app/pages/auth/welcome_page.dart';
 import 'package:my_flutter_app/pages/home/home_page_1.dart';
@@ -32,8 +34,22 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const SearchPage(), // Set SearchPage as the home page for preview
+      home: const GoogleSignIN(), // Set SearchPage as the home page for preview
       theme: Provider.of<ThemeProvider>(context).themeData,
     );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }
