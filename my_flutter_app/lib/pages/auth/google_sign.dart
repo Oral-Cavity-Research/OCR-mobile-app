@@ -11,14 +11,7 @@ class GoogleSignIN extends StatefulWidget {
 
 class _GoogleSignINState extends State<GoogleSignIN> {
   GoogleSignIn signIn = GoogleSignIn();
-  void googleSignIn() async {
-    try {
-      var user = await signIn.signIn();
-      print(user);
-    } catch (error) {
-      print(error);
-    }
-  }
+  
 
   void googleSignOut() async {
     try {
@@ -91,8 +84,11 @@ class _GoogleSignINState extends State<GoogleSignIN> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(40, 10, 10, 10),
                   child: MyButton(
-                    onTap: () {
-                      googleSignIn();
+                    onTap: () async {
+                      var user = await signIn.signIn();
+                      Navigator.of(context).pushNamed(
+                        '/signin',
+                        arguments: user!.email,);
                     },
                     text: 'Log in with google',
                     backgroundColor:
