@@ -13,8 +13,8 @@ class my_input extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 5.0),
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 5.0),
       child: TextField(
           controller: controller,
           obscureText: obscureText,

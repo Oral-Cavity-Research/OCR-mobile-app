@@ -1,16 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:my_flutter_app/components/my_button.dart';
 
-class LoginPage extends StatefulWidget {
-  final void Function()? onTap;
-  const LoginPage({super.key, required this.onTap});
+class GoogleSignIN extends StatefulWidget {
+  const GoogleSignIN({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<GoogleSignIN> createState() => _GoogleSignINState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  //textEditing controllers
+class _GoogleSignINState extends State<GoogleSignIN> {
+  GoogleSignIn signIn = GoogleSignIn();
+  
+
+  void googleSignOut() async {
+    try {
+      await signIn.signOut();
+    } catch (error) {
+      print(error);
+    }
+  }
+
   final TextEditingController emailController = TextEditingController();
 
   final TextEditingController usernameController = TextEditingController();
@@ -20,7 +30,6 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController phoneController = TextEditingController();
 
   final TextEditingController hospitalController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,11 +84,13 @@ class _LoginPageState extends State<LoginPage> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(40, 10, 10, 10),
                   child: MyButton(
-                    onTap: () {
-                      // Handle button tap
-                      print('Log in button tapped!');
+                    onTap: () async {
+                      var user = await signIn.signIn();
+                      Navigator.of(context).pushNamed(
+                        '/signin',
+                        arguments: user!.email,);
                     },
-                    text: 'Log in',
+                    text: 'Log in with google',
                     backgroundColor:
                         const Color.fromARGB(255, 31, 114, 216), // Solid color
                     width: 350.0, // Custom width
@@ -95,7 +106,10 @@ class _LoginPageState extends State<LoginPage> {
                             color:
                                 Theme.of(context).colorScheme.inversePrimary)),
                     GestureDetector(
-                      onTap: widget.onTap,
+                      onTap: () {
+                        googleSignOut();
+                        print("signing out");
+                      },
                       child: Text("Register Now",
                           style: TextStyle(
                               color:
