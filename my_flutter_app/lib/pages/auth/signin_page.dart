@@ -1,4 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:my_flutter_app/components/my_button.dart';
 import 'package:my_flutter_app/components/my_input.dart';
 
@@ -23,6 +26,59 @@ class _SigninPageState extends State<SigninPage> {
 
   final TextEditingController hospitalController = TextEditingController();
 
+  void ErrorMessage(String error) {
+    Get.closeAllSnackbars();
+    Get.snackbar(
+      "Error",
+      error,
+      icon: Icon(Icons.error, color: Colors.white),
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: Color.fromARGB(255, 197, 25, 13),
+      colorText: Colors.white,
+      margin: EdgeInsets.all(10),
+      borderRadius: 8,
+      duration: Duration(seconds: 3),
+    );
+  }
+
+  bool validateInputs(String username, String phoneNumbr, String hospital,
+      String registration) {
+    if (username.isEmpty) {
+      ErrorMessage("Enter a valid username");
+      return false;
+    } else if (phoneNumbr.isEmpty || phoneNumbr.length < 10) {
+      ErrorMessage("Enter a valid phone number");
+      return false;
+    } else if (hospital.isEmpty) {
+      ErrorMessage("Enter a valid hospital name");
+      return false;
+    } else if (registration.isEmpty) {
+      ErrorMessage("Enter a valid registration number");
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  void onRegister() {
+    // Handle button tap
+    print('Log in button tapped!');
+    print("Email: ${widget.email}\n");
+    print("Username: ${usernameController.text}\n");
+    print("Registration: ${registrationController.text}\n");
+    print("Phone: ${phoneController.text}\n");
+    print("Hospital: ${hospitalController.text}\n");
+
+    String username = usernameController.text;
+    String phoneNumber = phoneController.text;
+    String hospital = hospitalController.text;
+    String registration = registrationController.text;
+
+    if (validateInputs(username, phoneNumber, hospital, registration)) {
+      print("success");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,14 +97,14 @@ class _SigninPageState extends State<SigninPage> {
                 ),
               ),
               child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 20),
+                margin: EdgeInsets.symmetric(horizontal: 20.w),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     //logo of the OASIS
                     Container(
-                      padding: const EdgeInsets.only(left: 120),
+                      padding: EdgeInsets.only(left: 100.w),
                       child: const Image(
                         image: AssetImage('lib/images/icon1.png'),
                         width: 200,
@@ -67,7 +123,7 @@ class _SigninPageState extends State<SigninPage> {
                               fontWeight: FontWeight.bold),
                         )),
                     Container(
-                        padding: const EdgeInsets.only(left: 20),
+                        padding: EdgeInsets.only(left: 20.w),
                         child: const Text(
                           'This only sends a login request to the admin',
                           style: TextStyle(
@@ -80,7 +136,7 @@ class _SigninPageState extends State<SigninPage> {
                     ),
                     //email textfield
                     Container(
-                      padding: const EdgeInsets.symmetric(vertical: 5.0),
+                      padding: EdgeInsets.symmetric(vertical: 5.0.h),
                       child: TextField(
                           enabled: false,
                           decoration: InputDecoration(
@@ -97,20 +153,6 @@ class _SigninPageState extends State<SigninPage> {
                                 color: Theme.of(context).colorScheme.primary),
                           )),
                     ),
-                    // Container(
-                    //   width: double.maxFinite,
-                    //   padding: const EdgeInsets.symmetric(
-                    //       horizontal: 10, vertical: 15.0),
-                    //   decoration: BoxDecoration(
-                    //       //color: Theme.of(context).colorScheme.primary,
-                    //       borderRadius: BorderRadius.circular(10),
-                    //       border: Border.all(color: Colors.white)),
-                    //   child: Text(
-                    //     widget.email,
-                    //     style: TextStyle(fontSize: 18),
-                    //   ),
-                    // ),
-                    //username textfield
                     const SizedBox(
                       height: 5,
                     ),
@@ -125,6 +167,7 @@ class _SigninPageState extends State<SigninPage> {
                         obscureText: false),
                     //phone number text field
                     my_input(
+                        keyboardType: TextInputType.number,
                         controller: phoneController,
                         hintText: "Phone Number",
                         obscureText: false),
@@ -136,39 +179,14 @@ class _SigninPageState extends State<SigninPage> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(40, 10, 10, 10),
                       child: MyButton(
-                        onTap: () {
-                          // Handle button tap
-                          print('Log in button tapped!');
-                        },
-                        text: 'Log in',
+                        onTap: onRegister,
+                        text: 'Register Now',
                         backgroundColor: const Color.fromARGB(
                             255, 31, 114, 216), // Solid color
-                        width: 350.0, // Custom width
-                        height: 45.0, // Custom height
+                        width: 350.0.w, // Custom width
+                        height: 45.0.h, // Custom height
                       ),
                     ),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("Not a member?",
-                            style: TextStyle(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .inversePrimary)),
-                        GestureDetector(
-                          onTap: widget.onTap,
-                          child: Text("Register Now",
-                              style: TextStyle(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .inversePrimary,
-                                  fontWeight: FontWeight.bold)),
-                        )
-                      ],
-                    )
-
-                    //signin button
                   ],
                 ),
               )),

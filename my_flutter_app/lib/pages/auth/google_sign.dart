@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:my_flutter_app/components/my_button.dart';
 
@@ -11,7 +12,6 @@ class GoogleSignIN extends StatefulWidget {
 
 class _GoogleSignINState extends State<GoogleSignIN> {
   GoogleSignIn signIn = GoogleSignIn();
-  
 
   void googleSignOut() async {
     try {
@@ -51,7 +51,7 @@ class _GoogleSignINState extends State<GoogleSignIN> {
               children: [
                 //logo of the OASIS
                 Container(
-                  padding: const EdgeInsets.only(left: 120),
+                  padding: EdgeInsets.only(left: 110.w),
                   child: const Image(
                     image: AssetImage('lib/images/icon1.png'),
                     width: 200,
@@ -61,7 +61,7 @@ class _GoogleSignINState extends State<GoogleSignIN> {
 
                 //message
                 Container(
-                    padding: const EdgeInsets.only(left: 20),
+                    padding: EdgeInsets.only(left: 20.w),
                     child: const Text(
                       'User Login',
                       style: TextStyle(
@@ -70,7 +70,7 @@ class _GoogleSignINState extends State<GoogleSignIN> {
                           fontWeight: FontWeight.bold),
                     )),
                 Container(
-                    padding: const EdgeInsets.only(left: 20),
+                    padding: EdgeInsets.only(left: 20.w),
                     child: const Text(
                       'Use this email to log in',
                       style: TextStyle(
@@ -88,7 +88,8 @@ class _GoogleSignINState extends State<GoogleSignIN> {
                       var user = await signIn.signIn();
                       Navigator.of(context).pushNamed(
                         '/signin',
-                        arguments: user!.email,);
+                        arguments: user!.email,
+                      );
                     },
                     text: 'Log in with google',
                     backgroundColor:

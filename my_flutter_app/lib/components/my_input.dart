@@ -4,11 +4,14 @@ class my_input extends StatelessWidget {
   final TextEditingController controller; //controller for the textfield
   final String hintText; //hint text
   final bool obscureText; //obscure text or not
+  final TextInputType keyboardType; //keyboard type
   const my_input({
     super.key,
     required this.controller,
     required this.hintText,
-    required this.obscureText,
+    required this.obscureText, 
+    this.keyboardType = TextInputType.text,
+    
   });
 
   @override
@@ -16,6 +19,7 @@ class my_input extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 5.0),
       child: TextField(
+          keyboardType: keyboardType,
           controller: controller,
           obscureText: obscureText,
           decoration: InputDecoration(

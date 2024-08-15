@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:my_flutter_app/pages/add_methods/add_patientPage.dart';
 import 'package:my_flutter_app/pages/add_methods/add_rolePage.dart';
 import 'package:my_flutter_app/pages/auth/google_sign.dart';
-import 'package:my_flutter_app/pages/auth/login_page.dart';
 import 'package:my_flutter_app/pages/auth/logout_page.dart';
 import 'package:my_flutter_app/pages/auth/route_generator.dart';
 import 'package:my_flutter_app/pages/auth/signin_page.dart';
@@ -34,11 +35,14 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      initialRoute: '/', // Set SearchPage as the home page for preview
-      theme: Provider.of<ThemeProvider>(context).themeData,
-      onGenerateRoute: RouteGenerator.generateRoute, 
+    return ScreenUtilInit(
+      designSize: const Size(415, 923),
+      child: GetMaterialApp(
+        debugShowCheckedModeBanner: false,
+        initialRoute: '/', // Set SearchPage as the home page for preview
+        theme: Provider.of<ThemeProvider>(context).themeData,
+        onGenerateRoute: RouteGenerator.generateRoute,
+      ),
     );
   }
 }
