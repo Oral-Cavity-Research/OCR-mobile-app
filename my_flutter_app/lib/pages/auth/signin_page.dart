@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:my_flutter_app/components/my_button.dart';
 import 'package:my_flutter_app/components/my_input.dart';
+import 'package:my_flutter_app/components/ErrorMessage.dart';
 
 class SigninPage extends StatefulWidget {
   final String email;
@@ -25,21 +26,6 @@ class _SigninPageState extends State<SigninPage> {
   final TextEditingController phoneController = TextEditingController();
 
   final TextEditingController hospitalController = TextEditingController();
-
-  void ErrorMessage(String error) {
-    Get.closeAllSnackbars();
-    Get.snackbar(
-      "Error",
-      error,
-      icon: Icon(Icons.error, color: Colors.white),
-      snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: Color.fromARGB(255, 197, 25, 13),
-      colorText: Colors.white,
-      margin: EdgeInsets.all(10),
-      borderRadius: 8,
-      duration: Duration(seconds: 3),
-    );
-  }
 
   bool validateInputs(String username, String phoneNumbr, String hospital,
       String registration) {
