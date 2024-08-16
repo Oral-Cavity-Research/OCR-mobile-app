@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-void ErrorMessage(String error) {
+void errorMessage(String error) {
   Get.closeAllSnackbars();
   Get.snackbar(
     "Error",
     error,
-    icon: Icon(Icons.error, color: Colors.white),
+    icon: const Icon(Icons.error, color: Colors.white),
     snackPosition: SnackPosition.BOTTOM,
-    backgroundColor: Color.fromARGB(255, 197, 25, 13),
+    backgroundColor: const Color.fromARGB(255, 197, 25, 13),
     colorText: Colors.white,
-    margin: EdgeInsets.all(10),
+    margin: const EdgeInsets.all(10),
     borderRadius: 8,
-    duration: Duration(seconds: 3),
+    duration: const Duration(seconds: 3),
   );
 }

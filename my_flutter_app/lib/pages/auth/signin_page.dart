@@ -1,10 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:my_flutter_app/components/my_button.dart';
 import 'package:my_flutter_app/components/my_input.dart';
-import 'package:my_flutter_app/components/ErrorMessage.dart';
+import 'package:my_flutter_app/components/error_message.dart';
 
 class SigninPage extends StatefulWidget {
   final String email;
@@ -30,16 +28,16 @@ class _SigninPageState extends State<SigninPage> {
   bool validateInputs(String username, String phoneNumbr, String hospital,
       String registration) {
     if (username.isEmpty) {
-      ErrorMessage("Enter a valid username");
+      errorMessage("Enter a valid username");
       return false;
     } else if (phoneNumbr.isEmpty || phoneNumbr.length < 10) {
-      ErrorMessage("Enter a valid phone number");
+      errorMessage("Enter a valid phone number");
       return false;
     } else if (hospital.isEmpty) {
-      ErrorMessage("Enter a valid hospital name");
+      errorMessage("Enter a valid hospital name");
       return false;
     } else if (registration.isEmpty) {
-      ErrorMessage("Enter a valid registration number");
+      errorMessage("Enter a valid registration number");
       return false;
     } else {
       return true;
@@ -142,23 +140,23 @@ class _SigninPageState extends State<SigninPage> {
                     const SizedBox(
                       height: 5,
                     ),
-                    my_input(
+                    MyInput(
                         controller: usernameController,
                         hintText: "UserName",
                         obscureText: false),
                     //registration textfield
-                    my_input(
+                    MyInput(
                         controller: registrationController,
                         hintText: "SLMC Registration Number",
                         obscureText: false),
                     //phone number text field
-                    my_input(
+                    MyInput(
                         keyboardType: TextInputType.number,
                         controller: phoneController,
                         hintText: "Phone Number",
                         obscureText: false),
                     //hostpital textfield
-                    my_input(
+                    MyInput(
                         controller: hospitalController,
                         hintText: "Hospital Name",
                         obscureText: false),

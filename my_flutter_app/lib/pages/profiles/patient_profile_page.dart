@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:my_flutter_app/components/my_button_2.dart';
@@ -19,7 +18,7 @@ class _PatientProfileState extends State<PatientProfile> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
       ),
       builder: (context) => DraggableScrollableSheet(
@@ -79,7 +78,7 @@ class _PatientProfileState extends State<PatientProfile> {
                           },
                           text: 'See Photos',
                           backgroundColor:
-                              Color.fromARGB(255, 55, 123, 206), // Solid color
+                              const Color.fromARGB(255, 55, 123, 206), // Solid color
                           width: 120.0, // Custom width
                           height: 60.0, // Custom height
                         ),
@@ -93,7 +92,7 @@ class _PatientProfileState extends State<PatientProfile> {
                           },
                           text: 'Edit Photos',
                           backgroundColor:
-                              Color.fromARGB(255, 255, 88, 88), // Solid color
+                              const Color.fromARGB(255, 255, 88, 88), // Solid color
                           width: 120.0, // Custom width
                           height: 60.0, // Custom height
                         ),
@@ -106,14 +105,14 @@ class _PatientProfileState extends State<PatientProfile> {
                   child: Center(
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 128, 175, 219),
+                        color: const Color.fromARGB(255, 128, 175, 219),
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.grey.withOpacity(0.5),
                             spreadRadius: 2,
                             blurRadius: 3,
-                            offset: Offset(0, 3),
+                            offset: const Offset(0, 3),
                           ),
                         ],
                       ),
@@ -204,7 +203,7 @@ class _PatientProfileState extends State<PatientProfile> {
               child: Center(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 159, 196, 230),
+                    color: const Color.fromARGB(255, 159, 196, 230),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   height: 450,
@@ -215,23 +214,23 @@ class _PatientProfileState extends State<PatientProfile> {
                     child: TextField(
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                               color: Color.fromARGB(255, 0, 179, 255)),
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                               color: Color.fromARGB(255, 255, 255, 255)),
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                         filled: true,
                         fillColor: Colors.white,
                         hintText: "Enter status",
-                        hintStyle: TextStyle(color: Colors.grey),
+                        hintStyle: const TextStyle(color: Colors.grey),
                         contentPadding:
                             const EdgeInsets.symmetric(horizontal: 20.0),
                       ),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
                       ),
                       maxLines: 20,
@@ -253,7 +252,7 @@ class _PatientProfileState extends State<PatientProfile> {
                       print('Edit Status button tapped!');
                     },
                     text: 'Edit Status',
-                    backgroundColor: Color.fromARGB(255, 255, 88, 88),
+                    backgroundColor: const Color.fromARGB(255, 255, 88, 88),
                     width: 120.0,
                     height: 60.0,
                   ),
@@ -273,7 +272,7 @@ class _PatientProfileState extends State<PatientProfile> {
                       _showForwardSheet(context);
                     },
                     text: 'Forward',
-                    backgroundColor: Color.fromARGB(255, 90, 160, 225),
+                    backgroundColor: const Color.fromARGB(255, 90, 160, 225),
                     width: 120.0,
                     height: 60.0,
                   ),
@@ -307,16 +306,16 @@ class ForwardSheet extends StatelessWidget {
   final ScrollController scrollController;
 
   const ForwardSheet({
-    Key? key,
+    super.key,
     required this.patientId,
     required this.patientName,
     required this.scrollController,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
         gradient: LinearGradient(
           colors: [
@@ -333,7 +332,7 @@ class ForwardSheet extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Share With,',
               style: TextStyle(
                   fontSize: 24,
@@ -341,43 +340,43 @@ class ForwardSheet extends StatelessWidget {
                   fontFamily: 'Rubik',
                   color: Color.fromARGB(255, 73, 113, 147)),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             TextField(
               decoration: InputDecoration(
-                prefixIcon: Icon(
+                prefixIcon: const Icon(
                   Icons.search,
                   color: Color.fromARGB(255, 73, 113, 147),
                 ),
                 hintText: 'Search',
                 hintStyle: TextStyle(
-                  color: Color.fromARGB(255, 73, 113, 147).withOpacity(0.5),
+                  color: const Color.fromARGB(255, 73, 113, 147).withOpacity(0.5),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
                   borderSide: BorderSide(
-                      color: Color.fromARGB(255, 73, 113, 147).withOpacity(
+                      color: const Color.fromARGB(255, 73, 113, 147).withOpacity(
                           0.5)), // Color of the border when focused
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
-                  borderSide: BorderSide(
+                  borderSide: const BorderSide(
                       color:
                           Colors.white), // Color of the border when not focused
                 ),
                 filled: true,
                 fillColor: Colors.white,
-                contentPadding: EdgeInsets.all(10.0),
+                contentPadding: const EdgeInsets.all(10.0),
               ),
             ),
-            SizedBox(height: 20),
-            Text(
+            const SizedBox(height: 20),
+            const Text(
               'Suggested,',
               style: TextStyle(
                   fontSize: 18,
                   fontFamily: 'Rubik',
                   color: Color.fromARGB(255, 73, 113, 147)),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -388,8 +387,8 @@ class ForwardSheet extends StatelessWidget {
                 _circularImage('lib/images/sampleDoc.jpg'),
               ],
             ),
-            SizedBox(height: 20),
-            Text(
+            const SizedBox(height: 20),
+            const Text(
               'Patient: #12345',
               style: TextStyle(
                   fontSize: 20,
@@ -397,35 +396,35 @@ class ForwardSheet extends StatelessWidget {
                   fontFamily: 'Rubik',
                   color: Color.fromARGB(255, 73, 113, 147)),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             TextField(
               decoration: InputDecoration(
                 enabledBorder: OutlineInputBorder(
                   borderSide:
-                      BorderSide(color: Color.fromARGB(255, 0, 179, 255)),
+                      const BorderSide(color: Color.fromARGB(255, 0, 179, 255)),
                   borderRadius: BorderRadius.circular(8.0),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderSide:
-                      BorderSide(color: Color.fromARGB(255, 255, 255, 255)),
+                      const BorderSide(color: Color.fromARGB(255, 255, 255, 255)),
                   borderRadius: BorderRadius.circular(8.0),
                 ),
                 filled: true,
                 fillColor: Colors.white, // Background color of the TextField
                 hintText: "Add a note",
-                hintStyle: TextStyle(color: Colors.grey),
+                hintStyle: const TextStyle(color: Colors.grey),
                 contentPadding: const EdgeInsets.symmetric(horizontal: 20.0),
               ),
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 16, // Adjust the font size
               ),
               maxLines: 10, // Adjust the number of lines
               minLines: 1, // Adjust the number of lines
             ),
-            SizedBox(height: 20),
-            Text(
+            const SizedBox(height: 20),
+            const Text(
               'Warning!',
               style: TextStyle(
                   fontSize: 22,
@@ -433,16 +432,16 @@ class ForwardSheet extends StatelessWidget {
                   //  fontFamily: 'Rubik',
                   color: Color.fromARGB(255, 255, 0, 0)),
             ),
-            Text(
+            const Text(
               'This data only includes patient’s report details only!. Anyother personal details cannor forward through this method!',
               style: TextStyle(
                   fontSize: 17,
                   fontFamily: 'Rubik',
                   color: Color.fromARGB(255, 255, 0, 0)),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Padding(
-              padding: EdgeInsets.only(left: 130),
+              padding: const EdgeInsets.only(left: 130),
               child: Row(
                 children: [
                   Center(
@@ -451,13 +450,13 @@ class ForwardSheet extends StatelessWidget {
                         Navigator.pop(context); // Close the bottom sheet
                       },
                       text: 'Send',
-                      backgroundColor: Color.fromARGB(255, 90, 160, 225),
+                      backgroundColor: const Color.fromARGB(255, 90, 160, 225),
                       width: 120.0,
                       height: 60.0,
                     ),
                   ),
-                  SizedBox(width: 20),
-                  Icon(
+                  const SizedBox(width: 20),
+                  const Icon(
                     Icons.send, // Replace with your desired icon
                     size: 30.0, // Adjust the size as needed
                     color: Color.fromARGB(

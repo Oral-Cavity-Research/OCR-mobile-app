@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
 class WelcomeScreen extends StatelessWidget {
+  const WelcomeScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +26,7 @@ class WelcomeScreen extends StatelessWidget {
             top: 200,
             right: 90,
             child: Column(
-              children: const [
+              children: [
                 Center(
                   child: Text(
                     'OASIS',
@@ -52,9 +54,9 @@ class WelcomeScreen extends StatelessWidget {
           ),
           Center(
             child: Padding(
-              padding: EdgeInsets.only(top: 150),
+              padding: const EdgeInsets.only(top: 150),
               child: ClipOval(
-                child: Container(
+                child: SizedBox(
                   width: 500.0, // Adjust the size as needed
                   height: 300.0, // Adjust the size as needed
                   child: Lottie.asset('lib/animation/welcome.json'),
@@ -100,10 +102,10 @@ class WelcomeScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
-                    color: Color.fromARGB(255, 103, 136, 157).withOpacity(0.5),
+                    color: const Color.fromARGB(255, 103, 136, 157).withOpacity(0.5),
                     spreadRadius: 1,
                     blurRadius: 100,
-                    offset: Offset(0, 1), // changes position of shadow
+                    offset: const Offset(0, 1), // changes position of shadow
                   ),
                 ],
               ),
@@ -121,7 +123,7 @@ class WelcomeScreen extends StatelessWidget {
 }
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: WelcomeScreen(),
   ));
 }

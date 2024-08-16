@@ -5,6 +5,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class ImageUploadForm extends StatefulWidget {
+  const ImageUploadForm({super.key});
+
   @override
   State<ImageUploadForm> createState() => _ImageUploadFormState();
 }
@@ -70,7 +72,7 @@ class _ImageUploadFormState extends State<ImageUploadForm> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Telecon Entry Form',
           style: TextStyle(
             fontFamily: 'Rubik',
@@ -104,90 +106,90 @@ class _ImageUploadFormState extends State<ImageUploadForm> {
                     height: 100,
                   ),
                 ),
-                SizedBox(height: 20.0),
+                const SizedBox(height: 20.0),
                 TextFormField(
                   controller: teleconEntryIdController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Telecon Entry ID',
                     labelStyle: TextStyle(color: Colors.white),
                   ),
-                  style: TextStyle(fontFamily: 'Rubik', color: Colors.white),
+                  style: const TextStyle(fontFamily: 'Rubik', color: Colors.white),
                   validator: (value) =>
                       value!.isEmpty ? 'This field is required' : null,
                 ),
                 TextFormField(
                   controller: locationController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Location',
                     labelStyle: TextStyle(color: Colors.white),
                   ),
-                  style: TextStyle(fontFamily: 'Rubik', color: Colors.white),
+                  style: const TextStyle(fontFamily: 'Rubik', color: Colors.white),
                   validator: (value) =>
                       value!.isEmpty ? 'This field is required' : null,
                 ),
                 TextFormField(
                   controller: clinicalDiagnosisController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Clinical Diagnosis',
                     labelStyle: TextStyle(color: Colors.white),
                   ),
-                  style: TextStyle(fontFamily: 'Rubik', color: Colors.white),
+                  style: const TextStyle(fontFamily: 'Rubik', color: Colors.white),
                   validator: (value) =>
                       value!.isEmpty ? 'This field is required' : null,
                 ),
                 TextFormField(
                   controller: lesionsAppearController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Lesions Appear',
                     labelStyle: TextStyle(color: Colors.white),
                   ),
-                  style: TextStyle(fontFamily: 'Rubik', color: Colors.white),
+                  style: const TextStyle(fontFamily: 'Rubik', color: Colors.white),
                   validator: (value) =>
                       value!.isEmpty ? 'This field is required' : null,
                 ),
                 TextFormField(
                   controller: predictedCatController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Predicted Category',
                     labelStyle: TextStyle(color: Colors.white),
                   ),
-                  style: TextStyle(fontFamily: 'Rubik', color: Colors.white),
+                  style: const TextStyle(fontFamily: 'Rubik', color: Colors.white),
                   validator: (value) =>
                       value!.isEmpty ? 'This field is required' : null,
                 ),
                 TextFormField(
                   controller: annotationsController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Annotations (comma separated)',
                     labelStyle: TextStyle(color: Colors.white),
                   ),
-                  style: TextStyle(fontFamily: 'Rubik', color: Colors.white),
+                  style: const TextStyle(fontFamily: 'Rubik', color: Colors.white),
                   validator: (value) =>
                       value!.isEmpty ? 'This field is required' : null,
                 ),
-                SizedBox(height: 20.0),
+                const SizedBox(height: 20.0),
                 _image == null
-                    ? Text(
+                    ? const Text(
                         'No image selected.',
                         style: TextStyle(color: Colors.white),
                       )
                     : Image.file(_image!),
                 TextButton(
                   onPressed: _pickImage,
-                  child: Text('Pick Image'),
                   style: TextButton.styleFrom(
                     foregroundColor: Colors.white,
                     backgroundColor: Colors.blue[900],
                   ),
+                  child: const Text('Pick Image'),
                 ),
-                SizedBox(height: 20.0),
+                const SizedBox(height: 20.0),
                 ElevatedButton(
                   onPressed: _submitForm,
-                  child: Text('Submit'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue[900],
                     foregroundColor: Colors.white,
                   ),
+                  child: const Text('Submit'),
                 ),
               ],
             ),

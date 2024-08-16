@@ -1,21 +1,17 @@
-import 'dart:isolate';
 import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
-import 'package:my_flutter_app/components/doctorNotification.dart';
-import 'package:my_flutter_app/components/menubutton.dart';
-import 'package:my_flutter_app/components/user_notification_1.dart';
+import 'package:my_flutter_app/components/doctor_notification.dart';
+import 'package:my_flutter_app/components/menu_button.dart';
 
-class SentFiles extends StatefulWidget {
+class RecievFiles extends StatefulWidget {
+  const RecievFiles({super.key});
+
   @override
-  _SentFilesState createState() => _SentFilesState();
+  _RecievFilesState createState() => _RecievFilesState();
 }
 
-class _SentFilesState extends State<SentFiles>
+class _RecievFilesState extends State<RecievFiles>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Offset> _offsetAnimation;
@@ -30,8 +26,8 @@ class _SentFilesState extends State<SentFiles>
       vsync: this,
     );
     _offsetAnimation = Tween<Offset>(
-      begin: Offset(-1.0, 0.0),
-      end: Offset(0.0, 0.0),
+      begin: const Offset(-1.0, 0.0),
+      end: const Offset(0.0, 0.0),
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
@@ -81,12 +77,12 @@ class _SentFilesState extends State<SentFiles>
               children: [
                 Container(
                   height: 100,
-                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   decoration: const BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
                         Color.fromARGB(255, 87, 199, 255), // Dodger blue
-                        Color.fromARGB(255, 110, 177, 236), // Royal blue
+                        Color.fromARGB(255, 110, 133, 236), // Royal blue
                       ],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
@@ -103,8 +99,8 @@ class _SentFilesState extends State<SentFiles>
                     padding: const EdgeInsets.only(top: 30),
                     child: Row(
                       children: [
-                        Spacer(),
-                        Text(
+                        const Spacer(),
+                        const Text(
                           'Home',
                           style: TextStyle(
                             color: Colors.white,
@@ -112,9 +108,10 @@ class _SentFilesState extends State<SentFiles>
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         IconButton(
-                          icon: Icon(Icons.arrow_forward, color: Colors.white),
+                          icon: const Icon(Icons.arrow_forward,
+                              color: Colors.white),
                           onPressed: () {},
                         ),
                       ],
@@ -125,8 +122,8 @@ class _SentFilesState extends State<SentFiles>
                   child: ListView(
                     padding: const EdgeInsets.all(16),
                     children: [
-                      Text(
-                        "SENT FILES",
+                      const Text(
+                        "RECIEVED FILES",
                         style: TextStyle(
                           fontFamily: 'Rubik',
                           fontSize: 24,
@@ -134,7 +131,7 @@ class _SentFilesState extends State<SentFiles>
                           color: Colors.white,
                         ),
                       ),
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       buildDoctorNotification('DOC_ID: #12345',
                           'Patient_id: 5454345', 'Date: 12/12/2022'),
                       buildDoctorNotification('DOC_ID: #12345',
@@ -174,7 +171,7 @@ class _SentFilesState extends State<SentFiles>
           if (isMenuOpen)
             AnimatedOpacity(
               opacity: isMenuOpen ? 1.0 : 0,
-              duration: Duration(microseconds: 300),
+              duration: const Duration(microseconds: 300),
               child: GestureDetector(
                 onTap: toggleMenu,
                 child: Container(
@@ -192,8 +189,8 @@ class _SentFilesState extends State<SentFiles>
             position: _offsetAnimation,
             child: Container(
               width: 250,
-              padding: EdgeInsets.only(top: 110),
-              decoration: BoxDecoration(
+              padding: const EdgeInsets.only(top: 110),
+              decoration: const BoxDecoration(
                 color: Color.fromARGB(255, 152, 195, 235),
                 image: DecorationImage(
                   image: AssetImage('lib/images/whatsappBack.jpg'),
@@ -247,7 +244,7 @@ class _SentFilesState extends State<SentFiles>
                       color: Colors.black.withOpacity(0.2),
                       spreadRadius: 1,
                       blurRadius: 6,
-                      offset: Offset(0, 4),
+                      offset: const Offset(0, 4),
                     ),
                   ],
                 ),
@@ -276,7 +273,7 @@ class _SentFilesState extends State<SentFiles>
               color: Colors.black.withOpacity(0.7),
               spreadRadius: 1,
               blurRadius: 10,
-              offset: Offset(0, 4),
+              offset: const Offset(0, 4),
             ),
           ],
         ),
