@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:my_flutter_app/components/my_button_2.dart';
-import 'package:my_flutter_app/components/my_dropdaown_bar.dart';
+import 'package:my_flutter_app/components/my_dropdown_bar.dart';
 
 //import 'package:my_flutter_app/components/my_input.dart';
 import 'package:my_flutter_app/components/my_input_2.dart';
 
-class addRole extends StatefulWidget {
+class AddRole extends StatefulWidget {
   final void Function()? onTap;
-  const addRole({super.key, required this.onTap});
+  const AddRole({super.key, required this.onTap});
 
   @override
-  State<addRole> createState() => _addRolePageState();
+  State<AddRole> createState() => AddRolePageState();
 }
 
-class _addRolePageState extends State<addRole> {
-  final TextEditingController RoleNameController = TextEditingController();
+class AddRolePageState extends State<AddRole> {
+  final TextEditingController roleNameController = TextEditingController();
   String selectedItem = 'Access I';
   @override
   Widget build(BuildContext context) {
@@ -69,14 +69,19 @@ class _addRolePageState extends State<addRole> {
                       ),
                     )),
                 MyInput2(
-                  controller: RoleNameController,
+                  controller: roleNameController,
                   hintText: 'Role Name',
                   obscureText: false,
                   labelText: 'Role Name',
                 ),
                 MyDropdownInput(
                   labelText: 'Option I',
-                  items: const ['Access I', 'Access II', 'Access III', 'Access IV'],
+                  items: const [
+                    'Access I',
+                    'Access II',
+                    'Access III',
+                    'Access IV'
+                  ],
                   selectedItem: selectedItem,
                   onChanged: (String? newValue) {
                     setState(() {
@@ -86,7 +91,12 @@ class _addRolePageState extends State<addRole> {
                 ),
                 MyDropdownInput(
                   labelText: 'Option I',
-                  items: const ['Access I', 'Access II', 'Access III', 'Access IV'],
+                  items: const [
+                    'Access I',
+                    'Access II',
+                    'Access III',
+                    'Access IV'
+                  ],
                   selectedItem: selectedItem,
                   onChanged: (String? newValue) {
                     setState(() {
@@ -96,7 +106,12 @@ class _addRolePageState extends State<addRole> {
                 ),
                 MyDropdownInput(
                   labelText: 'Option I',
-                  items: const ['Access I', 'Access II', 'Access III', 'Access IV'],
+                  items: const [
+                    'Access I',
+                    'Access II',
+                    'Access III',
+                    'Access IV'
+                  ],
                   selectedItem: selectedItem,
                   onChanged: (String? newValue) {
                     setState(() {
@@ -148,8 +163,8 @@ class _addRolePageState extends State<addRole> {
                           print('Log in button tapped!');
                         },
                         text: 'Save',
-                        backgroundColor:
-                            const Color.fromARGB(255, 13, 62, 123), // Solid color
+                        backgroundColor: const Color.fromARGB(
+                            255, 13, 62, 123), // Solid color
                         width: 150.0, // Custom width
                         height: 65.0, // Custom height
                       ),
