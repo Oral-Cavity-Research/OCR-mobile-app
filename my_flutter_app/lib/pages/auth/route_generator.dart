@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_flutter_app/pages/auth/google_sign.dart';
 import 'package:my_flutter_app/pages/auth/Signin_page.dart';
+import 'package:my_flutter_app/pages/home/home_page_1.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -19,7 +20,8 @@ class RouteGenerator {
           );
         }
         return _errorRoute();
-
+      case '/HomePage':
+        return MaterialPageRoute(builder: (_) => const HomePage());
       default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();
