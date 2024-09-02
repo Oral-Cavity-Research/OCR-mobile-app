@@ -91,7 +91,7 @@ class _GoogleSignINState extends State<GoogleSignIN> {
                         arguments: user!.email,
                       );
                     },
-                    text: 'Log in with google',
+                    text: 'Log in with Google',
                     backgroundColor:
                         const Color.fromARGB(255, 31, 114, 216), // Solid color
                     width: 350.0, // Custom width

@@ -6,7 +6,7 @@ import 'package:my_flutter_app/pages/add_methods/add_rolePage.dart';
 import 'package:my_flutter_app/pages/auth/google_sign.dart';
 import 'package:my_flutter_app/pages/auth/logout_page.dart';
 import 'package:my_flutter_app/pages/auth/route_generator.dart';
-import 'package:my_flutter_app/pages/auth/signin_page.dart';
+import 'package:my_flutter_app/pages/auth/signup_page.dart';
 import 'package:my_flutter_app/pages/auth/welcome_page.dart';
 import 'package:my_flutter_app/pages/home/home_page_1.dart';
 import 'package:my_flutter_app/pages/home/recievedFiles_page.dart';

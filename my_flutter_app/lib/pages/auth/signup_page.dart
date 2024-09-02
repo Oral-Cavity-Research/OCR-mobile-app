@@ -32,7 +32,7 @@ class _SigninPageState extends State<SigninPage> {
     if (username.isEmpty) {
       ErrorMessage("Enter a valid username");
       return false;
-    } else if (phoneNumbr.isEmpty || phoneNumbr.length < 10) {
+    } else if (phoneNumbr.isEmpty || phoneNumbr.length < 10 || phoneNumbr.length > 10) {
       ErrorMessage("Enter a valid phone number");
       return false;
     } else if (hospital.isEmpty) {

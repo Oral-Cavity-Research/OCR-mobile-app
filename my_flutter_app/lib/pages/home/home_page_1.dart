@@ -1,6 +1,5 @@
 import 'dart:isolate';
 import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -14,8 +13,7 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>
-    with SingleTickerProviderStateMixin {
+class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Offset> _offsetAnimation;
   bool isMenuOpen = false;
@@ -121,35 +119,38 @@ class _HomePageState extends State<HomePage>
                   ),
                 ),
                 Expanded(
-                  child: ListView(
+                  child: SingleChildScrollView(
                     padding: const EdgeInsets.all(16),
-                    children: [
-                      Text(
-                        "RECENTS",
-                        style: TextStyle(
-                          fontFamily: 'Rubik',
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "RECENTS",
+                          style: TextStyle(
+                            fontFamily: 'Rubik',
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 16),
-                      buildReportCard(),
-                      buildReportCard(),
-                      SizedBox(height: 32),
-                      Text(
-                        "RECOMMENDED",
-                        style: TextStyle(
-                          fontFamily: 'Rubik',
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                        SizedBox(height: 16),
+                        buildReportCard(),
+                        buildReportCard(),
+                        SizedBox(height: 32),
+                        Text(
+                          "RECOMMENDED",
+                          style: TextStyle(
+                            fontFamily: 'Rubik',
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 16),
-                      buildReportCard(),
-                      buildReportCard(),
-                    ],
+                        SizedBox(height: 16),
+                        buildReportCard(),
+                        buildReportCard(),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -158,7 +159,7 @@ class _HomePageState extends State<HomePage>
           if (isMenuOpen)
             AnimatedOpacity(
               opacity: isMenuOpen ? 1.0 : 0,
-              duration: Duration(microseconds: 300),
+              duration: Duration(milliseconds: 300),
               child: GestureDetector(
                 onTap: toggleMenu,
                 child: Container(
@@ -203,8 +204,7 @@ class _HomePageState extends State<HomePage>
                   buildMenuButton(Icons.add, 'Add a Doctor', toggleMenu),
                   buildMenuButton(Icons.remove, 'Remove a Doctor', toggleMenu),
                   buildMenuButton(Icons.add, 'Add a Consultant', toggleMenu),
-                  buildMenuButton(
-                      Icons.remove, 'Remove a Consultant', toggleMenu),
+                  buildMenuButton(Icons.remove, 'Remove a Consultant', toggleMenu),
                   buildMenuButton(Icons.add, 'Add a Role', toggleMenu),
                   buildMenuButton(Icons.logout, 'Log Out', toggleMenu),
                   buildMenuButton(Icons.info, 'About Us', toggleMenu),
@@ -290,4 +290,10 @@ class _HomePageState extends State<HomePage>
       ),
     );
   }
+}
+
+void main() {
+  runApp(MaterialApp(
+    home: HomePage(),
+  ));
 }
