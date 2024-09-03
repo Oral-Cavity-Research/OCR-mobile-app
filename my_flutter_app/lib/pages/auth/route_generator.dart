@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:my_flutter_app/pages/add_methods/add_rolePage.dart';
 import 'package:my_flutter_app/pages/auth/google_sign.dart';
-import 'package:my_flutter_app/pages/auth/Signin_page.dart';
+import 'package:my_flutter_app/pages/auth/Signup_page.dart';
+import 'package:my_flutter_app/pages/home/splash_screen.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -9,7 +11,11 @@ class RouteGenerator {
 
     switch (settings.name) {
       case '/':
+        return MaterialPageRoute(builder: (_) => const SplashScreen());
+
+      case '/login':
         return MaterialPageRoute(builder: (_) => const GoogleSignIN());
+
       case '/signin':
         if (args is String) {
           return MaterialPageRoute(
@@ -19,6 +25,11 @@ class RouteGenerator {
           );
         }
         return _errorRoute();
+
+      case '/add_a_role':
+        return MaterialPageRoute(builder: (_) => const addRole(onTap: null));
+      
+
 
       default:
         // If there is no such named route in the switch statement, e.g. /third

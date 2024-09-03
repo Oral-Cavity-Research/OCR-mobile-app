@@ -27,16 +27,16 @@ class AboutUsPage extends StatelessWidget {
                 Container(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
-                        spreadRadius: 2,
-                        blurRadius: 10,
-                        blurStyle: BlurStyle.inner,
-                      ),
-                    ],
+                    // boxShadow: [
+                    //   BoxShadow(
+                    //     color: Colors.black.withOpacity(0.05),
+                    //     spreadRadius: 2,
+                    //     blurRadius: 10,
+                    //     blurStyle: BlurStyle.inner,
+                    //   ),
+                    // ],
                   ),
-                  child: Image.asset('lib/images/icon1light.png', height: 100),
+                  child: Image.asset('lib/images/icon1light.png', height: 200),
                 ), // Add your logo image to assets folder and update path
                 const SizedBox(height: 20),
                 Text(
@@ -51,9 +51,11 @@ class AboutUsPage extends StatelessWidget {
                 Text(
                   'We are a team of passionate individuals dedicated to crafting innovative engineering solutions for everyday challenges.',
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.roboto(
-                    fontSize: 16,
-                    color: Colors.black,
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Color.fromARGB(255, 89, 102, 121),
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Rubik',
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -91,4 +93,10 @@ class AboutUsPage extends StatelessWidget {
       ),
     );
   }
+}
+
+void main() {
+  runApp(const MaterialApp(
+    home: AboutUsPage(),
+  ));
 }
