@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_flutter_app/pages/add_methods/add_rolePage.dart';
+import 'package:my_flutter_app/pages/add_methods/add_role_Page.dart' as AddRolePage;
 import 'package:my_flutter_app/pages/auth/google_sign.dart';
 import 'package:my_flutter_app/pages/auth/Signup_page.dart';
 import 'package:my_flutter_app/pages/home/splash_screen.dart';
@@ -27,7 +27,7 @@ class RouteGenerator {
         return _errorRoute();
 
       case '/add_a_role':
-        return MaterialPageRoute(builder: (_) => const addRole(onTap: null));
+        return MaterialPageRoute(builder: (_) => const AddRolePage.AddRole(onTap: null));
       
 
 
