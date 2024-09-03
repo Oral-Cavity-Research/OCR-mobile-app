@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 Widget buildMenuButton(icon, String title, Function function) {
   return Padding(
@@ -7,7 +6,7 @@ Widget buildMenuButton(icon, String title, Function function) {
     child: Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: Colors.black26, // Shadow color
             blurRadius: 10, // Blur radius
@@ -17,7 +16,7 @@ Widget buildMenuButton(icon, String title, Function function) {
       ),
       child: ElevatedButton.icon(
         style: ElevatedButton.styleFrom(
-          padding: EdgeInsets.symmetric(vertical: 16),
+          padding: const EdgeInsets.symmetric(vertical: 16),
           foregroundColor: Colors.blue,
           backgroundColor: Colors.white,
           shape: RoundedRectangleBorder(
@@ -27,7 +26,7 @@ Widget buildMenuButton(icon, String title, Function function) {
               0, // Set elevation to 0 to avoid conflict with BoxDecoration shadow
         ),
         icon: Icon(icon, color: Colors.blue),
-        label: Text(title, style: TextStyle(color: Colors.blue, fontSize: 17)),
+        label: Text(title, style: const TextStyle(color: Colors.blue, fontSize: 17)),
         onPressed: () {
           function();
         },

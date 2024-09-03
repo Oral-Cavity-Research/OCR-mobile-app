@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_flutter_app/components/my_button_2.dart';
-import 'package:my_flutter_app/components/my_dropdaown_bar.dart';
+import 'package:my_flutter_app/components/my_dropdown_bar.dart';
 
 //import 'package:my_flutter_app/components/my_input.dart';
 import 'package:my_flutter_app/components/my_input_2.dart';
@@ -10,11 +10,11 @@ class AddPatientpage extends StatefulWidget {
   const AddPatientpage({super.key, required this.onTap});
 
   @override
-  State<AddPatientpage> createState() => _addRolePageState();
+  State<AddPatientpage> createState() => AddRolePageState();
 }
 
-class _addRolePageState extends State<AddPatientpage> {
-  final TextEditingController RoleNameController = TextEditingController();
+class AddRolePageState extends State<AddPatientpage> {
+  final TextEditingController roleNameController = TextEditingController();
   String selectedItem = 'Access I';
   @override
   Widget build(BuildContext context) {
@@ -59,13 +59,13 @@ class _addRolePageState extends State<AddPatientpage> {
                     )),
 
                 MyInput2(
-                  controller: RoleNameController,
+                  controller: roleNameController,
                   hintText: 'Enter name',
                   obscureText: false,
                   labelText: 'Name',
                 ),
                 MyInput2(
-                  controller: RoleNameController,
+                  controller: roleNameController,
                   hintText: 'Enter Age',
                   obscureText: false,
                   labelText: 'Age',
@@ -91,7 +91,7 @@ class _addRolePageState extends State<AddPatientpage> {
                   child: Center(
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 159, 196, 230),
+                        color: const Color.fromARGB(255, 159, 196, 230),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       height: 280,
@@ -102,12 +102,12 @@ class _addRolePageState extends State<AddPatientpage> {
                         child: TextField(
                           decoration: InputDecoration(
                             enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
+                              borderSide: const BorderSide(
                                   color: Color.fromARGB(255, 0, 179, 255)),
                               borderRadius: BorderRadius.circular(8.0),
                             ),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
+                              borderSide: const BorderSide(
                                   color: Color.fromARGB(255, 255, 255, 255)),
                               borderRadius: BorderRadius.circular(8.0),
                             ),
@@ -115,11 +115,11 @@ class _addRolePageState extends State<AddPatientpage> {
                             fillColor: Colors
                                 .white, // Background color of the TextField
                             hintText: "Add a Description",
-                            hintStyle: TextStyle(color: Colors.grey),
+                            hintStyle: const TextStyle(color: Colors.grey),
                             contentPadding:
                                 const EdgeInsets.symmetric(horizontal: 20.0),
                           ),
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 16, // Adjust the font size
                           ),
                           maxLines: 10, // Adjust the number of lines

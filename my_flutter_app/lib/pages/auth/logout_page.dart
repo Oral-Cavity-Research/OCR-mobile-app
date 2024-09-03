@@ -88,7 +88,7 @@ class _LogoutPageState extends State<LogoutPage> {
                     },
                     text: 'Cancel',
                     backgroundColor:
-                        Color.fromARGB(255, 1, 49, 107), // Solid color
+                        const Color.fromARGB(255, 1, 49, 107), // Solid color
                     width: 350.0, // Custom width
                     height: 45.0, // Custom height
                   ),

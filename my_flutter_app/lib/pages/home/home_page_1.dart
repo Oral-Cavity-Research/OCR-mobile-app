@@ -1,14 +1,12 @@
-import 'dart:isolate';
 import 'dart:ui';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
-import 'package:my_flutter_app/components/menubutton.dart';
+import 'package:my_flutter_app/components/menu_button.dart';
 import 'package:my_flutter_app/components/user_notification_1.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -27,8 +25,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       vsync: this,
     );
     _offsetAnimation = Tween<Offset>(
-      begin: Offset(-1.0, 0.0),
-      end: Offset(0.0, 0.0),
+      begin: const Offset(-1.0, 0.0),
+      end: const Offset(0.0, 0.0),
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
@@ -78,7 +76,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               children: [
                 Container(
                   height: 100,
-                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   decoration: const BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
@@ -100,8 +98,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                     padding: const EdgeInsets.only(top: 30),
                     child: Row(
                       children: [
-                        Spacer(),
-                        Text(
+                        const Spacer(),
+                        const Text(
                           'Home',
                           style: TextStyle(
                             color: Colors.white,
@@ -109,9 +107,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         IconButton(
-                          icon: Icon(Icons.arrow_forward, color: Colors.white),
+                          icon: const Icon(Icons.arrow_forward,
+                              color: Colors.white),
                           onPressed: () {},
                         ),
                       ],
@@ -121,36 +120,33 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 Expanded(
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "RECENTS",
-                          style: TextStyle(
-                            fontFamily: 'Rubik',
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
+                    children: [
+                      Text(
+                        "RECENTS",
+                        style: TextStyle(
+                          fontFamily: 'Rubik',
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
                         ),
-                        SizedBox(height: 16),
-                        buildReportCard(),
-                        buildReportCard(),
-                        SizedBox(height: 32),
-                        Text(
-                          "RECOMMENDED",
-                          style: TextStyle(
-                            fontFamily: 'Rubik',
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
+                      ),
+                      SizedBox(height: 16),
+                      buildReportCard(),
+                      buildReportCard(),
+                      SizedBox(height: 32),
+                      Text(
+                        "RECOMMENDED",
+                        style: TextStyle(
+                          fontFamily: 'Rubik',
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
                         ),
-                        SizedBox(height: 16),
-                        buildReportCard(),
-                        buildReportCard(),
-                      ],
-                    ),
+                      ),
+                      SizedBox(height: 16),
+                      buildReportCard(),
+                      buildReportCard(),
+                    ],
                   ),
                 ),
               ],
@@ -159,7 +155,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           if (isMenuOpen)
             AnimatedOpacity(
               opacity: isMenuOpen ? 1.0 : 0,
-              duration: Duration(milliseconds: 300),
+              duration: Duration(microseconds: 300),
               child: GestureDetector(
                 onTap: toggleMenu,
                 child: Container(
@@ -177,8 +173,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             position: _offsetAnimation,
             child: Container(
               width: 250,
-              padding: EdgeInsets.only(top: 110),
-              decoration: BoxDecoration(
+              padding: const EdgeInsets.only(top: 110),
+              decoration: const BoxDecoration(
                 color: Color.fromARGB(255, 152, 195, 235),
                 image: DecorationImage(
                   image: AssetImage('lib/images/whatsappBack.jpg'),
@@ -231,7 +227,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                       color: Colors.black.withOpacity(0.2),
                       spreadRadius: 1,
                       blurRadius: 6,
-                      offset: Offset(0, 4),
+                      offset: const Offset(0, 4),
                     ),
                   ],
                 ),
@@ -260,7 +256,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               color: Colors.black.withOpacity(0.7),
               spreadRadius: 1,
               blurRadius: 10,
-              offset: Offset(0, 4),
+              offset: const Offset(0, 4),
             ),
           ],
         ),

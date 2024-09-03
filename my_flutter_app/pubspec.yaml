@@ -44,6 +44,8 @@ dependencies:
   get: ^4.6.6
   flutter_splash_screen: ^3.0.0
 
+  google_sign_in: any
+  http: any
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -54,7 +56,6 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^4.0.0
-  google_sign_in: ^6.2.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

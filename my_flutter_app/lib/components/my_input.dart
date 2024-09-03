@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 
-class my_input extends StatelessWidget {
+class MyInput extends StatelessWidget {
   final TextEditingController controller; //controller for the textfield
   final String hintText; //hint text
   final bool obscureText; //obscure text or not
   final TextInputType keyboardType; //keyboard type
-  const my_input({
+  const MyInput({
     super.key,
     required this.controller,
     required this.hintText,
-    required this.obscureText, 
+    required this.obscureText,
     this.keyboardType = TextInputType.text,
-    
   });
 
   @override
