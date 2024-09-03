@@ -118,10 +118,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                   ),
                 ),
                 Expanded(
-                  child: SingleChildScrollView(
+                  child: ListView(
                     padding: const EdgeInsets.all(16),
                     children: [
-                      Text(
+                      const Text(
                         "RECENTS",
                         style: TextStyle(
                           fontFamily: 'Rubik',
