@@ -23,8 +23,8 @@ class WelcomeScreen extends StatelessWidget {
             ),
           ),
           const Positioned(
-            top: 200,
-            right: 90,
+            top: 170,
+            right: 70,
             child: Column(
               children: [
                 Center(
@@ -65,12 +65,12 @@ class WelcomeScreen extends StatelessWidget {
             ),
           ),
           const Padding(
-            padding: EdgeInsets.only(top: 620),
+            padding: EdgeInsets.only(top: 500),
             child: Center(
               child: Text(
                 'Paperless. Effortless. Digitalize',
                 style: TextStyle(
-                  fontSize: 25,
+                  fontSize: 22,
                   color: Color.fromARGB(255, 46, 74, 95),
                   fontWeight: FontWeight.bold,
                   fontFamily: 'EduAUVICWANTHand',
@@ -85,7 +85,7 @@ class WelcomeScreen extends StatelessWidget {
               child: const Text(
                 '@mobile version of OASIS',
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 13,
                   color: Color.fromARGB(255, 89, 102, 121),
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Rubik',
@@ -109,10 +109,12 @@ class WelcomeScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              child: Image.asset(
-                'lib/images/icon1light.png',
-                width: 150, // Adjust the size as needed
-                height: 150, // Adjust the size as needed
+              child: Center(
+                child: Image.asset(
+                  'lib/images/icon1light.png',
+                  width: 200, // Adjust the size as needed
+                  height: 150, // Adjust the size as needed
+                ),
               ),
             ),
           ),
@@ -122,8 +124,4 @@ class WelcomeScreen extends StatelessWidget {
   }
 }
 
-void main() {
-  runApp(const MaterialApp(
-    home: WelcomeScreen(),
-  ));
-}
+
