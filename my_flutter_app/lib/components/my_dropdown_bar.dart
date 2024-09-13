@@ -22,7 +22,8 @@ class MyDropdownInput extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(20.0.w),
         decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 159, 196, 230), // Blue background color
+          color:
+              const Color.fromARGB(255, 159, 196, 230), // Blue background color
           borderRadius: BorderRadius.circular(20.0), // Rounded corners
           boxShadow: [
             BoxShadow(
@@ -51,7 +52,8 @@ class MyDropdownInput extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(8.0),
-                  border: Border.all(color: const Color.fromARGB(255, 0, 179, 255)),
+                  border:
+                      Border.all(color: const Color.fromARGB(255, 0, 179, 255)),
                 ),
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton<String>(
