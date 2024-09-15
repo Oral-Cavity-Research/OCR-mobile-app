@@ -3,9 +3,12 @@ import 'package:my_flutter_app/pages/aboutUs/about_us.dart';
 import 'package:my_flutter_app/pages/add_methods/add_role_Page.dart'
     as AddRolePage;
 import 'package:my_flutter_app/pages/auth/google_sign.dart';
+import 'package:my_flutter_app/pages/auth/Signin_page.dart';
+import 'package:my_flutter_app/pages/home/home_page_1.dart';
 import 'package:my_flutter_app/pages/auth/Signup_page.dart';
 import 'package:my_flutter_app/pages/home/home_page_1.dart';
 import 'package:my_flutter_app/pages/home/splash_screen.dart';
+
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -28,6 +31,7 @@ class RouteGenerator {
           );
         }
         return _errorRoute();
+
 
       case '/add_a_role':
         return MaterialPageRoute(
