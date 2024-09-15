@@ -36,17 +36,16 @@ class _GoogleSignINState extends State<GoogleSignIN> {
       print('User not registered');
       errorMessage("User not registered");
     }
-    
   }
 
   void fetchEmail() async {
     var user = await signIn.signIn();
     int statusCodeNow = await verify(user!.email);
+    print(statusCodeNow);
     print(user!.email);
     setState(() {
       statusCode = statusCodeNow;
     });
-
   }
 
   final TextEditingController emailController = TextEditingController();

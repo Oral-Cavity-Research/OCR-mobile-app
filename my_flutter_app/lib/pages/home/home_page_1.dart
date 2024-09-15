@@ -1,8 +1,11 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:my_flutter_app/components/menu_button.dart';
 import 'package:my_flutter_app/components/user_notification_1.dart';
+import 'package:my_flutter_app/pages/aboutUs/about_us.dart';
+import 'package:my_flutter_app/pages/auth/google_sign.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,11 +14,14 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Offset> _offsetAnimation;
   bool isMenuOpen = false;
   int _selectedIndex = 0;
+
+  GoogleSignIn signIn = GoogleSignIn();
 
   @override
   void initState() {
@@ -28,6 +34,19 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       begin: const Offset(-1.0, 0.0),
       end: const Offset(0.0, 0.0),
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+  }
+
+  void googleSignOut() async {
+    try {
+      await signIn.signOut();
+      Navigator.pop(context);
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  void about_us() {
+    Navigator.pushNamed(context, '/about_us');
   }
 
   void toggleMenu() {
@@ -200,10 +219,11 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                   buildMenuButton(Icons.add, 'Add a Doctor', toggleMenu),
                   buildMenuButton(Icons.remove, 'Remove a Doctor', toggleMenu),
                   buildMenuButton(Icons.add, 'Add a Consultant', toggleMenu),
-                  buildMenuButton(Icons.remove, 'Remove a Consultant', toggleMenu),
+                  buildMenuButton(
+                      Icons.remove, 'Remove a Consultant', toggleMenu),
                   buildMenuButton(Icons.add, 'Add a Role', toggleMenu),
-                  buildMenuButton(Icons.logout, 'Log Out', toggleMenu),
-                  buildMenuButton(Icons.info, 'About Us', toggleMenu),
+                  buildMenuButton(Icons.logout, 'Log Out', googleSignOut),
+                  buildMenuButton(Icons.info, 'About Us', about_us),
                 ],
               ),
             ),

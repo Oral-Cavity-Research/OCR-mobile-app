@@ -98,6 +98,7 @@ class _SigninPageState extends State<SigninPage> {
   void initState() {
     super.initState();
     fetchHospitalList(); // Fetch hospital list during initialization
+    
   }
 
   // Function to fetch hospital list and update state

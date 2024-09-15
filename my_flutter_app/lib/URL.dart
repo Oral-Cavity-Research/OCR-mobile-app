@@ -49,6 +49,7 @@ Future<int> signup(String email, String username, String phoneNumber,
 }
 
 // /api/auth/verify
+
 Future<int> verify(String email) async {
   const url = URL.BASE_URL + "/auth/verify";
   final uri = Uri.parse(url);
@@ -63,4 +64,28 @@ Future<int> verify(String email) async {
   );
 
   return response.statusCode;
+}
+
+Future<List<String>> user_details(String response) async {
+  final List<dynamic> json = jsonDecode(response);
+
+  List<String> userDetails = [];
+
+  for (var user in json) {
+    String name = user['name'] ?? 'Unknown User';
+    String email = user['email'] ?? 'Unknown Email';
+    String phone = user['phone'] ?? 'Unknown Phone';
+    String hospital = user['hospital'] ?? 'Unknown Hospital';
+    String reg_no = user['reg_no'] ?? 'Unknown Reg No';
+    String designation = user['designation'] ?? 'Unknown Designation';
+
+    userDetails.add(name);
+    userDetails.add(email);
+    userDetails.add(phone);
+    userDetails.add(hospital);
+    userDetails.add(reg_no);
+    userDetails.add(designation);
+  }
+
+  return userDetails;
 }
