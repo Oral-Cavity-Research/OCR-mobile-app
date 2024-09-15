@@ -49,6 +49,10 @@ class _HomePageState extends State<HomePage>
     Navigator.pushNamed(context, '/about_us');
   }
 
+  void imageUpload(){
+    Navigator.pushNamed(context, '/image_upload');
+  }
+
   void toggleMenu() {
     setState(() {
       if (isMenuOpen) {
@@ -224,6 +228,7 @@ class _HomePageState extends State<HomePage>
                   buildMenuButton(Icons.add, 'Add a Role', toggleMenu),
                   buildMenuButton(Icons.logout, 'Log Out', googleSignOut),
                   buildMenuButton(Icons.info, 'About Us', about_us),
+                  buildMenuButton(Icons.add, 'Upload Image', imageUpload)
                 ],
               ),
             ),

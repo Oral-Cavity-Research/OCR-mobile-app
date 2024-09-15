@@ -7,6 +7,7 @@ import 'package:my_flutter_app/pages/home/home_page_1.dart';
 import 'package:my_flutter_app/pages/auth/Signup_page.dart';
 import 'package:my_flutter_app/pages/home/home_page_1.dart';
 import 'package:my_flutter_app/pages/home/splash_screen.dart';
+import 'package:my_flutter_app/pages/imageUpload/image_upload.dart';
 
 
 class RouteGenerator {
@@ -41,6 +42,9 @@ class RouteGenerator {
 
       case '/about_us':
         return MaterialPageRoute(builder: (_) => const AboutUsPage());
+
+      case '/image_upload':
+        return MaterialPageRoute(builder: (_) => const ImageUploadForm());
 
       default:
         // If there is no such named route in the switch statement, e.g. /third

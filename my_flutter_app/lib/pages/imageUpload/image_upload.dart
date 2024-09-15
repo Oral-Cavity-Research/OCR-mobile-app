@@ -25,6 +25,13 @@ class _ImageUploadFormState extends State<ImageUploadForm> {
   final TextEditingController annotationsController = TextEditingController();
   final TextEditingController predictedCatController = TextEditingController();
 
+  @override
+  void initState() {
+    super.initState();
+    print('ImageUploadForm page has been accessed');
+  }
+
+
   Future<void> _pickImage() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
@@ -39,7 +46,7 @@ class _ImageUploadFormState extends State<ImageUploadForm> {
     if (_formKey.currentState!.validate()) {
       final request = http.MultipartRequest(
         'POST',
-        Uri.parse('YOUR_API_ENDPOINT_HERE'),
+        Uri.parse('http://10.0.2.2:8080/api/user/upload/images/641060a61530810142e045de'),
       );
 
       if (_image != null) {
@@ -60,9 +67,9 @@ class _ImageUploadFormState extends State<ImageUploadForm> {
       final response = await request.send();
 
       if (response.statusCode == 200) {
-        // Handle successful submission
+        print('Submission successful');// Handle successful submission
       } else {
-        // Handle submission error
+        print('Submission not successful');// Handle submission error
       }
     }
   }
