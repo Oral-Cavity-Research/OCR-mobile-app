@@ -1,8 +1,11 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:my_flutter_app/components/menu_button.dart';
 import 'package:my_flutter_app/components/user_notification_1.dart';
+import 'package:my_flutter_app/pages/aboutUs/about_us.dart';
+import 'package:my_flutter_app/pages/auth/google_sign.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -18,6 +21,8 @@ class _HomePageState extends State<HomePage>
   bool isMenuOpen = false;
   int _selectedIndex = 0;
 
+  GoogleSignIn signIn = GoogleSignIn();
+
   @override
   void initState() {
     super.initState();
@@ -29,6 +34,19 @@ class _HomePageState extends State<HomePage>
       begin: const Offset(-1.0, 0.0),
       end: const Offset(0.0, 0.0),
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+  }
+
+  void googleSignOut() async {
+    try {
+      await signIn.signOut();
+      Navigator.pop(context);
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  void about_us() {
+    Navigator.pushNamed(context, '/about_us');
   }
 
   void toggleMenu() {
@@ -131,11 +149,11 @@ class _HomePageState extends State<HomePage>
                           color: Colors.white,
                         ),
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 16),
                       buildReportCard(),
                       buildReportCard(),
-                      const SizedBox(height: 32),
-                      const Text(
+                      SizedBox(height: 32),
+                      Text(
                         "RECOMMENDED",
                         style: TextStyle(
                           fontFamily: 'Rubik',
@@ -144,7 +162,7 @@ class _HomePageState extends State<HomePage>
                           color: Colors.white,
                         ),
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 16),
                       buildReportCard(),
                       buildReportCard(),
                     ],
@@ -156,7 +174,7 @@ class _HomePageState extends State<HomePage>
           if (isMenuOpen)
             AnimatedOpacity(
               opacity: isMenuOpen ? 1.0 : 0,
-              duration: const Duration(microseconds: 300),
+              duration: Duration(microseconds: 300),
               child: GestureDetector(
                 onTap: toggleMenu,
                 child: Container(
@@ -204,8 +222,8 @@ class _HomePageState extends State<HomePage>
                   buildMenuButton(
                       Icons.remove, 'Remove a Consultant', toggleMenu),
                   buildMenuButton(Icons.add, 'Add a Role', toggleMenu),
-                  buildMenuButton(Icons.logout, 'Log Out', toggleMenu),
-                  buildMenuButton(Icons.info, 'About Us', toggleMenu),
+                  buildMenuButton(Icons.logout, 'Log Out', googleSignOut),
+                  buildMenuButton(Icons.info, 'About Us', about_us),
                 ],
               ),
             ),
@@ -288,4 +306,10 @@ class _HomePageState extends State<HomePage>
       ),
     );
   }
+}
+
+void main() {
+  runApp(MaterialApp(
+    home: HomePage(),
+  ));
 }

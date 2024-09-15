@@ -33,9 +33,11 @@ class AboutUsPage extends StatelessWidget {
               children: [
                 Container(
                   decoration: BoxDecoration(
+
                     shape: BoxShape.circle,                
                   ),
                   child: Image.asset('lib/images/icon1light.png', height: 150),
+
                 ), // Add your logo image to assets folder and update path
                 const SizedBox(height: 20),
                 Text(
@@ -52,10 +54,13 @@ class AboutUsPage extends StatelessWidget {
                   'We are a team of passionate individuals dedicated to crafting innovative engineering solutions for everyday challenges.',
                   textAlign: TextAlign.center,
                   style: TextStyle(
+
                     fontSize: 16,
                     color: Color.fromARGB(255, 56, 76, 111),
                     fontFamily: 'PlayfairDisplay',
                     fontWeight: FontWeight.bold,
+
+
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -97,8 +102,4 @@ class AboutUsPage extends StatelessWidget {
     );
   }
 }
-void main () {
-  runApp(MaterialApp(
-    home: AboutUsPage(),
-  ));
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MyDropdownInput extends StatelessWidget {
   final String labelText;
@@ -17,11 +18,12 @@ class MyDropdownInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 5.0),
+      padding: EdgeInsets.symmetric(horizontal: 25.0.w, vertical: 2.h),
       child: Container(
-        padding: const EdgeInsets.all(20.0),
+        padding: EdgeInsets.all(20.0.w),
         decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 159, 196, 230), // Blue background color
+          color:
+              const Color.fromARGB(255, 159, 196, 230), // Blue background color
           borderRadius: BorderRadius.circular(20.0), // Rounded corners
           boxShadow: [
             BoxShadow(
@@ -46,11 +48,12 @@ class MyDropdownInput extends StatelessWidget {
                 width: 40.0), // Space between text and DropdownButton
             Expanded(
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                padding: EdgeInsets.symmetric(horizontal: 10.0.w),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(8.0),
-                  border: Border.all(color: const Color.fromARGB(255, 0, 179, 255)),
+                  border:
+                      Border.all(color: const Color.fromARGB(255, 0, 179, 255)),
                 ),
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton<String>(

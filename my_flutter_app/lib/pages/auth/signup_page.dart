@@ -1,5 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:my_flutter_app/URL.dart';
+import 'package:my_flutter_app/components/NotificationMessage.dart';
 import 'package:my_flutter_app/components/my_button.dart';
 import 'package:my_flutter_app/components/my_input.dart';
 import 'package:my_flutter_app/components/error_message.dart';
@@ -16,21 +21,20 @@ class SigninPage extends StatefulWidget {
 class _SigninPageState extends State<SigninPage> {
   //textEditing controllers
   final TextEditingController emailController = TextEditingController();
-
   final TextEditingController usernameController = TextEditingController();
-
   final TextEditingController registrationController = TextEditingController();
-
   final TextEditingController phoneController = TextEditingController();
 
-  final TextEditingController hospitalController = TextEditingController();
+  String? selectedHospital;
 
-  bool validateInputs(String username, String phoneNumbr, String hospital,
+  late int statusCodeNew;
+
+  bool validateInputs(String username, String phoneNumber, String hospital,
       String registration) {
     if (username.isEmpty) {
       errorMessage("Enter a valid username");
       return false;
-    } else if (phoneNumbr.isEmpty || phoneNumbr.length < 10) {
+    } else if (phoneNumber.isEmpty || phoneNumber.length < 10) {
       errorMessage("Enter a valid phone number");
       return false;
     } else if (hospital.isEmpty) {
@@ -51,16 +55,58 @@ class _SigninPageState extends State<SigninPage> {
     print("Username: ${usernameController.text}\n");
     print("Registration: ${registrationController.text}\n");
     print("Phone: ${phoneController.text}\n");
-    print("Hospital: ${hospitalController.text}\n");
+    print("Hospital: ${selectedHospital}\n");
 
     String username = usernameController.text;
     String phoneNumber = phoneController.text;
-    String hospital = hospitalController.text;
+    String hospital = selectedHospital ?? "";
     String registration = registrationController.text;
 
     if (validateInputs(username, phoneNumber, hospital, registration)) {
-      print("success");
+      fetchStatusCode(username, phoneNumber, hospital, registration);
+      if (statusCodeNew == 200) {
+        print("Sign up successful");
+        NotificationMessage(
+            "Request is sent successfully. You will receive an Email on acceptance",
+            "Thank you");
+        // Redirect to home page
+        Navigator.pushNamed(context, '/login');
+      } else if (statusCodeNew == 401) {
+        // Show error message
+        errorMessage("User Email is already registered");
+        navigator?.pop();
+      } else {
+        // Show error message
+        errorMessage("Error in sending request");
+        navigator?.pop();
+      }
     }
+  }
+
+  // Function to fetch hospital list and update state
+  void fetchStatusCode(username, phoneNumber, hospital, registration) async {
+    int status_code = await signup(
+        widget.email, username, phoneNumber, hospital, registration);
+    setState(() {
+      statusCodeNew = status_code;
+    });
+  }
+
+  List<String> hospitalNames = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchHospitalList(); // Fetch hospital list during initialization
+    
+  }
+
+  // Function to fetch hospital list and update state
+  void fetchHospitalList() async {
+    List<String> fetchedHospitals = await hospitallist();
+    setState(() {
+      hospitalNames = fetchedHospitals;
+    });
   }
 
   @override
@@ -155,11 +201,21 @@ class _SigninPageState extends State<SigninPage> {
                         controller: phoneController,
                         hintText: "Phone Number",
                         obscureText: false),
-                    //hostpital textfield
-                    MyInput(
-                        controller: hospitalController,
-                        hintText: "Hospital Name",
-                        obscureText: false),
+                    //hospital dropdown
+                    DropdownButton<String>(
+                        value: selectedHospital,
+                        hint: Text("Select Hospital"),
+                        items: hospitalNames.map((String items) {
+                          return DropdownMenuItem<String>(
+                            value: items,
+                            child: Text(items),
+                          );
+                        }).toList(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedHospital = newValue;
+                          });
+                        }),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(40, 10, 10, 10),
                       child: MyButton(

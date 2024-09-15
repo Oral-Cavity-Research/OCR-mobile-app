@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:my_flutter_app/URL.dart';
+import 'package:my_flutter_app/components/NotificationMessage.dart';
+import 'package:my_flutter_app/components/error_message.dart';
 import 'package:my_flutter_app/components/my_button.dart';
 
 class GoogleSignIN extends StatefulWidget {
@@ -13,12 +16,36 @@ class GoogleSignIN extends StatefulWidget {
 class _GoogleSignINState extends State<GoogleSignIN> {
   GoogleSignIn signIn = GoogleSignIn();
 
+  late int statusCode;
+
   void googleSignOut() async {
     try {
       await signIn.signOut();
     } catch (error) {
       print(error);
     }
+  }
+
+  Future<void> onLogin() async {
+    print('Log in button tapped!');
+    fetchEmail();
+    if (statusCode == 200) {
+      print("login successful");
+      Navigator.of(context).pushNamed('/home');
+    } else {
+      print('User not registered');
+      errorMessage("User not registered");
+    }
+  }
+
+  void fetchEmail() async {
+    var user = await signIn.signIn();
+    int statusCodeNow = await verify(user!.email);
+    print(statusCodeNow);
+    print(user!.email);
+    setState(() {
+      statusCode = statusCodeNow;
+    });
   }
 
   final TextEditingController emailController = TextEditingController();
@@ -84,14 +111,12 @@ class _GoogleSignINState extends State<GoogleSignIN> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(40, 10, 10, 10),
                   child: MyButton(
-                    onTap: () async {
-                      var user = await signIn.signIn();
-                      Navigator.of(context).pushNamed(
-                        '/signin',
-                        arguments: user!.email,
-                      );
-                    },
-                    text: 'Log in with google',
+                    onTap: onLogin,
+                    // onTap: () async {
+                    //   googleSignOut();
+                    //   print("signing out");
+                    // },
+                    text: 'Log in with Google',
                     backgroundColor:
                         const Color.fromARGB(255, 31, 114, 216), // Solid color
                     width: 350.0, // Custom width
@@ -107,9 +132,12 @@ class _GoogleSignINState extends State<GoogleSignIN> {
                             color:
                                 Theme.of(context).colorScheme.inversePrimary)),
                     GestureDetector(
-                      onTap: () {
-                        googleSignOut();
-                        print("signing out");
+                      onTap: () async {
+                        var user = await signIn.signIn();
+                        Navigator.of(context).pushNamed(
+                          '/signin',
+                          arguments: user!.email,
+                        );
                       },
                       child: Text("Register Now",
                           style: TextStyle(

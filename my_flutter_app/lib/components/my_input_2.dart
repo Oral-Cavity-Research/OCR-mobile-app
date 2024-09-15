@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MyInput2 extends StatelessWidget {
   final TextEditingController controller; //controller for the textfield
@@ -16,9 +17,9 @@ class MyInput2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 5.0),
+      padding: EdgeInsets.symmetric(horizontal: 25.0.w, vertical: 0.05.h),
       child: Container(
-        padding: const EdgeInsets.all(20.0),
+        padding: EdgeInsets.all(20.0.h),
         decoration: BoxDecoration(
           color:
               const Color.fromARGB(255, 159, 196, 230), // Blue background color
@@ -42,7 +43,7 @@ class MyInput2 extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(width: 20.0), // Space between text and TextField
+            SizedBox(width: 20.0.w), // Space between text and TextField
             Expanded(
               child: TextField(
                 controller: controller,
@@ -62,7 +63,7 @@ class MyInput2 extends StatelessWidget {
                   fillColor: Colors.white, // Background color of the TextField
                   hintText: hintText,
                   hintStyle: const TextStyle(color: Colors.grey),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  contentPadding: EdgeInsets.symmetric(horizontal: 10.0.w),
                 ),
               ),
             ),
