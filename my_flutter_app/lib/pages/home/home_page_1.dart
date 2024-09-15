@@ -49,6 +49,14 @@ class _HomePageState extends State<HomePage>
     Navigator.pushNamed(context, '/about_us');
   }
 
+  void add_patient() {
+    Navigator.pushNamed(context, '/add_patient');
+  }
+
+  void add_role() {
+    Navigator.pushNamed(context, '/add_a_role');
+  }
+
   void toggleMenu() {
     setState(() {
       if (isMenuOpen) {
@@ -215,13 +223,13 @@ class _HomePageState extends State<HomePage>
                 padding: EdgeInsets.zero,
                 children: [
                   buildMenuButton(Icons.person, 'See Profile', toggleMenu),
-                  buildMenuButton(Icons.add, 'Add a Patient', toggleMenu),
+                  buildMenuButton(Icons.add, 'Add a Patient', add_patient),
                   buildMenuButton(Icons.add, 'Add a Doctor', toggleMenu),
                   buildMenuButton(Icons.remove, 'Remove a Doctor', toggleMenu),
                   buildMenuButton(Icons.add, 'Add a Consultant', toggleMenu),
                   buildMenuButton(
                       Icons.remove, 'Remove a Consultant', toggleMenu),
-                  buildMenuButton(Icons.add, 'Add a Role', toggleMenu),
+                  buildMenuButton(Icons.add, 'Add a Role', add_role),
                   buildMenuButton(Icons.logout, 'Log Out', googleSignOut),
                   buildMenuButton(Icons.info, 'About Us', about_us),
                 ],
