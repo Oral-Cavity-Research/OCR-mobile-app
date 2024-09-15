@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(415, 923),
+      designSize: const Size(420, 933),
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
         initialRoute: '/', // Set SearchPage as the home page for preview

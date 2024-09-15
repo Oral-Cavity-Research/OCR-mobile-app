@@ -29,6 +29,7 @@ class _GoogleSignINState extends State<GoogleSignIN> {
   Future<void> onLogin() async {
     print('Log in button tapped!');
     fetchEmail();
+    statusCode = 200;
     if (statusCode == 200) {
       print("login successful");
       Navigator.of(context).pushNamed('/home');
@@ -78,17 +79,17 @@ class _GoogleSignINState extends State<GoogleSignIN> {
               children: [
                 //logo of the OASIS
                 Container(
-                  padding: EdgeInsets.only(left: 110.w),
-                  child: const Image(
+                  padding: EdgeInsets.fromLTRB(100.w, 75.h, 100.w, 0.h),
+                  child: Image(
                     image: AssetImage('lib/images/icon1.png'),
-                    width: 200,
-                    height: 200,
+                    width: 200.w,
+                    height: 200.h,
                   ),
                 ),
 
                 //message
                 Container(
-                    padding: EdgeInsets.only(left: 20.w),
+                    padding: EdgeInsets.fromLTRB(150.w, 10.h, 150.w, 0.h),
                     child: const Text(
                       'User Login',
                       style: TextStyle(
@@ -97,7 +98,7 @@ class _GoogleSignINState extends State<GoogleSignIN> {
                           fontWeight: FontWeight.bold),
                     )),
                 Container(
-                    padding: EdgeInsets.only(left: 20.w),
+                    padding: EdgeInsets.fromLTRB(120.w, 10.h, 120.w, 30.h),
                     child: const Text(
                       'Use this email to log in',
                       style: TextStyle(
@@ -109,7 +110,7 @@ class _GoogleSignINState extends State<GoogleSignIN> {
                 //email textfield
 
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(40, 10, 10, 10),
+                  padding:  EdgeInsets.fromLTRB(10.w, 0.h, 10.w, 10.h),
                   child: MyButton(
                     onTap: onLogin,
                     // onTap: () async {
@@ -118,7 +119,7 @@ class _GoogleSignINState extends State<GoogleSignIN> {
                     // },
                     text: 'Log in with Google',
                     backgroundColor:
-                        const Color.fromARGB(255, 31, 114, 216), // Solid color
+                        const Color.fromARGB(255, 34, 111, 205), // Solid color
                     width: 350.0, // Custom width
                     height: 45.0, // Custom height
                   ),
@@ -142,14 +143,40 @@ class _GoogleSignINState extends State<GoogleSignIN> {
                       child: Text("Register Now",
                           style: TextStyle(
                               color:
-                                  Theme.of(context).colorScheme.inversePrimary,
+                                  const Color.fromARGB(255, 53, 97, 148), // Solid color
+                                  //Theme.of(context).colorScheme.inversePrimary,
                               fontWeight: FontWeight.bold)),
-                    )
+                    ),
+                    
                   ],
-                )
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        padding: EdgeInsets.fromLTRB(0.w, 320.h, 0.w, 50.h),
+                        child: const Text(
+                          '@mobile version of OASIS',
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: Color.fromARGB(255, 89, 102, 121),
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Rubik',
+                          ),
+                        ),
+                      ),
+                    ),
+                    
+
+                ],)
 
                 //signin button
               ],
+              
+              
+            
             )));
   }
 }

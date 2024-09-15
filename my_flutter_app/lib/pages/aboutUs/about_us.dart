@@ -102,4 +102,4 @@ class AboutUsPage extends StatelessWidget {
     );
   }
 }
-}
+
