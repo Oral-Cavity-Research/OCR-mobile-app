@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:my_flutter_app/pages/add_methods/add_role_Page.dart' as AddRolePage;
+import 'package:my_flutter_app/pages/aboutUs/about_us.dart';
+import 'package:my_flutter_app/pages/add_methods/add_role_Page.dart'
+    as AddRolePage;
 import 'package:my_flutter_app/pages/auth/google_sign.dart';
 import 'package:my_flutter_app/pages/auth/Signup_page.dart';
+import 'package:my_flutter_app/pages/home/home_page_1.dart';
 import 'package:my_flutter_app/pages/home/splash_screen.dart';
 
 class RouteGenerator {
@@ -27,9 +30,14 @@ class RouteGenerator {
         return _errorRoute();
 
       case '/add_a_role':
-        return MaterialPageRoute(builder: (_) => const AddRolePage.AddRole(onTap: null));
-      
+        return MaterialPageRoute(
+            builder: (_) => const AddRolePage.AddRole(onTap: null));
 
+      case '/home':
+        return MaterialPageRoute(builder: (_) => const HomePage());
+
+      case '/about_us':
+        return MaterialPageRoute(builder: (_) => const AboutUsPage());
 
       default:
         // If there is no such named route in the switch statement, e.g. /third
