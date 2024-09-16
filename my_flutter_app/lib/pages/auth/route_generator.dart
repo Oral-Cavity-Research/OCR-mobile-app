@@ -50,6 +50,9 @@ class RouteGenerator {
       case '/upload_image':
         return MaterialPageRoute(builder: (_) => const ImageUploadForm());
 
+      case '/image_upload':
+        return MaterialPageRoute(builder: (_) => const ImageUploadForm());
+
       default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();

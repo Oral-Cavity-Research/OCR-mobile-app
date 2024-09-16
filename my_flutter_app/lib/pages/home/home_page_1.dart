@@ -50,6 +50,9 @@ class _HomePageState extends State<HomePage>
     Navigator.pushNamed(context, '/about_us');
   }
 
+  void imageUpload(){
+    Navigator.pushNamed(context, '/image_upload');
+  }
   void add_patient() {
     Navigator.pushNamed(context, '/add_patient');
   }
@@ -251,6 +254,7 @@ class _HomePageState extends State<HomePage>
                   buildMenuButton(Icons.add, 'Add a Role', add_role),
                   buildMenuButton(Icons.logout, 'Log Out', googleSignOut),
                   buildMenuButton(Icons.info, 'About Us', about_us),
+                  buildMenuButton(Icons.add, 'Upload Image', imageUpload)
                 ],
               ),
             ),
