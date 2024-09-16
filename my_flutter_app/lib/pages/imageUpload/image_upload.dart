@@ -3,6 +3,7 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:http_parser/http_parser.dart';
 
 class ImageUploadForm extends StatefulWidget {
   const ImageUploadForm({super.key});
@@ -17,20 +18,20 @@ class _ImageUploadFormState extends State<ImageUploadForm> {
   final picker = ImagePicker();
 
   final TextEditingController teleconEntryIdController =
-      TextEditingController();
+  TextEditingController();
+  final TextEditingController imageNameController = TextEditingController();
   final TextEditingController locationController = TextEditingController();
   final TextEditingController clinicalDiagnosisController =
-      TextEditingController();
-  final TextEditingController lesionsAppearController = TextEditingController();
-  final TextEditingController annotationsController = TextEditingController();
+  TextEditingController();
   final TextEditingController predictedCatController = TextEditingController();
+
+  bool? lesionsAppearController = false;
 
   @override
   void initState() {
     super.initState();
     print('ImageUploadForm page has been accessed');
   }
-
 
   Future<void> _pickImage() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -44,35 +45,53 @@ class _ImageUploadFormState extends State<ImageUploadForm> {
 
   void _submitForm() async {
     if (_formKey.currentState!.validate()) {
-      final request = http.MultipartRequest(
-        'POST',
-        Uri.parse('http://10.0.2.2:8080/api/user/upload/images/641060a61530810142e045de'),
-      );
-
-      if (_image != null) {
-        request.files
-            .add(await http.MultipartFile.fromPath('image', _image!.path));
+      if (_image == null) {
+        print('No image selected.');
+        return;
       }
 
-      request.fields['telecon_entry_id'] = teleconEntryIdController.text;
-      request.fields['image_name'] =
-          _image != null ? _image!.path.split('/').last : '';
-      request.fields['location'] = locationController.text;
-      request.fields['clinical_diagnosis'] = clinicalDiagnosisController.text;
-      request.fields['lesions_appear'] = lesionsAppearController.text;
-      request.fields['annotations'] =
-          jsonEncode(annotationsController.text.split(','));
-      request.fields['predicted_cat'] = predictedCatController.text;
+      // Prepare the JSON data
+      final jsonData = {
+        'telecon_entry_id': teleconEntryIdController.text,
+        'image_name': imageNameController.text,
+        'location': locationController.text,
+        'clinical_diagnosis': clinicalDiagnosisController.text,
+        'lesions_appear': lesionsAppearController != null
+            ? lesionsAppearController.toString()
+            : 'false',
+        'predicted_cat': predictedCatController.text,
+      };
 
+      // Create the multipart request
+      final request = http.MultipartRequest(
+        'POST',
+        Uri.parse('http://10.0.2.2:8080/api/user/upload/images/646994b5dfd79c173bfba9c8'),
+      );
+
+      // Add the JSON data as a field
+      request.fields['data'] = jsonEncode(jsonData);
+
+      // Set the image file with the correct content type
+      request.files.add(await http.MultipartFile.fromPath(
+        'files',  // Ensure this is the correct field name expected by your backend
+        _image!.path,
+        contentType: MediaType('image', 'jpeg'), // or 'image/png'
+      ));
+
+      // Send the request
       final response = await request.send();
+      final responseBody = await http.Response.fromStream(response);
 
       if (response.statusCode == 200) {
-        print('Submission successful');// Handle successful submission
+        print('Submission successful');
+        print('Response Body: ${responseBody.body}');
       } else {
-        print('Submission not successful');// Handle submission error
+        print('Submission not successful');
+        print('Response Body: ${responseBody.body}');
       }
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +102,7 @@ class _ImageUploadFormState extends State<ImageUploadForm> {
           'Telecon Entry Form',
           style: TextStyle(
             fontFamily: 'Rubik',
-            color: Colors.white, // Text color set to white
+            color: Colors.white,
           ),
         ),
         backgroundColor: Colors.blue[900],
@@ -106,10 +125,9 @@ class _ImageUploadFormState extends State<ImageUploadForm> {
             key: _formKey,
             child: ListView(
               children: <Widget>[
-                // Add logo at the top
                 Center(
                   child: Image.asset(
-                    'lib/images/icon1.png', // Ensure this path matches your asset path
+                    'lib/images/icon1.png',
                     height: 100,
                   ),
                 ),
@@ -122,7 +140,17 @@ class _ImageUploadFormState extends State<ImageUploadForm> {
                   ),
                   style: const TextStyle(fontFamily: 'Rubik', color: Colors.white),
                   validator: (value) =>
-                      value!.isEmpty ? 'This field is required' : null,
+                  value!.isEmpty ? 'This field is required' : null,
+                ),
+                TextFormField(
+                  controller: imageNameController,
+                  decoration: const InputDecoration(
+                    labelText: 'Image Name',
+                    labelStyle: TextStyle(color: Colors.white),
+                  ),
+                  style: const TextStyle(fontFamily: 'Rubik', color: Colors.white),
+                  validator: (value) =>
+                  value!.isEmpty ? 'This field is required' : null,
                 ),
                 TextFormField(
                   controller: locationController,
@@ -132,7 +160,7 @@ class _ImageUploadFormState extends State<ImageUploadForm> {
                   ),
                   style: const TextStyle(fontFamily: 'Rubik', color: Colors.white),
                   validator: (value) =>
-                      value!.isEmpty ? 'This field is required' : null,
+                  value!.isEmpty ? 'This field is required' : null,
                 ),
                 TextFormField(
                   controller: clinicalDiagnosisController,
@@ -142,18 +170,37 @@ class _ImageUploadFormState extends State<ImageUploadForm> {
                   ),
                   style: const TextStyle(fontFamily: 'Rubik', color: Colors.white),
                   validator: (value) =>
-                      value!.isEmpty ? 'This field is required' : null,
+                  value!.isEmpty ? 'This field is required' : null,
                 ),
-                TextFormField(
-                  controller: lesionsAppearController,
-                  decoration: const InputDecoration(
-                    labelText: 'Lesions Appear',
-                    labelStyle: TextStyle(color: Colors.white),
-                  ),
-                  style: const TextStyle(fontFamily: 'Rubik', color: Colors.white),
-                  validator: (value) =>
-                      value!.isEmpty ? 'This field is required' : null,
-                ),
+
+                Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Lesions Appear',
+                        style: TextStyle(
+                            fontSize: 16.0,
+                            fontFamily: 'Rubik',
+                            color: Colors.white
+                        ),
+                      ),
+
+                      DropdownButton<bool>(
+                          value: lesionsAppearController,
+                          hint: Text('This field is required'),
+
+                          items:[true, false].map<DropdownMenuItem<bool>>((bool value) {
+                            return DropdownMenuItem<bool>(
+                              value: value,
+                              child: Text(value ? 'True' : 'False'),
+                            );
+                          }).toList(),
+                          onChanged: (bool? newValue) {
+                            setState(() {
+                              lesionsAppearController = newValue;
+                            });
+                          })
+                    ]),
                 TextFormField(
                   controller: predictedCatController,
                   decoration: const InputDecoration(
@@ -162,24 +209,14 @@ class _ImageUploadFormState extends State<ImageUploadForm> {
                   ),
                   style: const TextStyle(fontFamily: 'Rubik', color: Colors.white),
                   validator: (value) =>
-                      value!.isEmpty ? 'This field is required' : null,
-                ),
-                TextFormField(
-                  controller: annotationsController,
-                  decoration: const InputDecoration(
-                    labelText: 'Annotations (comma separated)',
-                    labelStyle: TextStyle(color: Colors.white),
-                  ),
-                  style: const TextStyle(fontFamily: 'Rubik', color: Colors.white),
-                  validator: (value) =>
-                      value!.isEmpty ? 'This field is required' : null,
+                  value!.isEmpty ? 'This field is required' : null,
                 ),
                 const SizedBox(height: 20.0),
                 _image == null
                     ? const Text(
-                        'No image selected.',
-                        style: TextStyle(color: Colors.white),
-                      )
+                  'No image selected.',
+                  style: TextStyle(color: Colors.white),
+                )
                     : Image.file(_image!),
                 TextButton(
                   onPressed: _pickImage,
@@ -206,3 +243,174 @@ class _ImageUploadFormState extends State<ImageUploadForm> {
     );
   }
 }
+// import 'dart:convert';
+// import 'dart:io';
+// import 'package:flutter/material.dart';
+// import 'package:image_picker/image_picker.dart';
+// import 'package:http/http.dart' as http;
+//
+// class ImageUploadForm extends StatefulWidget {
+//   const ImageUploadForm({super.key});
+//
+//   @override
+//   State<ImageUploadForm> createState() => _ImageUploadFormState();
+// }
+//
+// class _ImageUploadFormState extends State<ImageUploadForm> {
+//   final _formKey = GlobalKey<FormState>();
+//   File? _image;
+//   final picker = ImagePicker();
+//
+//   final TextEditingController teleconEntryIdController = TextEditingController();
+//   final TextEditingController imageNameController = TextEditingController();
+//   final TextEditingController locationController = TextEditingController();
+//   final TextEditingController clinicalDiagnosisController = TextEditingController();
+//   final TextEditingController annotationsController = TextEditingController();
+//   final TextEditingController predictedCatController = TextEditingController();
+//
+//   bool? lesionsAppearController = false;
+//
+//   Future<void> _pickImage() async {
+//     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+//
+//     setState(() {
+//       if (pickedFile != null) {
+//         _image = File(pickedFile.path);
+//       }
+//     });
+//   }
+//
+//   void _submitForm() async {
+//     if (_formKey.currentState!.validate()) {
+//       if (_image == null) {
+//         print('No image selected.');
+//         return;
+//       }
+//
+//       // Prepare the JSON data
+//       final jsonData = {
+//         'telecon_entry_id': teleconEntryIdController.text,
+//         'image_name': imageNameController.text,
+//         'location': locationController.text,
+//         'clinical_diagnosis': clinicalDiagnosisController.text,
+//         'lesions_appear': lesionsAppearController != null ? lesionsAppearController.toString() : 'false',
+//         'annotations': annotationsController.text.split(','),
+//         'predicted_cat': predictedCatController.text,
+//       };
+//
+//       // Create the multipart request
+//       final uri = Uri.parse('http://10.0.2.2:8080/api/user/upload/images/646994b5dfd79c173bfba9c8');
+//       final request = http.MultipartRequest('POST', uri);
+//
+//       // Add headers
+//       request.headers.addAll({
+//         'Content-Type': 'multipart/form-data',
+//         'Accept': 'application/json',
+//       });
+//
+//       // Add JSON data as a field
+//       request.fields['data'] = jsonEncode(jsonData);
+//
+//       // Add the image file
+//       request.files.add(await http.MultipartFile.fromPath('files', _image!.path));
+//
+//       // Send the request and handle the response
+//       try {
+//         final response = await request.send();
+//         final responseBody = await http.Response.fromStream(response);
+//
+//         if (response.statusCode == 200) {
+//           print('Submission successful');
+//           print('Response Body: ${responseBody.body}');
+//         } else {
+//           print('Submission not successful');
+//           print('Response Body: ${responseBody.body}');
+//         }
+//       } catch (e) {
+//         print('Error: $e');
+//       }
+//     }
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: Theme.of(context).colorScheme.surface,
+//       appBar: AppBar(
+//         title: const Text(
+//           'Telecon Entry Form',
+//           style: TextStyle(fontFamily: 'Rubik', color: Colors.white),
+//         ),
+//         backgroundColor: Colors.blue[900],
+//       ),
+//       body: Padding(
+//         padding: const EdgeInsets.all(16.0),
+//         child: Form(
+//           key: _formKey,
+//           child: ListView(
+//             children: <Widget>[
+//               Center(
+//                 child: Image.asset('lib/images/icon1.png', height: 100),
+//               ),
+//               const SizedBox(height: 20.0),
+//               TextFormField(
+//                 controller: teleconEntryIdController,
+//                 decoration: const InputDecoration(labelText: 'Telecon Entry ID'),
+//                 validator: (value) => value!.isEmpty ? 'This field is required' : null,
+//               ),
+//               TextFormField(
+//                 controller: imageNameController,
+//                 decoration: const InputDecoration(labelText: 'Image Name'),
+//                 validator: (value) => value!.isEmpty ? 'This field is required' : null,
+//               ),
+//               TextFormField(
+//                 controller: locationController,
+//                 decoration: const InputDecoration(labelText: 'Location'),
+//                 validator: (value) => value!.isEmpty ? 'This field is required' : null,
+//               ),
+//               TextFormField(
+//                 controller: clinicalDiagnosisController,
+//                 decoration: const InputDecoration(labelText: 'Clinical Diagnosis'),
+//                 validator: (value) => value!.isEmpty ? 'This field is required' : null,
+//               ),
+//               DropdownButton<bool>(
+//                 value: lesionsAppearController,
+//                 items: [true, false].map<DropdownMenuItem<bool>>((bool value) {
+//                   return DropdownMenuItem<bool>(
+//                     value: value,
+//                     child: Text(value ? 'True' : 'False'),
+//                   );
+//                 }).toList(),
+//                 onChanged: (bool? newValue) {
+//                   setState(() {
+//                     lesionsAppearController = newValue;
+//                   });
+//                 },
+//               ),
+//               TextFormField(
+//                 controller: predictedCatController,
+//                 decoration: const InputDecoration(labelText: 'Predicted Category'),
+//                 validator: (value) => value!.isEmpty ? 'This field is required' : null,
+//               ),
+//               TextFormField(
+//                 controller: annotationsController,
+//                 decoration: const InputDecoration(labelText: 'Annotations (comma separated)'),
+//               ),
+//               const SizedBox(height: 20.0),
+//               _image == null ? const Text('No image selected.') : Image.file(_image!),
+//               TextButton(
+//                 onPressed: _pickImage,
+//                 child: const Text('Pick Image'),
+//               ),
+//               const SizedBox(height: 20.0),
+//               ElevatedButton(
+//                 onPressed: _submitForm,
+//                 child: const Text('Submit'),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }

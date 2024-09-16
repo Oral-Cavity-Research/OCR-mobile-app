@@ -1,6 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
+import 'package:my_flutter_app/model/annotationModel.dart';
 import 'package:my_flutter_app/model/hospitalModel.dart';
 
 class URL {
@@ -45,6 +50,43 @@ Future<int> signup(String email, String username, String phoneNumber,
     }),
   );
 
+  return response.statusCode;
+}
+
+// /api/user/upload/images
+Future<int> imageUpload(
+    String teleconEntryId,
+    String imageName,
+    String location,
+    String clinicalDiagnosis,
+    bool lesionsAppear,
+    String predictedCat,
+    File file // The file to upload
+    ) async {
+  const url = URL.BASE_URL + "/user/upload/images/646994b5dfd79c173bfba9c8";
+  final uri = Uri.parse(url);
+
+  // Prepare the multipart request
+  var request = http.MultipartRequest('POST', uri);
+
+  // Add the file field
+  request.files.add(await http.MultipartFile.fromPath('files', file.path,
+      contentType: MediaType('multipart', 'form-data')));
+
+  // Add the JSON data as part of the request
+  request.fields['data'] = jsonEncode({
+    'telecon_entry_id': teleconEntryId,
+    'image_name': imageName,
+    'location': location,
+    'clinical_diagnosis': clinicalDiagnosis,
+    'lesions_appear': lesionsAppear.toString(),
+    'predicted_cat': predictedCat
+  });
+
+  // Send the request
+  var response = await request.send();
+
+  // Get the response status code
   return response.statusCode;
 }
 
