@@ -5,6 +5,8 @@ import 'package:my_flutter_app/URL.dart';
 import 'package:my_flutter_app/components/NotificationMessage.dart';
 import 'package:my_flutter_app/components/error_message.dart';
 import 'package:my_flutter_app/components/my_button.dart';
+import 'package:my_flutter_app/dto/TokenStorage.dart';
+import 'package:my_flutter_app/dto/VerifyResponse.dart';
 
 class GoogleSignIN extends StatefulWidget {
   const GoogleSignIN({super.key});
@@ -40,11 +42,14 @@ class _GoogleSignINState extends State<GoogleSignIN> {
 
   void fetchEmail() async {
     var user = await signIn.signIn();
-    int statusCodeNow = await verify(user!.email);
-    print(statusCodeNow);
-    print(user!.email);
+    print("hwlloqq");
+    print(user);
+    VerifyResponse response = await verify(user!.email);
+
+    String? token = TokenStorage().getToken();
+    // print('Token: $token');
     setState(() {
-      statusCode = statusCodeNow;
+      statusCode = response.statusCode;
     });
   }
 
