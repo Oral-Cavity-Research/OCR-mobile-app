@@ -51,8 +51,8 @@ class _SplashScreenState extends State<SplashScreen>
             ),
           ),
           const Positioned(
-            top: 200,
-            right: 90,
+            top: 170,
+            right: 70,
             child: Column(
               children: const [
                 Center(
@@ -85,20 +85,20 @@ class _SplashScreenState extends State<SplashScreen>
               padding: EdgeInsets.only(top: 150),
               child: ClipOval(
                 child: Container(
-                  width: 500.0, // Adjust the size as needed
-                  height: 300.0, // Adjust the size as needed
+                  width: 500.w, // Adjust the size as needed
+                  height: 300.h, // Adjust the size as needed
                   child: Lottie.asset('lib/animation/welcome.json'),
                 ),
               ),
             ),
           ),
           const Padding(
-            padding: EdgeInsets.only(top: 620),
+            padding: EdgeInsets.only(top: 500),
             child: Center(
               child: Text(
                 'Paperless. Effortless. Digitalize',
                 style: TextStyle(
-                  fontSize: 25,
+                  fontSize: 22,
                   color: Color.fromARGB(255, 46, 74, 95),
                   fontWeight: FontWeight.bold,
                   fontFamily: 'EduAUVICWANTHand',
@@ -109,11 +109,11 @@ class _SplashScreenState extends State<SplashScreen>
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              padding: const EdgeInsets.fromLTRB(30, 0, 40, 0),
+              padding:  EdgeInsets.fromLTRB(30.w, 0.h, 40.w, 0.h),
               child: const Text(
                 '@mobile version of OASIS',
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 13,
                   color: Color.fromARGB(255, 89, 102, 121),
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Rubik',
@@ -122,11 +122,11 @@ class _SplashScreenState extends State<SplashScreen>
             ),
           ),
           Positioned(
-            top: 50,
-            right: 20,
+            top: 50.h,
+            right: 20.w,
             child: Container(
-              width: 150, // Adjust the size as needed
-              height: 150, // Adjust the size as needed
+              width: 150.w, // Adjust the size as needed
+              height: 150.h, // Adjust the size as needed
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
@@ -137,11 +137,13 @@ class _SplashScreenState extends State<SplashScreen>
                   ),
                 ],
               ),
+              child: Center(
               child: Image.asset(
                 'lib/images/icon1light.png',
-                width: 150, // Adjust the size as needed
-                height: 150, // Adjust the size as needed
+                width: 200.w, // Adjust the size as needed
+                height: 150.h, // Adjust the size as needed
               ),
+              )
             ),
           ),
         ],
