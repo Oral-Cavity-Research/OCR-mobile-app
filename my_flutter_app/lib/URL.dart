@@ -6,6 +6,9 @@ import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:my_flutter_app/model/annotationModel.dart';
+import 'package:my_flutter_app/dto/TokenStorage.dart';
+import 'package:my_flutter_app/dto/UserStorage.dart';
+import 'package:my_flutter_app/dto/VerifyResponse.dart';
 import 'package:my_flutter_app/model/hospitalModel.dart';
 
 class URL {
@@ -92,7 +95,7 @@ Future<int> imageUpload(
 
 // /api/auth/verify
 
-Future<int> verify(String email) async {
+Future<VerifyResponse> verify(String email) async {
   const url = URL.BASE_URL + "/auth/verify";
   final uri = Uri.parse(url);
   final response = await http.post(
@@ -105,7 +108,29 @@ Future<int> verify(String email) async {
     }),
   );
 
-  return response.statusCode;
+  final Map<String, dynamic> responseBody = jsonDecode(response.body);
+
+  // Extract the token
+  final String token = responseBody['accessToken']['token'];
+  final dynamic user = responseBody['ref'];
+
+  TokenStorage().setToken(token);
+  TokenStorage().setUser(user);
+  print(TokenStorage().getToken());
+  print(TokenStorage().getUsername());
+  print(TokenStorage().getEmail());
+  print(TokenStorage().getHospital());
+  print(TokenStorage().getRegNo());
+  print(TokenStorage().getDesignation());
+  print(TokenStorage().getContactNo());
+  print(TokenStorage().getRole());
+  print(TokenStorage().getCreatedAt());
+  print(TokenStorage().getUpdatedAt());
+  print(TokenStorage().getAvailability());
+  print(TokenStorage().getPassword());
+  print(TokenStorage().getId());
+
+  return VerifyResponse(response.statusCode, token);
 }
 
 Future<List<String>> user_details(String response) async {

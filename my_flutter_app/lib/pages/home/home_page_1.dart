@@ -6,6 +6,7 @@ import 'package:my_flutter_app/components/menu_button.dart';
 import 'package:my_flutter_app/components/user_notification_1.dart';
 import 'package:my_flutter_app/pages/aboutUs/about_us.dart';
 import 'package:my_flutter_app/pages/auth/google_sign.dart';
+import 'package:my_flutter_app/pages/profiles/doctor_profile_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -52,6 +53,13 @@ class _HomePageState extends State<HomePage>
   void imageUpload(){
     Navigator.pushNamed(context, '/image_upload');
   }
+  void add_patient() {
+    Navigator.pushNamed(context, '/add_patient');
+  }
+
+  void add_role() {
+    Navigator.pushNamed(context, '/add_a_role');
+  }
 
   void toggleMenu() {
     setState(() {
@@ -62,6 +70,22 @@ class _HomePageState extends State<HomePage>
       }
       isMenuOpen = !isMenuOpen;
     });
+  }
+
+  void switchOption(String menuItem) {
+    switch (menuItem) {
+      case 'See Profile':
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const DoctorProfilePage()),
+        );
+        toggleMenu();
+        break;
+      // other cases
+      default:
+        // handle other menu items
+        break;
+    }
   }
 
   void _onItemTapped(int index) {
@@ -218,14 +242,16 @@ class _HomePageState extends State<HomePage>
               child: ListView(
                 padding: EdgeInsets.zero,
                 children: [
-                  buildMenuButton(Icons.person, 'See Profile', toggleMenu),
-                  buildMenuButton(Icons.add, 'Add a Patient', toggleMenu),
+
+                  buildMenuButton(Icons.person, 'See Profile',
+                      () => switchOption('See Profile')),
+                  buildMenuButton(Icons.add, 'Add a Patient', add_patient),
                   buildMenuButton(Icons.add, 'Add a Doctor', toggleMenu),
                   buildMenuButton(Icons.remove, 'Remove a Doctor', toggleMenu),
                   buildMenuButton(Icons.add, 'Add a Consultant', toggleMenu),
                   buildMenuButton(
                       Icons.remove, 'Remove a Consultant', toggleMenu),
-                  buildMenuButton(Icons.add, 'Add a Role', toggleMenu),
+                  buildMenuButton(Icons.add, 'Add a Role', add_role),
                   buildMenuButton(Icons.logout, 'Log Out', googleSignOut),
                   buildMenuButton(Icons.info, 'About Us', about_us),
                   buildMenuButton(Icons.add, 'Upload Image', imageUpload)
