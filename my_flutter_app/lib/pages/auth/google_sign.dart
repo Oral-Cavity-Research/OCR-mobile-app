@@ -31,6 +31,7 @@ class _GoogleSignINState extends State<GoogleSignIN> {
   Future<void> onLogin() async {
     print('Log in button tapped!');
     fetchEmail();
+    
     if (statusCode == 200) {
       print("login successful");
       Navigator.of(context).pushNamed('/home');
