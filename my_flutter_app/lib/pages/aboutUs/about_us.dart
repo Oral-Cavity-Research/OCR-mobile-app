@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_flutter_app/pages/home/home_page_1.dart';
 
@@ -27,7 +28,7 @@ class AboutUsPage extends StatelessWidget {
         ),
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),  
+            padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 0.h),  
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

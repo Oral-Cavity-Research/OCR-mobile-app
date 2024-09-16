@@ -78,8 +78,8 @@ class _HomePageState extends State<HomePage>
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Color.fromARGB(255, 48, 162, 219), // Sky blue
-                  Color.fromARGB(255, 122, 192, 236), // Light sky blue
+                  Color.fromARGB(255, 95, 174, 213), // Sky blue
+                  Color.fromARGB(255, 124, 185, 223), // Light sky blue
                   Colors.white, // White
                 ],
                 begin: Alignment.topLeft,
@@ -101,8 +101,8 @@ class _HomePageState extends State<HomePage>
                   decoration: const BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        Color.fromARGB(255, 46, 151, 212), // Dodger blue
-                        Color.fromARGB(255, 113, 183, 244), // Royal blue
+                        Color.fromARGB(255, 59, 158, 215), // Dodger blue
+                        Color.fromARGB(255, 122, 188, 245), // Royal blue
                       ],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
