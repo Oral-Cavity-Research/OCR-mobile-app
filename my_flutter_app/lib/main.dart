@@ -6,7 +6,6 @@ import 'package:my_flutter_app/pages/auth/route_generator.dart';
 import 'package:my_flutter_app/themes/theme_provider.dart';
 import 'package:provider/provider.dart';
 
-
 void main() {
   runApp(
     ChangeNotifierProvider(
