@@ -7,6 +7,7 @@ import 'package:my_flutter_app/components/menu_button.dart';
 import 'package:my_flutter_app/components/my_dropdown_bar.dart';
 import 'package:my_flutter_app/components/user_notification_1.dart';
 import 'package:my_flutter_app/pages/aboutUs/about_us.dart';
+import 'package:my_flutter_app/pages/add_methods/add_role_page.dart';
 import 'package:my_flutter_app/pages/auth/google_sign.dart';
 import 'package:my_flutter_app/pages/profiles/doctor_profile_page.dart';
 
@@ -84,6 +85,16 @@ class _HomePageState extends State<HomePage>
         toggleMenu();
         break;
       // other cases
+      case 'Add a Doctor':
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => AddRole(
+                    onTap: () {},
+                  )),
+        );
+        toggleMenu();
+        break;
       default:
         // handle other menu items
         break;
@@ -183,7 +194,7 @@ class _HomePageState extends State<HomePage>
                       buildReportCard(),
                       buildReportCard(),
                       SizedBox(height: 32),
-                      Text(
+                      const Text(
                         "RECOMMENDED",
                         style: TextStyle(
                           fontFamily: 'Rubik',
@@ -244,11 +255,11 @@ class _HomePageState extends State<HomePage>
               child: ListView(
                 padding: EdgeInsets.zero,
                 children: [
-
                   buildMenuButton(Icons.person, 'See Profile',
                       () => switchOption('See Profile')),
                   buildMenuButton(Icons.add, 'Add a Patient', add_patient),
-                  buildMenuButton(Icons.add, 'Add a Doctor', toggleMenu),
+                  buildMenuButton(Icons.add, 'Add a Doctor',
+                      () => switchOption('Add a Doctor')),
                   buildMenuButton(Icons.remove, 'Remove a Doctor', toggleMenu),
                   buildMenuButton(Icons.add, 'Add a Consultant', toggleMenu),
                   buildMenuButton(
