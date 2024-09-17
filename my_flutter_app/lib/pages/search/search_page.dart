@@ -1,6 +1,10 @@
 // lib/pages/search/searchPage.dart
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:my_flutter_app/components/patientCard.dart';
+import 'package:my_flutter_app/modals/DataProvider.dart';
+import 'package:my_flutter_app/modals/Patient.dart';
+import 'package:provider/provider.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -10,8 +14,12 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  bool _isChecked = false;
+  String _isChecked = "False";
+  String _Filter = 'Name';
   int _selectedIndex = 0;
+  String _Search = '';
+  List<Patient> patientsCards = [];
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -21,6 +29,8 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
+    Patient patient = Provider.of<Patient>(context);
+
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -52,15 +62,35 @@ class _SearchPageState extends State<SearchPage> {
                         prefixIcon: const Icon(Icons.search),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
-                          borderSide: BorderSide.none,
+                          borderSide: BorderSide(color: Colors.grey.shade400),
                         ),
-                        fillColor: Colors.grey.shade200,
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                          borderSide: BorderSide(color: Colors.grey.shade400),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                          borderSide: BorderSide(color: Colors.blue),
+                        ),
+                        fillColor: Colors.white,
                         filled: true,
                       ),
-                      keyboardType: TextInputType.number,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.digitsOnly,
-                      ],
+                      keyboardType: TextInputType.text,
+                      onChanged: (value) {
+                        // Fetch patient data based on input
+                        DataProvider dataProvider = DataProvider();
+                        dataProvider
+                            .getData(value, _Filter, _isChecked, patient)
+                            .then((patients) {
+                          if (patients != null) {
+                            // Update the state with the fetched patients list
+                            setState(() {
+                              _Search = value;
+                              patientsCards = patients;
+                            });
+                          }
+                        });
+                      },
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -72,86 +102,93 @@ class _SearchPageState extends State<SearchPage> {
                       color: Colors.black,
                     ),
                   ),
-                  const SizedBox(height: 20),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 30),
                     child: Column(
                       children: [
                         CheckboxListTile(
-                          title: const Text('Default:'),
-                          value: _isChecked,
+                          title: const Text('Sort:'),
+                          value: _isChecked == "True",
                           onChanged: (bool? value) {
                             setState(() {
-                              _isChecked = value!;
+                              if (value == true) {
+                                _isChecked = "True";
+                              } else {
+                                _isChecked = "False";
+                              }
+                            });
+                            DataProvider dataProvider = DataProvider();
+                            dataProvider
+                                .getData(_Search, _Filter, _isChecked, patient)
+                                .then((patients) {
+                              if (patients != null) {
+                                // Update the state with the fetched patients list
+                                setState(() {
+                                  patientsCards = patients;
+                                });
+                              }
                             });
                           },
                         ),
-                        const SizedBox(height: 10),
-                        TextField(
-                          decoration: const InputDecoration(
-                            labelText: 'Age:',
-                            border: OutlineInputBorder(),
-                            fillColor: Colors.white,
-                            filled: true,
-                          ),
-                          keyboardType: TextInputType.number,
-                          inputFormatters: <TextInputFormatter>[
-                            FilteringTextInputFormatter.digitsOnly,
-                          ],
-                        ),
-                        const SizedBox(height: 10),
-                        TextField(
-                          decoration: const InputDecoration(
-                            labelText: 'Name:',
-                            border: OutlineInputBorder(),
-                            fillColor: Colors.white,
-                            filled: true,
-                          ),
-                          keyboardType: TextInputType.text,
-                          inputFormatters: <TextInputFormatter>[
-                            FilteringTextInputFormatter.digitsOnly,
-                          ],
-                        ),
-                        const SizedBox(height: 10),
                         DropdownButtonFormField<String>(
                           decoration: const InputDecoration(
-                            labelText: 'District:',
-                            border: OutlineInputBorder(),
+                            labelText: 'Filter:',
                             fillColor: Colors.white,
                             filled: true,
+                            border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30)),
+                            ),
                           ),
                           items: <String>[
-                            'Colombo',
-                            'Galle',
-                            'Kandy',
-                            'Jaffna',
-                            'Kurunegala',
-                            'Gampaha',
-                            'Matara',
-                            'Hambantota',
-                            'Anuradhapura',
-                            'Polonnaruwa',
-                            'Badulla',
-                            'Monaragala',
-                            'Ratnapura',
-                            'Kegalle',
-                            'Matale',
-                            'Nuwara Eliya',
-                            'Ampara',
-                            'Batticaloa',
-                            'Trincomalee',
-                            'Mannar',
-                            'Vavuniya',
-                            'Mullaitivu',
-                            'Kilinochchi'
+                            'Name',
+                            'Age',
+                            'Gender',
+                            'Created Date',
+                            'Updated Date'
                           ].map((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
                               child: Text(value),
                             );
                           }).toList(),
-                          onChanged: (String? newValue) {},
+                          onChanged: (String? value) {
+                            setState(() {
+                              _Filter = value!;
+                            });
+
+                            DataProvider dataProvider = DataProvider();
+                            dataProvider
+                                .getData(_Search, _Filter, _isChecked, patient)
+                                .then((patients) {
+                              if (patients != null) {
+                                // Update the state with the fetched patients list
+                                setState(() {
+                                  patientsCards = patients;
+                                });
+                              }
+                            });
+                          },
                         ),
+                        const SizedBox(height: 20),
+                        SingleChildScrollView(
+                          child: Container(
+                            height: 400.0, // Adjust the height as needed
+                            child: ListView.builder(
+                              itemCount: patientsCards.length,
+                              itemBuilder: (context, index) {
+                                final patientDetails = patientsCards[index];
+                                return patientCard(
+                                  name: patientDetails.getPatientName,
+                                  id: patientDetails
+                                      .getPatientId, // Safely handled
+                                  dob: patientDetails.getDob,
+                                  gender: patientDetails.getGender,
+                                );
+                              },
+                            ),
+                          ),
+                        )
                       ],
                     ),
                   ),
@@ -166,7 +203,7 @@ class _SearchPageState extends State<SearchPage> {
 
   Widget _buildBottomNavigationBarItem(IconData icon, String label, int index) {
     return InkWell(
-      onTap: () => _onItemTapped(index), // Handle your navigation here
+      onTap: () => _onItemTapped(index),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,

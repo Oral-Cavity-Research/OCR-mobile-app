@@ -8,8 +8,12 @@ import 'package:my_flutter_app/components/menu_button.dart';
 import 'package:my_flutter_app/components/my_dropdown_bar.dart';
 import 'package:my_flutter_app/components/user_notification_1.dart';
 import 'package:my_flutter_app/pages/aboutUs/about_us.dart';
+import 'package:my_flutter_app/pages/add_methods/add_role_page.dart';
 import 'package:my_flutter_app/pages/auth/google_sign.dart';
 import 'package:my_flutter_app/pages/profiles/doctor_profile_page.dart';
+
+import '../imageUpload/ImageUploadScreen.dart';
+import '../patient/patient_upload.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -54,8 +58,10 @@ class _HomePageState extends State<HomePage>
     Navigator.pushNamed(context, '/about_us');
   }
 
-  void imageUpload() {
-    Navigator.pushNamed(context, '/image_upload');
+
+  void imageUpload(){
+    Navigator.pushNamed(context, '/imageUploadScreen');
+
   }
 
   void add_patient() {
@@ -64,6 +70,10 @@ class _HomePageState extends State<HomePage>
 
   void add_role() {
     Navigator.pushNamed(context, '/add_a_role');
+  }
+
+  void add_consentform() {
+    Navigator.pushNamed(context, '/patient_upload');
   }
 
   void toggleMenu() {
@@ -87,6 +97,33 @@ class _HomePageState extends State<HomePage>
         toggleMenu();
         break;
       // other cases
+      case 'Upload Image':
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const ImageUploadForm()),
+        );
+        toggleMenu();
+        break;
+        
+      case 'Add a Doctor':
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => AddRole(
+                    onTap: () {},
+                  )),
+        );
+        toggleMenu();
+        break;
+
+      case 'Upload Patient':
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => PatientConsentForm()),
+        );
+        toggleMenu();
+        break;
+        
       default:
         // handle other menu items
         break;
@@ -120,6 +157,7 @@ class _HomePageState extends State<HomePage>
             },
             child: Column(
               children: [
+
                 // Container(
                 //   height: 100,
                 //   padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -163,6 +201,7 @@ class _HomePageState extends State<HomePage>
                 //     ),
                 //   ),
                 // ),
+
                 Expanded(
                   child: ListView(
                     padding: const EdgeInsets.all(16),
@@ -180,7 +219,7 @@ class _HomePageState extends State<HomePage>
                       buildReportCard(),
                       buildReportCard(),
                       SizedBox(height: 32),
-                      Text(
+                      const Text(
                         "RECOMMENDED",
                         style: TextStyle(
                           fontFamily: 'Rubik',
@@ -296,6 +335,7 @@ class _HomePageState extends State<HomePage>
           //     ),
           //   ),
           // ),
+
         ],
       ),
     );

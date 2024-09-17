@@ -1,5 +1,4 @@
 // image_upload_model.dart
-import 'package:my_flutter_app/model/annotationModel.dart';
 
 class ImageUploadModel {
   final String teleconEntryId;
@@ -36,8 +35,6 @@ class ImageUploadModel {
         clinicalDiagnosis: json['clinical_diagnosis'],
         lesionsAppear: json['lesions_appear'],
         predictedCat: json['predicted_cat']);
-
-
   }
 
 }
