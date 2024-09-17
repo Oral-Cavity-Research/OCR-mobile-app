@@ -47,6 +47,7 @@ dependencies:
   google_sign_in: any
   http: any
   dio: ^5.7.0
+  flutter_spinkit: ^5.2.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

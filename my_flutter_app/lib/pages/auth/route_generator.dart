@@ -9,7 +9,8 @@ import 'package:my_flutter_app/pages/auth/Signup_page.dart';
 import 'package:my_flutter_app/pages/home/home_page_1.dart';
 import 'package:my_flutter_app/pages/home/splash_screen.dart';
 import 'package:my_flutter_app/pages/imageUpload/image_upload.dart';
-
+import 'package:my_flutter_app/pages/search/search_page.dart';
+import 'package:my_flutter_app/pages/search/search_page2.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -33,7 +34,6 @@ class RouteGenerator {
         }
         return _errorRoute();
 
-
       case '/add_a_role':
         return MaterialPageRoute(
             builder: (_) => const AddRolePage.AddRole(onTap: null));
@@ -43,13 +43,17 @@ class RouteGenerator {
 
       case '/about_us':
         return MaterialPageRoute(builder: (_) => const AboutUsPage());
-      
+
       case '/add_patient':
-        return MaterialPageRoute(builder: (_) => const AddPatientpage(onTap: null));
-      
+        return MaterialPageRoute(
+            builder: (_) => const AddPatientpage(onTap: null));
+
       case '/upload_image':
         return MaterialPageRoute(builder: (_) => const ImageUploadForm());
 
+      case "/search":
+        print("search");
+        return MaterialPageRoute(builder: (_) => SearchPage());
       default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();

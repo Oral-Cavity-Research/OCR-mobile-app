@@ -1,18 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:my_flutter_app/modals/DataProvider.dart';
+import 'package:my_flutter_app/modals/Patient.dart';
 import 'package:my_flutter_app/pages/auth/route_generator.dart';
 
 import 'package:my_flutter_app/themes/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(
-    ChangeNotifierProvider(
-      create: (context) => ThemeProvider(),
-      child: const MyApp(),
-    ),
-  );
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => ThemeProvider()),
+      ChangeNotifierProvider(
+          create: (context) => Patient(
+              id: 'sample',
+              patientId: 'sample',
+              patientName: 'sample',
+              dob: 'sample',
+              gender: 'sample')),
+    ],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {

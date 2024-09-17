@@ -166,7 +166,9 @@ class _HomePageState extends State<HomePage>
                         IconButton(
                           icon: const Icon(Icons.arrow_forward,
                               color: Colors.white),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/search');
+                          },
                         ),
                       ],
                     ),
