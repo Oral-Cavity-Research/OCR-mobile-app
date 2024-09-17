@@ -36,8 +36,6 @@ class ImageUploadModel {
         clinicalDiagnosis: json['clinical_diagnosis'],
         lesionsAppear: json['lesions_appear'],
         predictedCat: json['predicted_cat']);
-
-
   }
 
 }

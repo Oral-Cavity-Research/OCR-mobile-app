@@ -8,6 +8,8 @@ import 'package:my_flutter_app/pages/aboutUs/about_us.dart';
 import 'package:my_flutter_app/pages/auth/google_sign.dart';
 import 'package:my_flutter_app/pages/profiles/doctor_profile_page.dart';
 
+import '../imageUpload/ImageUploadScreen.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -51,7 +53,7 @@ class _HomePageState extends State<HomePage>
   }
 
   void imageUpload(){
-    Navigator.pushNamed(context, '/image_upload');
+    Navigator.pushNamed(context, '/imageUploadScreen');
   }
   void add_patient() {
     Navigator.pushNamed(context, '/add_patient');
@@ -82,6 +84,13 @@ class _HomePageState extends State<HomePage>
         toggleMenu();
         break;
       // other cases
+      case 'Upload Image':
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const ImageUploadForm()),
+        );
+        toggleMenu();
+        break;
       default:
         // handle other menu items
         break;
@@ -254,7 +263,8 @@ class _HomePageState extends State<HomePage>
                   buildMenuButton(Icons.add, 'Add a Role', add_role),
                   buildMenuButton(Icons.logout, 'Log Out', googleSignOut),
                   buildMenuButton(Icons.info, 'About Us', about_us),
-                  buildMenuButton(Icons.add, 'Upload Image', imageUpload)
+                  buildMenuButton(Icons.add, 'Upload Image',
+                          () => switchOption('Upload Image'))
                 ],
               ),
             ),
