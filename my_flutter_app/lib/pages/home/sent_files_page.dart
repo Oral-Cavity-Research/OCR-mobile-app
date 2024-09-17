@@ -75,62 +75,62 @@ class _SentFilesState extends State<SentFiles>
             },
             child: Column(
               children: [
-                Container(
-                  height: 100,
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Color.fromARGB(255, 87, 199, 255), // Dodger blue
-                        Color.fromARGB(255, 110, 177, 236), // Royal blue
-                      ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black26,
-                        blurRadius: 10,
-                        offset: Offset(0, 5),
-                      ),
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 30),
-                    child: Row(
-                      children: [
-                        const Spacer(),
-                        const Text(
-                          'Home',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const Spacer(),
-                        IconButton(
-                          icon: const Icon(Icons.arrow_forward,
-                              color: Colors.white),
-                          onPressed: () {},
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                // Container(
+                //   height: 100,
+                //   padding: const EdgeInsets.symmetric(horizontal: 16),
+                //   decoration: const BoxDecoration(
+                //     gradient: LinearGradient(
+                //       colors: [
+                //         Color.fromARGB(255, 87, 199, 255), // Dodger blue
+                //         Color.fromARGB(255, 110, 177, 236), // Royal blue
+                //       ],
+                //       begin: Alignment.topLeft,
+                //       end: Alignment.bottomRight,
+                //     ),
+                //     boxShadow: [
+                //       BoxShadow(
+                //         color: Colors.black26,
+                //         blurRadius: 10,
+                //         offset: Offset(0, 5),
+                //       ),
+                //     ],
+                //   ),
+                //   // child: Padding(
+                //   //   padding: const EdgeInsets.only(top: 30),
+                //   //   child: Row(
+                //   //     children: [
+                //   //       const Spacer(),
+                //   //       const Text(
+                //   //         'Home',
+                //   //         style: TextStyle(
+                //   //           color: Colors.white,
+                //   //           fontSize: 24,
+                //   //           fontWeight: FontWeight.bold,
+                //   //         ),
+                //   //       ),
+                //   //       const Spacer(),
+                //   //       IconButton(
+                //   //         icon: const Icon(Icons.arrow_forward,
+                //   //             color: Colors.white),
+                //   //         onPressed: () {},
+                //   //       ),
+                //   //     ],
+                //   //   ),
+                //   // ),
+                // ),
                 Expanded(
                   child: ListView(
                     padding: const EdgeInsets.all(16),
                     children: [
-                      const Text(
-                        "SENT FILES",
-                        style: TextStyle(
-                          fontFamily: 'Rubik',
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
+                      // const Text(
+                      //   "SENT FILES",
+                      //   style: TextStyle(
+                      //     fontFamily: 'Rubik',
+                      //     fontSize: 24,
+                      //     fontWeight: FontWeight.bold,
+                      //     color: Colors.white,
+                      //   ),
+                      // ),
                       const SizedBox(height: 16),
                       buildDoctorNotification('DOC_ID: #12345',
                           'Patient_id: 5454345', 'Date: 12/12/2022'),
@@ -168,138 +168,103 @@ class _SentFilesState extends State<SentFiles>
               ],
             ),
           ),
-          if (isMenuOpen)
-            AnimatedOpacity(
-              opacity: isMenuOpen ? 1.0 : 0,
-              duration: const Duration(microseconds: 300),
-              child: GestureDetector(
-                onTap: toggleMenu,
-                child: Container(
-                  color: Colors.black.withOpacity(0.5),
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                    child: Container(
-                      color: Colors.black.withOpacity(0.2),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          SlideTransition(
-            position: _offsetAnimation,
-            child: Container(
-              width: 250,
-              padding: const EdgeInsets.only(top: 110),
-              decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 152, 195, 235),
-                image: DecorationImage(
-                  image: AssetImage('lib/images/whatsappBack.jpg'),
-                  fit: BoxFit.cover,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black26,
-                    blurRadius: 10,
-                    offset: Offset(0, 5),
-                  ),
-                ],
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(20),
-                  bottomRight: Radius.circular(20),
-                ),
-              ),
-              child: ListView(
-                padding: EdgeInsets.zero,
-                children: [
-                  buildMenuButton(Icons.person, 'See Profile', toggleMenu),
-                  buildMenuButton(Icons.add, 'Add a Patient', toggleMenu),
-                  buildMenuButton(Icons.add, 'Add a Doctor', toggleMenu),
-                  buildMenuButton(Icons.remove, 'Remove a Doctor', toggleMenu),
-                  buildMenuButton(Icons.add, 'Add a Consultant', toggleMenu),
-                  buildMenuButton(
-                      Icons.remove, 'Remove a Consultant', toggleMenu),
-                  buildMenuButton(Icons.add, 'Add a Role', toggleMenu),
-                  buildMenuButton(Icons.logout, 'Log Out', toggleMenu),
-                  buildMenuButton(Icons.info, 'About Us', toggleMenu),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            top: 30,
-            left: 16,
-            child: GestureDetector(
-              onTap: toggleMenu,
-              child: Container(
-                height: 65.0,
-                width: 65.0,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: Colors.white,
-                    width: 2.0,
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      spreadRadius: 1,
-                      blurRadius: 6,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: ClipOval(
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      splashColor: Colors.white24,
-                      onTap: toggleMenu,
-                      child: Image.asset(
-                        'lib/images/icon1.png',
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
+          // if (isMenuOpen)
+          //   AnimatedOpacity(
+          //     opacity: isMenuOpen ? 1.0 : 0,
+          //     duration: const Duration(microseconds: 300),
+          //     child: GestureDetector(
+          //       onTap: toggleMenu,
+          //       child: Container(
+          //         color: Colors.black.withOpacity(0.5),
+          //         child: BackdropFilter(
+          //           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          //           child: Container(
+          //             color: Colors.black.withOpacity(0.2),
+          //           ),
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // SlideTransition(
+          //   position: _offsetAnimation,
+          //   child: Container(
+          //     width: 250,
+          //     padding: const EdgeInsets.only(top: 110),
+          //     decoration: const BoxDecoration(
+          //       color: Color.fromARGB(255, 152, 195, 235),
+          //       image: DecorationImage(
+          //         image: AssetImage('lib/images/whatsappBack.jpg'),
+          //         fit: BoxFit.cover,
+          //       ),
+          //       boxShadow: [
+          //         BoxShadow(
+          //           color: Colors.black26,
+          //           blurRadius: 10,
+          //           offset: Offset(0, 5),
+          //         ),
+          //       ],
+          //       borderRadius: BorderRadius.only(
+          //         topRight: Radius.circular(20),
+          //         bottomRight: Radius.circular(20),
+          //       ),
+          //     ),
+          //     child: ListView(
+          //       padding: EdgeInsets.zero,
+          //       children: [
+          //         buildMenuButton(Icons.person, 'See Profile', toggleMenu),
+          //         buildMenuButton(Icons.add, 'Add a Patient', toggleMenu),
+          //         buildMenuButton(Icons.add, 'Add a Doctor', toggleMenu),
+          //         buildMenuButton(Icons.remove, 'Remove a Doctor', toggleMenu),
+          //         buildMenuButton(Icons.add, 'Add a Consultant', toggleMenu),
+          //         buildMenuButton(
+          //             Icons.remove, 'Remove a Consultant', toggleMenu),
+          //         buildMenuButton(Icons.add, 'Add a Role', toggleMenu),
+          //         buildMenuButton(Icons.logout, 'Log Out', toggleMenu),
+          //         buildMenuButton(Icons.info, 'About Us', toggleMenu),
+          //       ],
+          //     ),
+          //   ),
+          // ),
+          // Positioned(
+          //   top: 30,
+          //   left: 16,
+          //   child: GestureDetector(
+          //     onTap: toggleMenu,
+          //     child: Container(
+          //       height: 65.0,
+          //       width: 65.0,
+          //       decoration: BoxDecoration(
+          //         shape: BoxShape.circle,
+          //         border: Border.all(
+          //           color: Colors.white,
+          //           width: 2.0,
+          //         ),
+          //         boxShadow: [
+          //           BoxShadow(
+          //             color: Colors.black.withOpacity(0.2),
+          //             spreadRadius: 1,
+          //             blurRadius: 6,
+          //             offset: const Offset(0, 4),
+          //           ),
+          //         ],
+          //       ),
+          //       child: ClipOval(
+          //         child: Material(
+          //           color: Colors.transparent,
+          //           child: InkWell(
+          //             splashColor: Colors.white24,
+          //             onTap: toggleMenu,
+          //             child: Image.asset(
+          //               'lib/images/icon1.png',
+          //               fit: BoxFit.cover,
+          //             ),
+          //           ),
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
-      ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.7),
-              spreadRadius: 1,
-              blurRadius: 10,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.search),
-              label: 'Search',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.send),
-              label: 'Sent reports',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.call_received),
-              label: 'Receive reports',
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: Colors.blue,
-          onTap: _onItemTapped,
-        ),
       ),
     );
   }

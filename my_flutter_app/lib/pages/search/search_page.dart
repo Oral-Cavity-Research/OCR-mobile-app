@@ -22,32 +22,6 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomAppBar(
-        child: Container(
-          height: 60,
-          decoration: BoxDecoration(
-            color: Colors.blue.shade100,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 5,
-                blurRadius: 7,
-                offset: const Offset(0, 3),
-              ),
-            ],
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              _buildBottomNavigationBarItem(Icons.home, 'Home', 0),
-              _buildBottomNavigationBarItem(Icons.search, 'Search', 1),
-              _buildBottomNavigationBarItem(Icons.send, 'Sent reports', 2),
-              _buildBottomNavigationBarItem(
-                  Icons.receipt, 'Receive reports', 3),
-            ],
-          ),
-        ),
-      ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(

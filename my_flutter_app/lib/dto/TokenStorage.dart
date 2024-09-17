@@ -15,6 +15,7 @@ class TokenStorage {
   String? _designation;
   String? _contactNo;
   String? _id;
+  String? _image;
 
   factory TokenStorage() {
     return _instance;
@@ -24,6 +25,10 @@ class TokenStorage {
 
   void setToken(String token) {
     _token = token;
+  }
+
+  void setUserImage(String image) {
+    _image = image;
   }
 
   void setUser(dynamic user) {
@@ -40,6 +45,7 @@ class TokenStorage {
     _designation = user['designation'];
     _contactNo = user['contact_no'];
     _id = user['_id'];
+
   }
 
   String? getToken() {
@@ -96,5 +102,9 @@ class TokenStorage {
 
   String? getId() {
     return _id;
+  }
+
+  String? getImage() {
+    return _image;
   }
 }

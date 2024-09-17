@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_flutter_app/components/pageNav.dart';
 import 'package:my_flutter_app/pages/aboutUs/about_us.dart';
 import 'package:my_flutter_app/pages/add_methods/add_patient_page.dart';
 import 'package:my_flutter_app/pages/add_methods/add_role_Page.dart'
@@ -7,8 +8,12 @@ import 'package:my_flutter_app/pages/auth/google_sign.dart';
 import 'package:my_flutter_app/pages/home/home_page_1.dart';
 import 'package:my_flutter_app/pages/auth/Signup_page.dart';
 import 'package:my_flutter_app/pages/home/home_page_1.dart';
+import 'package:my_flutter_app/pages/home/recieved_files_page.dart';
+import 'package:my_flutter_app/pages/home/sent_files_page.dart';
 import 'package:my_flutter_app/pages/home/splash_screen.dart';
 import 'package:my_flutter_app/pages/imageUpload/image_upload.dart';
+import 'package:my_flutter_app/pages/profiles/doctor_profile_page.dart';
+import 'package:my_flutter_app/pages/search/search_page.dart';
 
 
 class RouteGenerator {
@@ -37,6 +42,9 @@ class RouteGenerator {
       case '/add_a_role':
         return MaterialPageRoute(
             builder: (_) => const AddRolePage.AddRole(onTap: null));
+      
+      case '/pageNav':
+        return MaterialPageRoute(builder: (_) => const Pagenav());
 
       case '/home':
         return MaterialPageRoute(builder: (_) => const HomePage());
@@ -52,7 +60,18 @@ class RouteGenerator {
 
       case '/image_upload':
         return MaterialPageRoute(builder: (_) => const ImageUploadForm());
+      
+      case '/search' :
+        return MaterialPageRoute(builder: (_) => const SearchPage());
 
+      case '/sent_reports':
+        return MaterialPageRoute(builder: (_) => const SentFiles());
+
+      case '/receive_reports':
+        return MaterialPageRoute(builder: (_) => const RecievFiles());
+
+      case '/doctor_profile':
+        return MaterialPageRoute(builder: (_) => const DoctorProfilePage());
       default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();
@@ -71,4 +90,8 @@ class RouteGenerator {
       );
     });
   }
+}
+
+class DoctorProfile {
+  const DoctorProfile();
 }
