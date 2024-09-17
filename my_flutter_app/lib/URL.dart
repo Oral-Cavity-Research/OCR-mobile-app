@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:my_flutter_app/dto/TokenStorage.dart';
-import 'package:my_flutter_app/dto/UserStorage.dart';
+
 import 'package:my_flutter_app/dto/VerifyResponse.dart';
 import 'package:my_flutter_app/model/hospitalModel.dart';
 
@@ -74,21 +74,62 @@ Future<VerifyResponse> verify(String email) async {
 
   TokenStorage().setToken(token);
   TokenStorage().setUser(user);
-  print(TokenStorage().getToken());
-  print(TokenStorage().getUsername());
-  print(TokenStorage().getEmail());
-  print(TokenStorage().getHospital());
-  print(TokenStorage().getRegNo());
-  print(TokenStorage().getDesignation());
-  print(TokenStorage().getContactNo());
-  print(TokenStorage().getRole());
-  print(TokenStorage().getCreatedAt());
-  print(TokenStorage().getUpdatedAt());
-  print(TokenStorage().getAvailability());
-  print(TokenStorage().getPassword());
-  print(TokenStorage().getId());
-
   return VerifyResponse(response.statusCode, token);
+}
+
+//add a role
+Future<bool> addRole(String roleName, List<int> permissions) async {
+  final url = URL.BASE_URL + "/admin/roles";
+  final uri = Uri.parse(url);
+  final response = await http.post(
+    uri,
+    headers: {
+      'Authorization': 'Bearer ${TokenStorage().getToken()}',
+      'email': TokenStorage().getEmail()!,
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, dynamic>{
+      'role': roleName,
+      'permissions': permissions,
+    }),
+  );
+
+  if (response.statusCode == 200) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+// ignore: non_constant_identifier_names
+Future<Map<int, String>> getOptions(String optionName) async {
+  // Add your code here
+
+  final Map<int, String> optionsMap = {};
+  final url = URL.BASE_URL + "/admin/option/$optionName";
+  final uri = Uri.parse(url);
+
+  final response = await http.get(
+    uri,
+    headers: {
+      'Authorization': 'Bearer ${TokenStorage().getToken()}',
+      'email': TokenStorage().getEmail()!,
+    },
+  );
+
+  if (response.statusCode == 200) {
+    final Map<String, dynamic> responseBody = jsonDecode(response.body);
+
+    print(responseBody['options']);
+    List<Map<String, dynamic>> optionsList =
+        List<Map<String, dynamic>>.from(responseBody['options']);
+    for (var option in optionsList) {
+      int value = option['value'];
+      String label = option['label'];
+      optionsMap[value] = label;
+    }
+  }
+  return optionsMap;
 }
 
 Future<List<String>> user_details(String response) async {
