@@ -1,13 +1,18 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:my_flutter_app/components/menu_button.dart';
+import 'package:my_flutter_app/components/my_dropdown_bar.dart';
 import 'package:my_flutter_app/components/user_notification_1.dart';
 import 'package:my_flutter_app/pages/aboutUs/about_us.dart';
 import 'package:my_flutter_app/pages/add_methods/add_role_page.dart';
 import 'package:my_flutter_app/pages/auth/google_sign.dart';
 import 'package:my_flutter_app/pages/profiles/doctor_profile_page.dart';
+
+import '../imageUpload/ImageUploadScreen.dart';
+import '../patient/patient_upload.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -51,12 +56,19 @@ class _HomePageState extends State<HomePage>
     Navigator.pushNamed(context, '/about_us');
   }
 
+  void imageUpload(){
+    Navigator.pushNamed(context, '/imageUploadScreen');
+  }
   void add_patient() {
     Navigator.pushNamed(context, '/add_patient');
   }
 
   void add_role() {
     Navigator.pushNamed(context, '/add_a_role');
+  }
+
+  void add_consentform() {
+    Navigator.pushNamed(context, '/patient_upload');
   }
 
   void toggleMenu() {
@@ -80,6 +92,14 @@ class _HomePageState extends State<HomePage>
         toggleMenu();
         break;
       // other cases
+      case 'Upload Image':
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const ImageUploadForm()),
+        );
+        toggleMenu();
+        break;
+        
       case 'Add a Doctor':
         Navigator.push(
           context,
@@ -90,6 +110,15 @@ class _HomePageState extends State<HomePage>
         );
         toggleMenu();
         break;
+
+      case 'Upload Patient':
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => PatientConsentForm()),
+        );
+        toggleMenu();
+        break;
+        
       default:
         // handle other menu items
         break;
@@ -112,8 +141,8 @@ class _HomePageState extends State<HomePage>
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Color.fromARGB(255, 77, 196, 243), // Sky blue
-                  Color(0xFF87CEFA), // Light sky blue
+                  Color.fromARGB(255, 95, 174, 213), // Sky blue
+                  Color.fromARGB(255, 124, 185, 223), // Light sky blue
                   Colors.white, // White
                 ],
                 begin: Alignment.topLeft,
@@ -135,22 +164,22 @@ class _HomePageState extends State<HomePage>
                   decoration: const BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        Color.fromARGB(255, 87, 199, 255), // Dodger blue
-                        Color.fromARGB(255, 110, 177, 236), // Royal blue
+                        Color.fromARGB(255, 59, 158, 215), // Dodger blue
+                        Color.fromARGB(255, 122, 188, 245), // Royal blue
                       ],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black26,
+                        color: Color.fromARGB(66, 255, 255, 255),
                         blurRadius: 10,
                         offset: Offset(0, 5),
                       ),
                     ],
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 30),
+                    padding: EdgeInsets.fromLTRB(50.w, 30.h, 0.w, 0.h),
                     child: Row(
                       children: [
                         const Spacer(),
@@ -232,7 +261,7 @@ class _HomePageState extends State<HomePage>
               width: 250,
               padding: const EdgeInsets.only(top: 110),
               decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 152, 195, 235),
+                color: Color.fromARGB(255, 3, 7, 11),
                 image: DecorationImage(
                   image: AssetImage('lib/images/whatsappBack.jpg'),
                   fit: BoxFit.cover,
@@ -264,23 +293,27 @@ class _HomePageState extends State<HomePage>
                   buildMenuButton(Icons.add, 'Add a Role', add_role),
                   buildMenuButton(Icons.logout, 'Log Out', googleSignOut),
                   buildMenuButton(Icons.info, 'About Us', about_us),
+                  buildMenuButton(Icons.add, 'Upload Image',
+                          () => switchOption('Upload Image')),
+                  buildMenuButton(Icons.add, 'Upload Patient',
+                      () => switchOption('Upload Patient'))
                 ],
               ),
             ),
           ),
           Positioned(
-            top: 30,
+            top: 35,
             left: 16,
             child: GestureDetector(
               onTap: toggleMenu,
               child: Container(
-                height: 65.0,
-                width: 65.0,
+                height: 55.0,
+                width: 55.0,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
                     color: Colors.white,
-                    width: 2.0,
+                    width: 1.3,
                   ),
                   boxShadow: [
                     BoxShadow(
@@ -297,7 +330,7 @@ class _HomePageState extends State<HomePage>
                     child: InkWell(
                       splashColor: Colors.white24,
                       onTap: toggleMenu,
-                      child: Image.asset(
+                     child: Image.asset(
                         'lib/images/icon1.png',
                         fit: BoxFit.cover,
                       ),

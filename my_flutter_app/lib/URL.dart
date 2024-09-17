@@ -1,11 +1,13 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:dio/dio.dart' as dio;
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 import 'package:my_flutter_app/dto/TokenStorage.dart';
-
 import 'package:my_flutter_app/dto/VerifyResponse.dart';
-import 'package:my_flutter_app/model/hospitalModel.dart';
 
+import 'dto/RiskFactors.dart';
 class URL {
   static const String BASE_URL = "http://10.0.2.2:8080/api";
 }
@@ -51,8 +53,169 @@ Future<int> signup(String email, String username, String phoneNumber,
   return response.statusCode;
 }
 
-// /api/auth/verify
+// /api/user/upload/images
+Future<int> imageUpload(
+    String teleconEntryId,
+    String imageName,
+    String location,
+    String clinicalDiagnosis,
+    bool lesionsAppear,
+    String predictedCat,
+    File file,
+    ) async {
+  const url = URL.BASE_URL + "/user/upload/images/6426fef2906bd94313ebe93d";
+  final dio.Dio dioClient = dio.Dio(); // Initialize Dio
 
+  // Get the token from the token storage
+  String? token = TokenStorage().getToken();
+  String? email = TokenStorage().getEmail();
+
+  if (token == null || email == null) {
+    throw Exception("No token or email found. Please log in again");
+  }
+
+  try {
+    // Prepare the multipart form data
+    dio.FormData formData = dio.FormData.fromMap({
+      "files": await dio.MultipartFile.fromFile(
+        file.path,
+        filename: imageName, // Use the image name as the file name
+      ),
+      "data": dio.MultipartFile.fromString(
+        jsonEncode({
+          'telecon_entry_id': teleconEntryId,
+          'image_name': imageName,
+          'location': location,
+          'clinical_diagnosis': clinicalDiagnosis,
+          'lesions_appear': lesionsAppear.toString(),
+          'predicted_cat': predictedCat,
+        }),
+        contentType: MediaType.parse('application/json'),
+      ),
+    });
+
+    // Make the request with authorization and email headers
+    dio.Response response = await dioClient.post(
+      url,
+      data: formData,
+      options: dio.Options(
+        headers: {
+          'Authorization': 'Bearer $token',
+          'email': email,
+        },
+      ),
+    );
+
+    // Check if the response status code is successful (200-299)
+    if (response.statusCode != null && response.statusCode! >= 200 && response.statusCode! < 300) {
+      print('Image uploaded successfully');
+    } else {
+      print('Image upload failed. Status code: ${response.statusCode}');
+    }
+
+    return response.statusCode!;
+  } catch (dioError) {
+    // Log more details for the error
+    if (dioError is dio.DioError && dioError.response != null) {
+      print('Error uploading file: ${dioError.message}');
+      print('Response data: ${dioError.response?.data}');
+      print('Response status code: ${dioError.response?.statusCode}');
+    } else {
+      print('Unexpected error: $dioError');
+    }
+    return 500; // Return an error status code if something goes wrong
+  }
+}
+
+// /api/user/upload/patient
+Future<int> patientUpload(
+    String patientId,
+    String clinicianId,
+    String patientName,
+    List<RiskFactors> riskFactors,
+    String dob,
+    String gender,
+    String histoDiagnosis,
+    List<String> medicalHistory,
+    List<String> familyHistory,
+    String systemicDisease,
+    String contactNo,
+    String consentForm,
+    File file,
+    String patientIdFromHeaders
+    ) async {
+  const url = URL.BASE_URL + "/user/upload/patient";
+  final dio.Dio dioClient = dio.Dio(); // Initialize Dio
+
+  // Get the token from the token storage
+  String? token = TokenStorage().getToken();
+  String? email = TokenStorage().getEmail();
+
+  if (token == null || email == null) {
+    throw Exception("No token or email found. Please log in again");
+  }
+
+  try {
+    // Prepare the multipart form data
+    dio.FormData formData = dio.FormData.fromMap({
+      "files": await dio.MultipartFile.fromFile(
+        file.path,
+        filename: "$patientIdFromHeaders.pdf", // Use the patientId as the file name
+      ),
+      "data": dio.MultipartFile.fromString(
+        jsonEncode({
+          'patient_id': patientId,
+          'clinician_id': clinicianId,
+          'patient_name': patientName,
+          'risk_factors': riskFactors.map((e) => e.toJson()).toList(),
+          'DOB': dob,
+          'gender': gender,
+          'histo_diagnosis': histoDiagnosis,
+          'medical_history': medicalHistory,
+          'family_history': familyHistory,
+          'systemic_disease': systemicDisease,
+          'contact_no': contactNo,
+          'consent_form': consentForm,
+        }),
+        contentType: MediaType.parse('application/json'),
+      ),
+      "patient_id": dio.MultipartFile.fromString(patientIdFromHeaders)
+    });
+
+    // Make the request with authorization and email headers
+    dio.Response response = await dioClient.post(
+      url,
+      data: formData,
+      options: dio.Options(
+        headers: {
+          'Authorization': 'Bearer $token',
+          'email': email,
+        },
+      ),
+    );
+
+    // Check if the response status code is successful (200-299)
+    if (response.statusCode != null && response.statusCode! >= 200 && response.statusCode! < 300) {
+      print('Consent Form uploaded successfully');
+    } else {
+      print('Consent Form  upload failed. Status code: ${response.statusCode}');
+    }
+
+    return response.statusCode!;
+  } catch (dioError) {
+    // Log more details for the error
+    if (dioError is dio.DioError && dioError.response != null) {
+      print('Error uploading file: ${dioError.message}');
+      print('Response data: ${dioError.response?.data}');
+      print('Response status code: ${dioError.response?.statusCode}');
+    } else {
+      print('Unexpected error: $dioError');
+    }
+    return 500; // Return an error status code if something goes wrong
+  }
+}
+
+// /api/auth/verify
 Future<VerifyResponse> verify(String email) async {
   const url = URL.BASE_URL + "/auth/verify";
   final uri = Uri.parse(url);
