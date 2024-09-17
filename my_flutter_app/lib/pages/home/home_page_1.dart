@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:my_flutter_app/URL.dart';
 import 'package:my_flutter_app/components/menu_button.dart';
 import 'package:my_flutter_app/components/my_dropdown_bar.dart';
 import 'package:my_flutter_app/components/user_notification_1.dart';
@@ -29,10 +30,11 @@ class _HomePageState extends State<HomePage>
   int _selectedIndex = 0;
 
   GoogleSignIn signIn = GoogleSignIn();
-
+  List<String> patientNames = [];
   @override
   void initState() {
     super.initState();
+
     _controller = AnimationController(
       duration: const Duration(milliseconds: 300),
       vsync: this,
@@ -56,9 +58,12 @@ class _HomePageState extends State<HomePage>
     Navigator.pushNamed(context, '/about_us');
   }
 
+
   void imageUpload(){
     Navigator.pushNamed(context, '/imageUploadScreen');
+
   }
+
   void add_patient() {
     Navigator.pushNamed(context, '/add_patient');
   }
@@ -125,12 +130,6 @@ class _HomePageState extends State<HomePage>
     }
   }
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -158,51 +157,51 @@ class _HomePageState extends State<HomePage>
             },
             child: Column(
               children: [
-                Container(
-                  height: 100,
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Color.fromARGB(255, 59, 158, 215), // Dodger blue
-                        Color.fromARGB(255, 122, 188, 245), // Royal blue
-                      ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color.fromARGB(66, 255, 255, 255),
-                        blurRadius: 10,
-                        offset: Offset(0, 5),
-                      ),
-                    ],
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(50.w, 30.h, 0.w, 0.h),
-                    child: Row(
-                      children: [
-                        const Spacer(),
-                        const Text(
-                          'Home',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const Spacer(),
-                        IconButton(
-                          icon: const Icon(Icons.arrow_forward,
-                              color: Colors.white),
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/search');
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+
+                // Container(
+                //   height: 100,
+                //   padding: const EdgeInsets.symmetric(horizontal: 16),
+                //   decoration: const BoxDecoration(
+                //     gradient: LinearGradient(
+                //       colors: [
+                //         Color.fromARGB(255, 59, 158, 215), // Dodger blue
+                //         Color.fromARGB(255, 122, 188, 245), // Royal blue
+                //       ],
+                //       begin: Alignment.topLeft,
+                //       end: Alignment.bottomRight,
+                //     ),
+                //     boxShadow: [
+                //       BoxShadow(
+                //         color: Color.fromARGB(66, 255, 255, 255),
+                //         blurRadius: 10,
+                //         offset: Offset(0, 5),
+                //       ),
+                //     ],
+                //   ),
+                //   child: Padding(
+                //     padding: EdgeInsets.fromLTRB(50.w, 30.h, 0.w, 0.h),
+                //     child: Row(
+                //       children: [
+                //         const Spacer(),
+                //         const Text(
+                //           'Home',
+                //           style: TextStyle(
+                //             color: Colors.white,
+                //             fontSize: 24,
+                //             fontWeight: FontWeight.bold,
+                //           ),
+                //         ),
+                //         const Spacer(),
+                //         IconButton(
+                //           icon: const Icon(Icons.arrow_forward,
+                //               color: Colors.white),
+                //           onPressed: () {},
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
+
                 Expanded(
                   child: ListView(
                     padding: const EdgeInsets.all(16),
@@ -238,144 +237,106 @@ class _HomePageState extends State<HomePage>
               ],
             ),
           ),
-          if (isMenuOpen)
-            AnimatedOpacity(
-              opacity: isMenuOpen ? 1.0 : 0,
-              duration: Duration(microseconds: 300),
-              child: GestureDetector(
-                onTap: toggleMenu,
-                child: Container(
-                  color: Colors.black.withOpacity(0.5),
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                    child: Container(
-                      color: Colors.black.withOpacity(0.2),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          SlideTransition(
-            position: _offsetAnimation,
-            child: Container(
-              width: 250,
-              padding: const EdgeInsets.only(top: 110),
-              decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 3, 7, 11),
-                image: DecorationImage(
-                  image: AssetImage('lib/images/whatsappBack.jpg'),
-                  fit: BoxFit.cover,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black26,
-                    blurRadius: 10,
-                    offset: Offset(0, 5),
-                  ),
-                ],
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(20),
-                  bottomRight: Radius.circular(20),
-                ),
-              ),
-              child: ListView(
-                padding: EdgeInsets.zero,
-                children: [
-                  buildMenuButton(Icons.person, 'See Profile',
-                      () => switchOption('See Profile')),
-                  buildMenuButton(Icons.add, 'Add a Patient', add_patient),
-                  buildMenuButton(Icons.add, 'Add a Doctor',
-                      () => switchOption('Add a Doctor')),
-                  buildMenuButton(Icons.remove, 'Remove a Doctor', toggleMenu),
-                  buildMenuButton(Icons.add, 'Add a Consultant', toggleMenu),
-                  buildMenuButton(
-                      Icons.remove, 'Remove a Consultant', toggleMenu),
-                  buildMenuButton(Icons.add, 'Add a Role', add_role),
-                  buildMenuButton(Icons.logout, 'Log Out', googleSignOut),
-                  buildMenuButton(Icons.info, 'About Us', about_us),
-                  buildMenuButton(Icons.add, 'Upload Image',
-                          () => switchOption('Upload Image')),
-                  buildMenuButton(Icons.add, 'Upload Patient',
-                      () => switchOption('Upload Patient'))
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            top: 35,
-            left: 16,
-            child: GestureDetector(
-              onTap: toggleMenu,
-              child: Container(
-                height: 55.0,
-                width: 55.0,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: Colors.white,
-                    width: 1.3,
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      spreadRadius: 1,
-                      blurRadius: 6,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: ClipOval(
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      splashColor: Colors.white24,
-                      onTap: toggleMenu,
-                     child: Image.asset(
-                        'lib/images/icon1.png',
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
+          // if (isMenuOpen)
+          //   AnimatedOpacity(
+          //     opacity: isMenuOpen ? 1.0 : 0,
+          //     duration: Duration(microseconds: 300),
+          //     child: GestureDetector(
+          //       onTap: toggleMenu,
+          //       child: Container(
+          //         color: Colors.black.withOpacity(0.5),
+          //         child: BackdropFilter(
+          //           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          //           child: Container(
+          //             color: Colors.black.withOpacity(0.2),
+          //           ),
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // SlideTransition(
+          //   position: _offsetAnimation,
+          //   child: Container(
+          //     width: 250,
+          //     padding: const EdgeInsets.only(top: 110),
+          //     decoration: const BoxDecoration(
+          //       color: Color.fromARGB(255, 3, 7, 11),
+          //       image: DecorationImage(
+          //         image: AssetImage('lib/images/whatsappBack.jpg'),
+          //         fit: BoxFit.cover,
+          //       ),
+          //       boxShadow: [
+          //         BoxShadow(
+          //           color: Colors.black26,
+          //           blurRadius: 10,
+          //           offset: Offset(0, 5),
+          //         ),
+          //       ],
+          //       borderRadius: BorderRadius.only(
+          //         topRight: Radius.circular(20),
+          //         bottomRight: Radius.circular(20),
+          //       ),
+          //     ),
+          //     // child: ListView(
+          //     //   padding: EdgeInsets.zero,
+          //     //   children: [
+          //     //     buildMenuButton(Icons.person, 'See Profile',
+          //     //         () => switchOption('See Profile')),
+          //     //     buildMenuButton(Icons.add, 'Add a Patient', add_patient),
+          //     //     buildMenuButton(Icons.add, 'Add a Doctor', toggleMenu),
+          //     //     buildMenuButton(Icons.remove, 'Remove a Doctor', toggleMenu),
+          //     //     buildMenuButton(Icons.add, 'Add a Consultant', toggleMenu),
+          //     //     buildMenuButton(
+          //     //         Icons.remove, 'Remove a Consultant', toggleMenu),
+          //     //     buildMenuButton(Icons.add, 'Add a Role', add_role),
+          //     //     buildMenuButton(Icons.logout, 'Log Out', googleSignOut),
+          //     //     buildMenuButton(Icons.info, 'About Us', about_us),
+          //     //     buildMenuButton(Icons.add, 'Upload Image', imageUpload)
+          //     //   ],
+          //     // ),
+          //   ),
+          // ),
+          // Positioned(
+          //   top: 35,
+          //   left: 16,
+          //   child: GestureDetector(
+          //     onTap: toggleMenu,
+          //     child: Container(
+          //       height: 55.0,
+          //       width: 55.0,
+          //       decoration: BoxDecoration(
+          //         shape: BoxShape.circle,
+          //         border: Border.all(
+          //           color: Colors.white,
+          //           width: 1.3,
+          //         ),
+          //         boxShadow: [
+          //           BoxShadow(
+          //             color: Colors.black.withOpacity(0.2),
+          //             spreadRadius: 1,
+          //             blurRadius: 6,
+          //             offset: const Offset(0, 4),
+          //           ),
+          //         ],
+          //       ),
+                // child: ClipOval(
+                //   child: Material(
+                //     color: Colors.transparent,
+                //     child: InkWell(
+                //       splashColor: Colors.white24,
+                //       onTap: toggleMenu,
+                //       child: Image.asset(
+                //         'lib/images/icon1.png',
+                //         fit: BoxFit.cover,
+                //       ),
+                //     ),
+                //   ),
+                // ),
+          //     ),
+          //   ),
+          // ),
+
         ],
-      ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.7),
-              spreadRadius: 1,
-              blurRadius: 10,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.search),
-              label: 'Search',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.send),
-              label: 'Sent reports',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.call_received),
-              label: 'Receive reports',
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: Colors.blue,
-          onTap: _onItemTapped,
-        ),
       ),
     );
   }

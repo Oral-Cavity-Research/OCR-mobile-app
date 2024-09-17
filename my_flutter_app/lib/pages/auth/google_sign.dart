@@ -34,7 +34,7 @@ class _GoogleSignINState extends State<GoogleSignIN> {
 
     if (statusCode == 200) {
       print("login successful");
-      Navigator.of(context).pushNamed('/home');
+      Navigator.of(context).pushNamed('/pageNav');
     } else {
       print('User not registered');
       errorMessage("User not registered");
@@ -43,12 +43,13 @@ class _GoogleSignINState extends State<GoogleSignIN> {
 
   void fetchEmail() async {
     var user = await signIn.signIn();
-    print("hwlloqq");
-    print(user);
-    VerifyResponse response = await verify(user!.email);
+
+    VerifyResponse response =
+        await verify(user!.email, user!.photoUrl.toString());
 
     String? token = TokenStorage().getToken();
     // print('Token: $token');
+
     setState(() {
       statusCode = response.statusCode;
     });
@@ -115,7 +116,7 @@ class _GoogleSignINState extends State<GoogleSignIN> {
                 //email textfield
 
                 Padding(
-                  padding:  EdgeInsets.fromLTRB(10.w, 0.h, 10.w, 10.h),
+                  padding: EdgeInsets.fromLTRB(10.w, 0.h, 10.w, 10.h),
                   child: MyButton(
                     onTap: onLogin,
                     // onTap: () async {
@@ -147,12 +148,11 @@ class _GoogleSignINState extends State<GoogleSignIN> {
                       },
                       child: Text("Register Now",
                           style: TextStyle(
-                              color:
-                                  const Color.fromARGB(255, 53, 97, 148), // Solid color
-                                  //Theme.of(context).colorScheme.inversePrimary,
+                              color: const Color.fromARGB(
+                                  255, 53, 97, 148), // Solid color
+                              //Theme.of(context).colorScheme.inversePrimary,
                               fontWeight: FontWeight.bold)),
                     ),
-                    
                   ],
                 ),
                 Row(
@@ -173,15 +173,11 @@ class _GoogleSignINState extends State<GoogleSignIN> {
                         ),
                       ),
                     ),
-                    
-
-                ],)
+                  ],
+                )
 
                 //signin button
               ],
-              
-              
-            
             )));
   }
 }

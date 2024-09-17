@@ -5,7 +5,10 @@ import 'package:dio/dio.dart' as dio;
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:my_flutter_app/dto/TokenStorage.dart';
-import 'package:my_flutter_app/dto/VerifyResponse.dart';
+
+import 'package:my_flutter_app/dto/VerifyResponse.dart';  
+import 'package:my_flutter_app/model/hospitalModel.dart';
+
 
 import 'dto/RiskFactors.dart';
 class URL {
@@ -215,8 +218,9 @@ Future<int> patientUpload(
   }
 }
 
-// /api/auth/verify
-Future<VerifyResponse> verify(String email) async {
+
+Future<VerifyResponse> verify(String email, String photoUrl) async {
+
   const url = URL.BASE_URL + "/auth/verify";
   final uri = Uri.parse(url);
   final response = await http.post(
@@ -237,6 +241,7 @@ Future<VerifyResponse> verify(String email) async {
 
   TokenStorage().setToken(token);
   TokenStorage().setUser(user);
+  TokenStorage().setUserImage(photoUrl);
   return VerifyResponse(response.statusCode, token);
 }
 
@@ -319,3 +324,4 @@ Future<List<String>> user_details(String response) async {
 
   return userDetails;
 }
+

@@ -47,9 +47,10 @@ class DoctorProfilePage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const CircleAvatar(
+                  CircleAvatar(
                     radius: 120,
-                    backgroundImage: AssetImage('lib/images/sampleDoc.jpg'),
+                    backgroundImage: NetworkImage(TokenStorage().getImage() ??
+                        'https://example.com/default_image.png'),
                   ),
                   const SizedBox(height: 20),
                   Table(
