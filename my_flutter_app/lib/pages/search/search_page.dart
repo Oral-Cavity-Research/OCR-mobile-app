@@ -35,21 +35,16 @@ class _SearchPageState extends State<SearchPage> {
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.white, Colors.blue.shade100],
+            colors: [
+              Color.fromARGB(255, 70, 182, 247),
+              Color.fromARGB(255, 224, 235, 250),
+            ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
         ),
         child: Stack(
           children: [
-            Positioned(
-              top: 40,
-              right: 20,
-              child: Image.asset(
-                'lib/images/icon1.png',
-                height: 125,
-              ),
-            ),
             Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -173,7 +168,7 @@ class _SearchPageState extends State<SearchPage> {
                         const SizedBox(height: 20),
                         SingleChildScrollView(
                           child: Container(
-                            height: 400.0, // Adjust the height as needed
+                            height: 500.0, // Adjust the height as needed
                             child: ListView.builder(
                               itemCount: patientsCards.length,
                               itemBuilder: (context, index) {
@@ -188,7 +183,13 @@ class _SearchPageState extends State<SearchPage> {
                               },
                             ),
                           ),
-                        )
+                        ),
+                        Center(
+                          child: Image.asset(
+                            'lib/images/icon1.png',
+                            height: 80,
+                          ),
+                        ),
                       ],
                     ),
                   ),

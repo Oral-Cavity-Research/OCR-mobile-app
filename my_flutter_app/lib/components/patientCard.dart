@@ -11,7 +11,7 @@ Widget patientCard({
       borderRadius: BorderRadius.circular(12),
     ),
     elevation: 4,
-    color: const Color.fromARGB(255, 219, 242, 255),
+    color: Color.fromARGB(255, 235, 246, 252),
     shadowColor: Colors.black26,
     child: Padding(
       padding: const EdgeInsets.all(5),
