@@ -12,6 +12,7 @@ import 'package:my_flutter_app/pages/auth/google_sign.dart';
 import 'package:my_flutter_app/pages/profiles/doctor_profile_page.dart';
 
 import '../imageUpload/ImageUploadScreen.dart';
+import '../patient/patient_upload.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -66,6 +67,10 @@ class _HomePageState extends State<HomePage>
     Navigator.pushNamed(context, '/add_a_role');
   }
 
+  void add_consentform() {
+    Navigator.pushNamed(context, '/patient_upload');
+  }
+
   void toggleMenu() {
     setState(() {
       if (isMenuOpen) {
@@ -102,6 +107,14 @@ class _HomePageState extends State<HomePage>
               builder: (context) => AddRole(
                     onTap: () {},
                   )),
+        );
+        toggleMenu();
+        break;
+
+      case 'Upload Patient':
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => PatientConsentForm()),
         );
         toggleMenu();
         break;
@@ -279,7 +292,9 @@ class _HomePageState extends State<HomePage>
                   buildMenuButton(Icons.logout, 'Log Out', googleSignOut),
                   buildMenuButton(Icons.info, 'About Us', about_us),
                   buildMenuButton(Icons.add, 'Upload Image',
-                          () => switchOption('Upload Image'))
+                          () => switchOption('Upload Image')),
+                  buildMenuButton(Icons.add, 'Upload Patient',
+                      () => switchOption('Upload Patient'))
                 ],
               ),
             ),
