@@ -35,25 +35,22 @@ class _SearchPageState extends State<SearchPage> {
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.white, Colors.blue.shade100],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color.fromARGB(255, 224, 235, 250),
+                Color.fromARGB(255, 152, 195, 235),
+              ]),
         ),
         child: Stack(
           children: [
-            Positioned(
-              top: 40,
-              right: 20,
-              child: Image.asset(
-                'lib/images/icon1.png',
-                height: 125,
-              ),
-            ),
             Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  SizedBox(
+                    height: 30,
+                  ),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 30),
                     child: TextField(
@@ -97,7 +94,7 @@ class _SearchPageState extends State<SearchPage> {
                   const Text(
                     'SEARCH OPTIONS',
                     style: TextStyle(
-                      fontSize: 24,
+                      fontSize: 28,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
@@ -173,7 +170,7 @@ class _SearchPageState extends State<SearchPage> {
                         const SizedBox(height: 20),
                         SingleChildScrollView(
                           child: Container(
-                            height: 400.0, // Adjust the height as needed
+                            height: 500.0, // Adjust the height as needed
                             child: ListView.builder(
                               itemCount: patientsCards.length,
                               itemBuilder: (context, index) {
@@ -188,7 +185,13 @@ class _SearchPageState extends State<SearchPage> {
                               },
                             ),
                           ),
-                        )
+                        ),
+                        Center(
+                          child: Image.asset(
+                            'lib/images/icon1.png',
+                            height: 80,
+                          ),
+                        ),
                       ],
                     ),
                   ),
