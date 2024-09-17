@@ -1,16 +1,16 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:my_flutter_app/dto/PatientModelRequest.dart';
 import 'package:my_flutter_app/pages/patient/patientUploadService.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:signature/signature.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:open_file/open_file.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:signature/signature.dart';
 
 import '../../components/ResponsePopup.dart';
 import '../../dto/RiskFactors.dart';

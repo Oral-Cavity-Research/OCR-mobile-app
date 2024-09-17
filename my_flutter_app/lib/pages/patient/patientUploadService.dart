@@ -1,7 +1,5 @@
 import 'dart:io';
-
 import 'package:my_flutter_app/dto/PatientModelRequest.dart';
-
 import '../../URL.dart';
 
 class patientUploadService {
