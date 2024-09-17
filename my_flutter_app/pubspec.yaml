@@ -49,12 +49,16 @@ dependencies:
   google_sign_in: any
   http: any
   dio: ^5.7.0
+
+  flutter_spinkit: ^5.2.1
+
   pdf: ^3.6.0
   signature: ^5.2.0
   open_file: ^3.2.1
   path_provider: ^2.0.11
   permission_handler: ^11.2.0
   intl: ^0.17.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
