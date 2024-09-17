@@ -1,5 +1,4 @@
 // image_upload_model.dart
-import 'package:my_flutter_app/model/annotationModel.dart';
 
 class ImageUploadModel {
   final String teleconEntryId;

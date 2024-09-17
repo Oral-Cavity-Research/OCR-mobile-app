@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:my_flutter_app/components/menu_button.dart';
 import 'package:my_flutter_app/components/user_notification_1.dart';
-import 'package:my_flutter_app/pages/aboutUs/about_us.dart';
-import 'package:my_flutter_app/pages/auth/google_sign.dart';
 import 'package:my_flutter_app/pages/profiles/doctor_profile_page.dart';
 
 import '../imageUpload/ImageUploadScreen.dart';

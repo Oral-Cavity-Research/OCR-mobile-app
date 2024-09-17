@@ -2,12 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart' as dio;
-import 'package:get/get.dart' as getx;
-import 'package:get/get_connect/http/src/multipart/form_data.dart';
-import 'package:get/get_connect/http/src/multipart/multipart_file.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
-import 'package:my_flutter_app/components/ResponsePopup.dart';
 import 'package:my_flutter_app/dto/TokenStorage.dart';
 import 'package:my_flutter_app/dto/VerifyResponse.dart';
 class URL {
