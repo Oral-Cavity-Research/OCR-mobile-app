@@ -11,7 +11,7 @@ Widget patientCard({
       borderRadius: BorderRadius.circular(12),
     ),
     elevation: 4,
-    color: const Color.fromARGB(255, 219, 242, 255),
+    color: Color.fromARGB(255, 247, 252, 255),
     shadowColor: Colors.black26,
     child: Padding(
       padding: const EdgeInsets.all(5),
@@ -26,6 +26,7 @@ Widget patientCard({
             style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontFamily: 'Rubik',
+              fontSize: 16,
             ),
           ),
           Text(
