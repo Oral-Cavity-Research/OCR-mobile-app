@@ -73,7 +73,7 @@ class _PatientConsentFormState extends State<PatientConsentForm> {
                     text: "I, ",
                     style: pw.TextStyle(fontSize: 14),
                     children: [
-                      pw.TextSpan(text: patientNameController.text, style: pw.TextStyle(fontWeight: pw.FontWeight.bold, color: PdfColors.blue)),
+                      pw.TextSpan(text: patientNameController.text, style: pw.TextStyle(fontWeight: pw.FontWeight.bold, color: PdfColors.blue900)),
                       pw.TextSpan(text: " [${patientIdController.text}], hereby consent to the collection of my personal health information by OCR Tool for the purpose of data collection and analysis."),
                     ],
                   ),
