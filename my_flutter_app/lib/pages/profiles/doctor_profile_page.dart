@@ -1,4 +1,3 @@
-// lib/pages/profiles/doctorProfilePage.dart
 import 'package:flutter/material.dart';
 import 'package:my_flutter_app/dto/TokenStorage.dart';
 
@@ -11,7 +10,11 @@ class DoctorProfilePage extends StatelessWidget {
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.white, Colors.blue.shade100],
+            colors: [
+              Colors.white, // White
+              Color.fromARGB(255, 95, 174, 213), // Sky blue
+              Color.fromARGB(255, 124, 185, 223), // Light sky blue
+            ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -35,12 +38,13 @@ class DoctorProfilePage extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: Image.asset(
-                  'lib/images/icon1.png',
-                  height: 120,
-                ),
+                // child: Image.asset(
+                //   'lib/images/icon1.png',
+                //   height: 120,
+                // ),
               ),
             ),
+            //const SizedBox(height: 20),
             Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -48,265 +52,136 @@ class DoctorProfilePage extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   CircleAvatar(
-                    radius: 120,
+                    radius: 100,
                     backgroundImage: NetworkImage(TokenStorage().getImage() ??
                         'https://example.com/default_image.png'),
                   ),
                   const SizedBox(height: 20),
-                  Table(
-                    defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                    children: [
-                      TableRow(
-                        children: [
-                          const TableCell(
-                            verticalAlignment:
-                                TableCellVerticalAlignment.middle,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Name:',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                    fontFamily: "Rubik",
-                                  ),
-                                ),
-                              ],
+                  Expanded(
+                    // Wrapping ListView with Expanded
+                    child: ListView(
+                      children: [
+                        ListTile(
+                          title: const Text(
+                            'Name:',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontFamily: "Rubik",
                             ),
                           ),
-                          TableCell(
-                            verticalAlignment: TableCellVerticalAlignment.fill,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  TokenStorage().getUsername() ?? '',
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ],
+                          leading: Icon(Icons.person),
+                          subtitle: Text(
+                            TokenStorage().getUsername() ?? '',
+                            style: const TextStyle(
+                              fontSize: 23,
+                              fontWeight: FontWeight.w400,
                             ),
                           ),
-                        ],
-                      ),
-                      TableRow(
-                        children: [
-                          const TableCell(
-                            verticalAlignment: TableCellVerticalAlignment.fill,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Email:',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                    fontFamily: "Rubik",
-                                  ),
-                                ),
-                              ],
+                        ),
+                        ListTile(
+                          title: const Text(
+                            'Email:',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontFamily: "Rubik",
                             ),
                           ),
-                          TableCell(
-                            verticalAlignment:
-                                TableCellVerticalAlignment.middle,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  TokenStorage().getEmail() ?? '',
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ],
+                          leading: Icon(Icons.email),
+                          subtitle: Text(
+                            TokenStorage().getEmail() ?? '',
+                            style: const TextStyle(
+                              fontSize: 23,
+                              fontWeight: FontWeight.w400,
                             ),
                           ),
-                        ],
-                      ),
-                      TableRow(
-                        children: [
-                          const TableCell(
-                            verticalAlignment:
-                                TableCellVerticalAlignment.middle,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Hospital:',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                    fontFamily: "Rubik",
-                                  ),
-                                ),
-                              ],
+                        ),
+                        ListTile(
+                          title: const Text(
+                            'Hospital:',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontFamily: "Rubik",
                             ),
                           ),
-                          TableCell(
-                            verticalAlignment:
-                                TableCellVerticalAlignment.middle,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  TokenStorage().getHospital() ?? '',
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ],
+                          leading: Icon(Icons.local_hospital),
+                          subtitle: Text(
+                            TokenStorage().getHospital() ?? '',
+                            style: const TextStyle(
+                              fontSize: 23,
+                              fontWeight: FontWeight.w400,
                             ),
                           ),
-                        ],
-                      ),
-                      TableRow(
-                        children: [
-                          const TableCell(
-                            verticalAlignment:
-                                TableCellVerticalAlignment.middle,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Role:',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                    fontFamily: "Rubik",
-                                  ),
-                                ),
-                              ],
+                        ),
+                        ListTile(
+                          title: const Text(
+                            'Role:',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontFamily: "Rubik",
                             ),
                           ),
-                          TableCell(
-                            verticalAlignment:
-                                TableCellVerticalAlignment.middle,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  TokenStorage().getRole() ?? '',
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ],
+                          leading: Icon(Icons.person_2_outlined),
+                          subtitle: Text(
+                            TokenStorage().getRole() ?? '',
+                            style: const TextStyle(
+                              fontSize: 23,
+                              fontWeight: FontWeight.w400,
                             ),
                           ),
-                        ],
-                      ),
-                      TableRow(
-                        children: [
-                          const TableCell(
-                            verticalAlignment:
-                                TableCellVerticalAlignment.middle,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Registration Number:',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                    fontFamily: "Rubik",
-                                  ),
-                                ),
-                              ],
+                        ),
+                        ListTile(
+                          title: const Text(
+                            'Registration Number:',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontFamily: "Rubik",
                             ),
                           ),
-                          TableCell(
-                            verticalAlignment:
-                                TableCellVerticalAlignment.middle,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  TokenStorage().getRegNo() ?? '',
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ],
+                          leading: Icon(Icons.confirmation_number),
+                          subtitle: Text(
+                            TokenStorage().getRegNo() ?? '',
+                            style: const TextStyle(
+                              fontSize: 23,
+                              fontWeight: FontWeight.w400,
                             ),
                           ),
-                        ],
-                      ),
-                      TableRow(
-                        children: [
-                          const TableCell(
-                            verticalAlignment:
-                                TableCellVerticalAlignment.middle,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Designation:',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                    fontFamily: "Rubik",
-                                  ),
-                                ),
-                              ],
+                        ),
+                        ListTile(
+                          title: const Text(
+                            'Designation:',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontFamily: "Rubik",
                             ),
                           ),
-                          TableCell(
-                            verticalAlignment:
-                                TableCellVerticalAlignment.middle,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  TokenStorage().getDesignation() ?? '',
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ],
+                          leading: Icon(Icons.design_services),
+                          subtitle: Text(
+                            TokenStorage().getDesignation() ?? '',
+                            style: const TextStyle(
+                              fontSize: 23,
+                              fontWeight: FontWeight.w400,
                             ),
                           ),
-                        ],
-                      ),
-                      TableRow(
-                        children: [
-                          const TableCell(
-                            verticalAlignment:
-                                TableCellVerticalAlignment.middle,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Contact No:',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                    fontFamily: "Rubik",
-                                  ),
-                                ),
-                              ],
+                        ),
+                        ListTile(
+                          title: const Text(
+                            'Contact No:',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontFamily: "Rubik",
                             ),
                           ),
-                          TableCell(
-                            verticalAlignment:
-                                TableCellVerticalAlignment.middle,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  TokenStorage().getContactNo() ?? '',
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ],
+                          leading: Icon(Icons.phone),
+                          subtitle: Text(
+                            TokenStorage().getContactNo() ?? '',
+                            style: const TextStyle(
+                              fontSize: 23,
+                              fontWeight: FontWeight.w400,
                             ),
                           ),
-                        ],
-                      ),
-                    ],
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
