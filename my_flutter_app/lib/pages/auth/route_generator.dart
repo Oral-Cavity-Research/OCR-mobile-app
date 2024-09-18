@@ -11,12 +11,12 @@ import 'package:my_flutter_app/pages/home/home_page_1.dart';
 import 'package:my_flutter_app/pages/home/recieved_files_page.dart';
 import 'package:my_flutter_app/pages/home/sent_files_page.dart';
 import 'package:my_flutter_app/pages/home/splash_screen.dart';
-import 'package:my_flutter_app/pages/imageUpload/image_upload.dart';
+import 'package:my_flutter_app/pages/imageUpload/ImageUploadScreen.dart';
+import 'package:my_flutter_app/pages/patient/patient_upload.dart';
 
 import 'package:my_flutter_app/pages/profiles/doctor_profile_page.dart';
 import 'package:my_flutter_app/pages/search/search_page.dart';
 import 'package:my_flutter_app/pages/search/search_page2.dart';
-
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -43,7 +43,7 @@ class RouteGenerator {
       case '/add_a_role':
         return MaterialPageRoute(
             builder: (_) => const AddRolePage.AddRole(onTap: null));
-      
+
       case '/pageNav':
         return MaterialPageRoute(builder: (_) => const Pagenav());
 
@@ -54,12 +54,10 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const AboutUsPage());
 
       case '/add_patient':
-        return MaterialPageRoute(
-            builder: (_) => const AddPatientpage(onTap: null));
+        return MaterialPageRoute(builder: (_) => PatientConsentForm());
 
       case '/upload_image':
         return MaterialPageRoute(builder: (_) => const ImageUploadForm());
-
 
       case "/search":
         print("search");
@@ -67,13 +65,12 @@ class RouteGenerator {
 
       case '/image_upload':
         return MaterialPageRoute(builder: (_) => const ImageUploadForm());
-      
-      case '/search' :
+
+      case '/search':
         return MaterialPageRoute(builder: (_) => const SearchPage());
 
       case '/sent_reports':
         return MaterialPageRoute(builder: (_) => const SentFiles());
-
 
       case '/receive_reports':
         return MaterialPageRoute(builder: (_) => const RecievFiles());

@@ -52,8 +52,8 @@ class _RecievFilesState extends State<RecievFiles>
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Color.fromARGB(255, 77, 196, 243), // Sky blue
-                  Color(0xFF87CEFA), // Light sky blue
+                  Color.fromARGB(255, 95, 174, 213), // Sky blue
+                  Color.fromARGB(255, 124, 185, 223), // Light sky blue
                   Colors.white, // White
                 ],
                 begin: Alignment.topLeft,

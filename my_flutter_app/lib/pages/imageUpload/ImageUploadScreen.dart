@@ -18,10 +18,12 @@ class _ImageUploadFormState extends State<ImageUploadForm> {
   File? _image;
   final picker = ImagePicker();
 
-  final TextEditingController teleconEntryIdController = TextEditingController();
+  final TextEditingController teleconEntryIdController =
+      TextEditingController();
   final TextEditingController imageNameController = TextEditingController();
   final TextEditingController locationController = TextEditingController();
-  final TextEditingController clinicalDiagnosisController = TextEditingController();
+  final TextEditingController clinicalDiagnosisController =
+      TextEditingController();
   final TextEditingController annotationsController = TextEditingController();
   final TextEditingController predictedCatController = TextEditingController();
 
@@ -54,7 +56,8 @@ class _ImageUploadFormState extends State<ImageUploadForm> {
         print("File does not exist!");
       }
 
-      final responseCode = await ImageUploadService().uploadImage(imageData, _image!);
+      final responseCode =
+          await ImageUploadService().uploadImage(imageData, _image!);
 
       if (responseCode == 200) {
         print('Image uploaded successfully');
@@ -62,12 +65,14 @@ class _ImageUploadFormState extends State<ImageUploadForm> {
         resetForm();
       } else {
         print('Image upload failed. Status code: $responseCode');
-        responsePopup(context, "Failure", "Error uploading file: $responseCode");
+        responsePopup(
+            context, "Failure", "Error uploading file: $responseCode");
         resetForm();
       }
     } else {
       print('Form validation failed or image not selected');
-      responsePopup(context, "Failure", "Form validation failed or image not selected");
+      responsePopup(
+          context, "Failure", "Form validation failed or image not selected");
       resetForm();
     }
   }
@@ -93,20 +98,31 @@ class _ImageUploadFormState extends State<ImageUploadForm> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
         title: const Text(
-          'Telecon Entry Form',
+          'Image Upload Form',
           style: TextStyle(
             fontFamily: 'Rubik',
             color: Colors.white,
           ),
         ),
         backgroundColor: Colors.blue[900],
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color.fromARGB(255, 59, 158, 215), // Dodger blue
+                Color.fromARGB(255, 122, 188, 245), // Royal blue
+              ],
+            ),
+          ),
+        ),
       ),
       body: Container(
         decoration: const BoxDecoration(
@@ -114,9 +130,9 @@ class _ImageUploadFormState extends State<ImageUploadForm> {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Color.fromARGB(255, 101, 174, 244),
-              Color.fromARGB(255, 148, 192, 233),
-              Color.fromARGB(255, 206, 219, 239),
+              Color.fromARGB(255, 95, 174, 213), // Sky blue
+              Color.fromARGB(255, 124, 185, 223), // Light sky blue
+              Colors.white, // White
             ],
           ),
         ),
@@ -138,11 +154,11 @@ class _ImageUploadFormState extends State<ImageUploadForm> {
                   decoration: const InputDecoration(
                     labelText: 'Telecon Entry ID',
                     labelStyle: TextStyle(color: Color(0xFF002366)),
-
                   ),
-                  style: const TextStyle(fontFamily: 'Rubik', color: Color(0xFF002366)),
+                  style: const TextStyle(
+                      fontFamily: 'Rubik', color: Color(0xFF002366)),
                   validator: (value) =>
-                  value!.isEmpty ? 'This field is required' : null,
+                      value!.isEmpty ? 'This field is required' : null,
                 ),
                 TextFormField(
                   controller: imageNameController,
@@ -150,9 +166,10 @@ class _ImageUploadFormState extends State<ImageUploadForm> {
                     labelText: 'Image Name',
                     labelStyle: TextStyle(color: Color(0xFF002366)),
                   ),
-                  style: const TextStyle(fontFamily: 'Rubik', color: Color(0xFF002366)),
+                  style: const TextStyle(
+                      fontFamily: 'Rubik', color: Color(0xFF002366)),
                   validator: (value) =>
-                  value!.isEmpty ? 'This field is required' : null,
+                      value!.isEmpty ? 'This field is required' : null,
                 ),
                 TextFormField(
                   controller: locationController,
@@ -160,9 +177,10 @@ class _ImageUploadFormState extends State<ImageUploadForm> {
                     labelText: 'Location',
                     labelStyle: TextStyle(color: Color(0xFF002366)),
                   ),
-                  style: const TextStyle(fontFamily: 'Rubik', color: Color(0xFF002366)),
+                  style: const TextStyle(
+                      fontFamily: 'Rubik', color: Color(0xFF002366)),
                   validator: (value) =>
-                  value!.isEmpty ? 'This field is required' : null,
+                      value!.isEmpty ? 'This field is required' : null,
                 ),
                 TextFormField(
                   controller: clinicalDiagnosisController,
@@ -170,43 +188,46 @@ class _ImageUploadFormState extends State<ImageUploadForm> {
                     labelText: 'Clinical Diagnosis',
                     labelStyle: TextStyle(color: Color(0xFF002366)),
                   ),
-                  style: const TextStyle(fontFamily: 'Rubik', color: Color(0xFF002366)),
+                  style: const TextStyle(
+                      fontFamily: 'Rubik', color: Color(0xFF002366)),
                   validator: (value) =>
-                  value!.isEmpty ? 'This field is required' : null,
+                      value!.isEmpty ? 'This field is required' : null,
                 ),
                 const SizedBox(height: 10),
                 DropdownButtonFormField<bool>(
-                  value: lesionsAppearController,
-                  items: [true, false].map((bool value) {
-                    return DropdownMenuItem<bool>(
-                      value: value,
-                      child: Text(value ? 'True' : 'False'),
-                    );
-                  }).toList(),
-                  onChanged: (bool? newValue) {
-                    setState(() {
-                      lesionsAppearController = newValue;
-                    });
-                  },
-                  decoration: const InputDecoration(labelText: 'Lesions Appear'),
-                  style: const TextStyle(fontFamily: 'Rubik', color: Color(0xFF002366))
-                ),
+                    value: lesionsAppearController,
+                    items: [true, false].map((bool value) {
+                      return DropdownMenuItem<bool>(
+                        value: value,
+                        child: Text(value ? 'True' : 'False'),
+                      );
+                    }).toList(),
+                    onChanged: (bool? newValue) {
+                      setState(() {
+                        lesionsAppearController = newValue;
+                      });
+                    },
+                    decoration:
+                        const InputDecoration(labelText: 'Lesions Appear'),
+                    style: const TextStyle(
+                        fontFamily: 'Rubik', color: Color(0xFF002366))),
                 TextFormField(
                   controller: predictedCatController,
                   decoration: const InputDecoration(
                     labelText: 'Predicted Category',
                     labelStyle: TextStyle(color: Color(0xFF002366)),
                   ),
-                  style: const TextStyle(fontFamily: 'Rubik', color: Color(0xFF002366)),
+                  style: const TextStyle(
+                      fontFamily: 'Rubik', color: Color(0xFF002366)),
                   validator: (value) =>
-                  value!.isEmpty ? 'This field is required' : null,
+                      value!.isEmpty ? 'This field is required' : null,
                 ),
                 const SizedBox(height: 20.0),
                 _image == null
                     ? const Text(
-                  'No image selected.',
-                  style: TextStyle(color: Color(0xFF002366)),
-                )
+                        'No image selected.',
+                        style: TextStyle(color: Color(0xFF002366)),
+                      )
                     : Image.file(_image!),
                 TextButton(
                   onPressed: _pickImage,

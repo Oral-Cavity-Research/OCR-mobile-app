@@ -36,8 +36,9 @@ class _SearchPageState extends State<SearchPage> {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color.fromARGB(255, 70, 182, 247),
-              Color.fromARGB(255, 224, 235, 250),
+              Color.fromARGB(255, 171, 227, 255), // Sky blue
+              Color.fromARGB(255, 91, 164, 209), // Light sky blue
+              Colors.white, // White
             ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
