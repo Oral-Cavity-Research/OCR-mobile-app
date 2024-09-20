@@ -31,6 +31,24 @@ class TokenStorage {
     _image = image;
   }
 
+  void clearUserData() {
+    _token = null;
+    _username = null;
+    _email = null;
+    _hospital = null;
+    _password = null;
+    _availability = null;
+    _role = null;
+    _createdAt = null;
+    _updatedAt = null;
+    _available = null;
+    _regNo = null;
+    _designation = null;
+    _contactNo = null;
+    _id = null;
+    _image = null;
+  }
+
   void setUser(dynamic user) {
     _username = user['username'];
     _email = user['email'];
@@ -45,7 +63,10 @@ class TokenStorage {
     _designation = user['designation'];
     _contactNo = user['contact_no'];
     _id = user['_id'];
+  }
 
+  void clearToken() {
+    _token = null;
   }
 
   String? getToken() {

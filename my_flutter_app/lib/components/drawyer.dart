@@ -30,6 +30,7 @@ class side_bar extends StatelessWidget {
 
   void googleSignOut(BuildContext context) async {
     try {
+      TokenStorage().clearUserData();
       await signIn.signOut();
       Navigator.pushNamed(context, '/login');
     } catch (error) {
