@@ -6,11 +6,11 @@ import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:my_flutter_app/dto/TokenStorage.dart';
 
-import 'package:my_flutter_app/dto/VerifyResponse.dart';  
+import 'package:my_flutter_app/dto/VerifyResponse.dart';
 import 'package:my_flutter_app/model/hospitalModel.dart';
 
-
 import 'dto/RiskFactors.dart';
+
 class URL {
   static const String BASE_URL = "http://10.0.2.2:8080/api";
 }
@@ -58,14 +58,14 @@ Future<int> signup(String email, String username, String phoneNumber,
 
 // /api/user/upload/images
 Future<int> imageUpload(
-    String teleconEntryId,
-    String imageName,
-    String location,
-    String clinicalDiagnosis,
-    bool lesionsAppear,
-    String predictedCat,
-    File file,
-    ) async {
+  String teleconEntryId,
+  String imageName,
+  String location,
+  String clinicalDiagnosis,
+  bool lesionsAppear,
+  String predictedCat,
+  File file,
+) async {
   const url = URL.BASE_URL + "/user/upload/images/6426fef2906bd94313ebe93d";
   final dio.Dio dioClient = dio.Dio(); // Initialize Dio
 
@@ -110,7 +110,9 @@ Future<int> imageUpload(
     );
 
     // Check if the response status code is successful (200-299)
-    if (response.statusCode != null && response.statusCode! >= 200 && response.statusCode! < 300) {
+    if (response.statusCode != null &&
+        response.statusCode! >= 200 &&
+        response.statusCode! < 300) {
       print('Image uploaded successfully');
     } else {
       print('Image upload failed. Status code: ${response.statusCode}');
@@ -145,8 +147,7 @@ Future<int> patientUpload(
     String contactNo,
     String consentForm,
     File file,
-    String patientIdFromHeaders
-    ) async {
+    String patientIdFromHeaders) async {
   const url = URL.BASE_URL + "/user/upload/patient";
   final dio.Dio dioClient = dio.Dio(); // Initialize Dio
 
@@ -163,7 +164,8 @@ Future<int> patientUpload(
     dio.FormData formData = dio.FormData.fromMap({
       "files": await dio.MultipartFile.fromFile(
         file.path,
-        filename: "$patientIdFromHeaders.pdf", // Use the patientId as the file name
+        filename:
+            "$patientIdFromHeaders.pdf", // Use the patientId as the file name
       ),
       "data": dio.MultipartFile.fromString(
         jsonEncode({
@@ -198,7 +200,9 @@ Future<int> patientUpload(
     );
 
     // Check if the response status code is successful (200-299)
-    if (response.statusCode != null && response.statusCode! >= 200 && response.statusCode! < 300) {
+    if (response.statusCode != null &&
+        response.statusCode! >= 200 &&
+        response.statusCode! < 300) {
       print('Consent Form uploaded successfully');
     } else {
       print('Consent Form  upload failed. Status code: ${response.statusCode}');
@@ -218,9 +222,7 @@ Future<int> patientUpload(
   }
 }
 
-
 Future<VerifyResponse> verify(String email, String photoUrl) async {
-
   const url = URL.BASE_URL + "/auth/verify";
   final uri = Uri.parse(url);
   final response = await http.post(
@@ -324,4 +326,3 @@ Future<List<String>> user_details(String response) async {
 
   return userDetails;
 }
-

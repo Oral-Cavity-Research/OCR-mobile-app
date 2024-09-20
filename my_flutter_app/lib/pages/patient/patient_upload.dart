@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:my_flutter_app/dto/PatientModelRequest.dart';
+import 'package:my_flutter_app/dto/TokenStorage.dart';
 import 'package:my_flutter_app/pages/patient/patientUploadService.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
@@ -173,7 +174,7 @@ class _PatientConsentFormState extends State<PatientConsentForm> {
 
       PatientModelRequest patientData = PatientModelRequest(
         patientId: patientIdController.text,
-        clinicianId: clinicianIdController.text,
+        clinicianId: TokenStorage().getId()!,
         patientName: patientNameController.text,
         riskFactors: riskFactorsController.isNotEmpty
             ? ParseRiskFactors(riskFactorsController)
@@ -270,13 +271,7 @@ class _PatientConsentFormState extends State<PatientConsentForm> {
                   validator: (value) =>
                       value!.isEmpty ? "Patient ID is required" : null,
                 ),
-                // Clinician ID
-                TextFormField(
-                  controller: clinicianIdController,
-                  decoration: InputDecoration(labelText: "Clinician ID"),
-                  validator: (value) =>
-                      value!.isEmpty ? "Clinician ID is required" : null,
-                ),
+                // Clinician I
                 // Patient Name
                 TextFormField(
                   controller: patientNameController,

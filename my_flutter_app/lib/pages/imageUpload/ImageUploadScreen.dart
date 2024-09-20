@@ -42,7 +42,7 @@ class _ImageUploadFormState extends State<ImageUploadForm> {
   Future<void> _submitForm(BuildContext context) async {
     if (_formKey.currentState!.validate() && _image != null) {
       ImageUploadModel imageData = ImageUploadModel(
-        teleconEntryId: teleconEntryIdController.text,
+        teleconEntryId: "6426fef2906bd94313ebe93d",
         imageName: imageNameController.text,
         location: locationController.text,
         clinicalDiagnosis: clinicalDiagnosisController.text,
@@ -149,17 +149,6 @@ class _ImageUploadFormState extends State<ImageUploadForm> {
                   ),
                 ),
                 const SizedBox(height: 20.0),
-                TextFormField(
-                  controller: teleconEntryIdController,
-                  decoration: const InputDecoration(
-                    labelText: 'Telecon Entry ID',
-                    labelStyle: TextStyle(color: Color(0xFF002366)),
-                  ),
-                  style: const TextStyle(
-                      fontFamily: 'Rubik', color: Color(0xFF002366)),
-                  validator: (value) =>
-                      value!.isEmpty ? 'This field is required' : null,
-                ),
                 TextFormField(
                   controller: imageNameController,
                   decoration: const InputDecoration(
