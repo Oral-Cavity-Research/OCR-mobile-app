@@ -116,7 +116,7 @@ class _GoogleSignINState extends State<GoogleSignIN> {
                 //email textfield
 
                 Padding(
-                  padding: EdgeInsets.fromLTRB(10.w, 0.h, 10.w, 10.h),
+                  padding: EdgeInsets.fromLTRB(23.w, 0.h, 10.w, 10.h),
                   child: MyButton(
                     onTap: onLogin,
                     // onTap: () async {

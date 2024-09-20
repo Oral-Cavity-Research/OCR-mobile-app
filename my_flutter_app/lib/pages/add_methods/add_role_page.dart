@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:my_flutter_app/URL.dart';
 import 'package:my_flutter_app/components/MultipleChoiceSelector.dart';
@@ -112,7 +113,7 @@ class AddRolePageState extends State<AddRole> {
                           onTap: () {
                             // Handle button tap
                             print('Discard button tapped!');
-                            Navigator.pushNamed(context, '/home');
+                            Navigator.pushNamed(context, '/pageNav');
                           },
                           text: 'Discard',
                           backgroundColor: const Color.fromARGB(
@@ -122,7 +123,7 @@ class AddRolePageState extends State<AddRole> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(55, 15, 30, 15),
+                        padding: EdgeInsets.fromLTRB(30.w, 15.h, 0.w, 15.h),
                         child: MyButton2(
                           onTap: () {
                             // Handle button tap
