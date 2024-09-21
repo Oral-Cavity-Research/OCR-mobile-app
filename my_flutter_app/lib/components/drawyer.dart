@@ -26,6 +26,10 @@ class side_bar extends StatelessWidget {
     Navigator.pushNamed(context, '/add_a_role');
   }
 
+  void reportUpload(BuildContext context) {
+    Navigator.pushNamed(context, '/report_upload');
+  }
+
   GoogleSignIn signIn = GoogleSignIn();
 
   void googleSignOut(BuildContext context) async {
@@ -91,6 +95,8 @@ class side_bar extends StatelessWidget {
             buildMenuButton(Icons.info, 'About Us', () => about_us(context)),
             buildMenuButton(
                 Icons.logout, 'Log Out', () => googleSignOut(context)),
+            buildMenuButton(
+                Icons.add, 'Upload Report', () => reportUpload(context)),
           ],
         ),
       ),
