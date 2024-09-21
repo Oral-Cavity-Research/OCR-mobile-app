@@ -24,13 +24,14 @@ class _SigninPageState extends State<SigninPage> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController registrationController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
+  final TextEditingController designationController = TextEditingController();
 
   String? selectedHospital;
 
   late int statusCodeNew;
 
   bool validateInputs(String username, String phoneNumber, String hospital,
-      String registration) {
+      String registration, String designation) {
     if (username.isEmpty) {
       errorMessage("Enter a valid username");
       return false;
@@ -61,9 +62,10 @@ class _SigninPageState extends State<SigninPage> {
     String phoneNumber = phoneController.text;
     String hospital = selectedHospital ?? "";
     String registration = registrationController.text;
+    String designation = designationController.text;
 
-    if (validateInputs(username, phoneNumber, hospital, registration)) {
-      fetchStatusCode(username, phoneNumber, hospital, registration);
+    if (validateInputs(username, phoneNumber, hospital, registration, designation)) {
+      fetchStatusCode(username, phoneNumber, hospital, registration, designation);
       if (statusCodeNew == 200) {
         print("Sign up successful");
         NotificationMessage(
@@ -84,9 +86,9 @@ class _SigninPageState extends State<SigninPage> {
   }
 
   // Function to fetch hospital list and update state
-  void fetchStatusCode(username, phoneNumber, hospital, registration) async {
+  void fetchStatusCode(username, phoneNumber, hospital, registration, designation) async {
     int status_code = await signup(
-        widget.email, username, phoneNumber, hospital, registration);
+        widget.email, username, phoneNumber, hospital, registration, designation);
     setState(() {
       statusCodeNew = status_code;
     });
@@ -98,7 +100,6 @@ class _SigninPageState extends State<SigninPage> {
   void initState() {
     super.initState();
     fetchHospitalList(); // Fetch hospital list during initialization
-    
   }
 
   // Function to fetch hospital list and update state
@@ -200,6 +201,10 @@ class _SigninPageState extends State<SigninPage> {
                         keyboardType: TextInputType.number,
                         controller: phoneController,
                         hintText: "Phone Number",
+                        obscureText: false),
+                    MyInput(
+                        controller: designationController,
+                        hintText: "Designation",
                         obscureText: false),
                     //hospital dropdown
                     DropdownButton<String>(
