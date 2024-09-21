@@ -7,8 +7,36 @@ class DoctorProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            // Navigate back to the previous screen by popping the current route
+            Navigator.pushNamed(context, '/pageNav');
+          },
+        ),
+        title: Text(
+          "${TokenStorage().getRole() ?? ''}'s Profile",
+          style: const TextStyle(
+            color: Colors.black,
+            fontFamily: 'Rubik',
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.edit),
+            onPressed: () {
+              // Navigate to edit profile page
+              Navigator.pushNamed(context, '/edit-profile');
+            },
+          ),
+        ],
+      ),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
               Colors.white, // White
@@ -52,11 +80,11 @@ class DoctorProfilePage extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   CircleAvatar(
-                    radius: 100,
+                    radius: 90,
                     backgroundImage: NetworkImage(TokenStorage().getImage() ??
                         'https://example.com/default_image.png'),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 5),
                   Expanded(
                     // Wrapping ListView with Expanded
                     child: ListView(
@@ -174,6 +202,25 @@ class DoctorProfilePage extends StatelessWidget {
                           leading: Icon(Icons.phone),
                           subtitle: Text(
                             TokenStorage().getContactNo() ?? '',
+                            style: const TextStyle(
+                              fontSize: 23,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                        ListTile(
+                          title: Text(
+                            'Availability:',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontFamily: "Rubik",
+                            ),
+                          ),
+                          leading: Icon(Icons.watch_later),
+                          subtitle: Text(
+                            TokenStorage().getAvailability() == true
+                                ? 'Available'
+                                : 'Not Available',
                             style: const TextStyle(
                               fontSize: 23,
                               fontWeight: FontWeight.w400,

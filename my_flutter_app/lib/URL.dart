@@ -13,6 +13,8 @@ import 'dto/RiskFactors.dart';
 
 class URL {
   static const String BASE_URL = "http://10.0.2.2:8080/api";
+
+
 }
 
 // /user/self/hospitals
@@ -29,6 +31,7 @@ Future<List<String>> hospitallist() async {
     String name = hospital['name'] ?? 'Unknown Hospital';
     hospitalsNames.add(name);
   }
+  hospitalsNames.add('Other');
 
   return hospitalsNames;
 }
@@ -49,7 +52,7 @@ Future<int> signup(String email, String username, String phoneNumber,
       'contact_no': phoneNumber,
       'hospital': hospital,
       'reg_no': registration,
-      'designation': 'Dr.',
+      'designation': '',
     }),
   );
 

@@ -31,10 +31,11 @@ class _HomePageState extends State<HomePage>
 
   GoogleSignIn signIn = GoogleSignIn();
   List<String> patientNames = [];
+  
+
   @override
   void initState() {
     super.initState();
-
     _controller = AnimationController(
       duration: const Duration(milliseconds: 300),
       vsync: this,
@@ -58,10 +59,8 @@ class _HomePageState extends State<HomePage>
     Navigator.pushNamed(context, '/about_us');
   }
 
-
-  void imageUpload(){
+  void imageUpload() {
     Navigator.pushNamed(context, '/imageUploadScreen');
-
   }
 
   void add_patient() {
@@ -104,7 +103,7 @@ class _HomePageState extends State<HomePage>
         );
         toggleMenu();
         break;
-        
+
       case 'Add a Doctor':
         Navigator.push(
           context,
@@ -123,7 +122,7 @@ class _HomePageState extends State<HomePage>
         );
         toggleMenu();
         break;
-        
+
       default:
         // handle other menu items
         break;
@@ -157,7 +156,6 @@ class _HomePageState extends State<HomePage>
             },
             child: Column(
               children: [
-
                 // Container(
                 //   height: 100,
                 //   padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -319,23 +317,22 @@ class _HomePageState extends State<HomePage>
           //           ),
           //         ],
           //       ),
-                // child: ClipOval(
-                //   child: Material(
-                //     color: Colors.transparent,
-                //     child: InkWell(
-                //       splashColor: Colors.white24,
-                //       onTap: toggleMenu,
-                //       child: Image.asset(
-                //         'lib/images/icon1.png',
-                //         fit: BoxFit.cover,
-                //       ),
-                //     ),
-                //   ),
-                // ),
+          // child: ClipOval(
+          //   child: Material(
+          //     color: Colors.transparent,
+          //     child: InkWell(
+          //       splashColor: Colors.white24,
+          //       onTap: toggleMenu,
+          //       child: Image.asset(
+          //         'lib/images/icon1.png',
+          //         fit: BoxFit.cover,
+          //       ),
           //     ),
           //   ),
           // ),
-
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );

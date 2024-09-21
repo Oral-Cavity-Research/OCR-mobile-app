@@ -13,6 +13,7 @@ import 'package:my_flutter_app/pages/home/sent_files_page.dart';
 import 'package:my_flutter_app/pages/home/splash_screen.dart';
 import 'package:my_flutter_app/pages/imageUpload/ImageUploadScreen.dart';
 import 'package:my_flutter_app/pages/patient/patient_upload.dart';
+import 'package:my_flutter_app/pages/profiles/doctor_edit_profile.dart';
 
 import 'package:my_flutter_app/pages/profiles/doctor_profile_page.dart';
 import 'package:my_flutter_app/pages/search/search_page.dart';
@@ -77,6 +78,9 @@ class RouteGenerator {
 
       case '/doctor_profile':
         return MaterialPageRoute(builder: (_) => const DoctorProfilePage());
+
+      case '/edit-profile':
+        return MaterialPageRoute(builder: (_) => const DoctorEditProfile());
 
       default:
         // If there is no such named route in the switch statement, e.g. /third
