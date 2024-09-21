@@ -19,6 +19,8 @@ import 'package:my_flutter_app/pages/profiles/doctor_profile_page.dart';
 import 'package:my_flutter_app/pages/search/search_page.dart';
 import 'package:my_flutter_app/pages/search/search_page2.dart';
 
+import '../ReportUpload/reportUploadScreen.dart';
+
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     // Getting arguments passed in while calling Navigator.pushNamed
@@ -57,15 +59,15 @@ class RouteGenerator {
       case '/add_patient':
         return MaterialPageRoute(builder: (_) => PatientConsentForm());
 
-      case '/upload_image':
-        return MaterialPageRoute(builder: (_) => const ImageUploadForm());
-
       case "/search":
         print("search");
         return MaterialPageRoute(builder: (_) => SearchPage());
 
       case '/image_upload':
         return MaterialPageRoute(builder: (_) => const ImageUploadForm());
+
+      case '/report_upload':
+        return MaterialPageRoute(builder: (_) => const ReportUploadForm());
 
       case '/search':
         return MaterialPageRoute(builder: (_) => const SearchPage());

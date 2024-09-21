@@ -12,6 +12,7 @@ import 'package:my_flutter_app/pages/add_methods/add_role_page.dart';
 import 'package:my_flutter_app/pages/auth/google_sign.dart';
 import 'package:my_flutter_app/pages/profiles/doctor_profile_page.dart';
 
+import '../ReportUpload/reportUploadScreen.dart';
 import '../imageUpload/ImageUploadScreen.dart';
 import '../patient/patient_upload.dart';
 
@@ -75,6 +76,10 @@ class _HomePageState extends State<HomePage>
     Navigator.pushNamed(context, '/patient_upload');
   }
 
+  void add_report(){
+    Navigator.pushNamed( context,'/report_upload');
+  }
+
   void toggleMenu() {
     setState(() {
       if (isMenuOpen) {
@@ -119,6 +124,14 @@ class _HomePageState extends State<HomePage>
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => PatientConsentForm()),
+        );
+        toggleMenu();
+        break;
+
+      case 'Upload Report':
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ReportUploadForm()),
         );
         toggleMenu();
         break;
