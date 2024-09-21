@@ -31,6 +31,31 @@ class TokenStorage {
     _image = image;
   }
 
+  void setAvailability(bool availability) {
+    _availability = availability;
+  }
+
+  void setUsername(String new_name) {
+    _username = new_name;
+  }
+
+  void setHospital(String new_hospital) {
+    _hospital = new_hospital;
+  }
+
+  void setRegNo(String new_regNo) {
+    _regNo = new_regNo;
+  }
+
+  void setDesignation(String new_designation) {
+    _designation = new_designation;
+  }
+
+  void setContactNo(String new_contactNo) {
+    _contactNo = new_contactNo;
+  }
+
+
   void clearUserData() {
     _token = null;
     _username = null;
@@ -128,4 +153,5 @@ class TokenStorage {
   String? getImage() {
     return _image;
   }
+
 }
