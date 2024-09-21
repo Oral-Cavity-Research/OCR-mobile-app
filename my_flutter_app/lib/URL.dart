@@ -13,8 +13,6 @@ import 'dto/RiskFactors.dart';
 
 class URL {
   static const String BASE_URL = "http://10.0.2.2:8080/api";
-
-
 }
 
 // /user/self/hospitals
@@ -38,7 +36,7 @@ Future<List<String>> hospitallist() async {
 
 // /api/auth/signup
 Future<int> signup(String email, String username, String phoneNumber,
-    String hospital, String registration) async {
+    String hospital, String registration, String designation) async {
   const url = URL.BASE_URL + "/auth/signup";
   final uri = Uri.parse(url);
   final response = await http.post(
@@ -47,12 +45,12 @@ Future<int> signup(String email, String username, String phoneNumber,
       'Content-Type': 'application/json; charset=UTF-8',
     },
     body: jsonEncode(<String, String>{
-      'email': email,
-      'username': username,
-      'contact_no': phoneNumber,
-      'hospital': hospital,
       'reg_no': registration,
-      'designation': '',
+      'username': username,
+      'email': email,
+      'hospital': hospital,
+      'designation': designation,
+      'contact_no': phoneNumber,
     }),
   );
 
