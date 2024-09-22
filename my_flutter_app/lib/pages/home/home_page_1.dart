@@ -3,10 +3,12 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:my_flutter_app/Service/patient_controler.dart';
 import 'package:my_flutter_app/URL.dart';
 import 'package:my_flutter_app/components/menu_button.dart';
 import 'package:my_flutter_app/components/my_dropdown_bar.dart';
 import 'package:my_flutter_app/components/user_notification_1.dart';
+import 'package:my_flutter_app/modals/Patient.dart';
 import 'package:my_flutter_app/pages/aboutUs/about_us.dart';
 import 'package:my_flutter_app/pages/add_methods/add_role_page.dart';
 import 'package:my_flutter_app/pages/auth/google_sign.dart';
@@ -31,20 +33,24 @@ class _HomePageState extends State<HomePage>
   int _selectedIndex = 0;
 
   GoogleSignIn signIn = GoogleSignIn();
-  List<String> patientNames = [];
-  
+  List<Patient> patientList = [];
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 300),
-      vsync: this,
-    );
-    _offsetAnimation = Tween<Offset>(
-      begin: const Offset(-1.0, 0.0),
-      end: const Offset(0.0, 0.0),
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+    // Initialize to an empty list
+    getRecents().then((recents) {
+      setState(() {
+        if (recents != null) {
+          for (var patient in recents) {
+            patientList.add(patient);
+          }
+        }
+      });
+    }).catchError((error) {
+      print("Error fetching recents: $error");
+    });
+    print(patientList.toString());
   }
 
   void googleSignOut() async {
@@ -76,8 +82,8 @@ class _HomePageState extends State<HomePage>
     Navigator.pushNamed(context, '/patient_upload');
   }
 
-  void add_report(){
-    Navigator.pushNamed( context,'/report_upload');
+  void add_report() {
+    Navigator.pushNamed(context, '/report_upload');
   }
 
   void toggleMenu() {
@@ -89,57 +95,6 @@ class _HomePageState extends State<HomePage>
       }
       isMenuOpen = !isMenuOpen;
     });
-  }
-
-  void switchOption(String menuItem) {
-    switch (menuItem) {
-      case 'See Profile':
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const DoctorProfilePage()),
-        );
-        toggleMenu();
-        break;
-      // other cases
-      case 'Upload Image':
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const ImageUploadForm()),
-        );
-        toggleMenu();
-        break;
-
-      case 'Add a Doctor':
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => AddRole(
-                    onTap: () {},
-                  )),
-        );
-        toggleMenu();
-        break;
-
-      case 'Upload Patient':
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => PatientConsentForm()),
-        );
-        toggleMenu();
-        break;
-
-      case 'Upload Report':
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => ReportUploadForm()),
-        );
-        toggleMenu();
-        break;
-
-      default:
-        // handle other menu items
-        break;
-    }
   }
 
   @override
@@ -169,187 +124,67 @@ class _HomePageState extends State<HomePage>
             },
             child: Column(
               children: [
-                // Container(
-                //   height: 100,
-                //   padding: const EdgeInsets.symmetric(horizontal: 16),
-                //   decoration: const BoxDecoration(
-                //     gradient: LinearGradient(
-                //       colors: [
-                //         Color.fromARGB(255, 59, 158, 215), // Dodger blue
-                //         Color.fromARGB(255, 122, 188, 245), // Royal blue
-                //       ],
-                //       begin: Alignment.topLeft,
-                //       end: Alignment.bottomRight,
-                //     ),
-                //     boxShadow: [
-                //       BoxShadow(
-                //         color: Color.fromARGB(66, 255, 255, 255),
-                //         blurRadius: 10,
-                //         offset: Offset(0, 5),
-                //       ),
-                //     ],
-                //   ),
-                //   child: Padding(
-                //     padding: EdgeInsets.fromLTRB(50.w, 30.h, 0.w, 0.h),
-                //     child: Row(
-                //       children: [
-                //         const Spacer(),
-                //         const Text(
-                //           'Home',
-                //           style: TextStyle(
-                //             color: Colors.white,
-                //             fontSize: 24,
-                //             fontWeight: FontWeight.bold,
-                //           ),
-                //         ),
-                //         const Spacer(),
-                //         IconButton(
-                //           icon: const Icon(Icons.arrow_forward,
-                //               color: Colors.white),
-                //           onPressed: () {},
-                //         ),
-                //       ],
-                //     ),
-                //   ),
-                // ),
-
                 Expanded(
-                  child: ListView(
+                  child: ListView.builder(
                     padding: const EdgeInsets.all(16),
-                    children: [
-                      const Text(
-                        "RECENTS",
-                        style: TextStyle(
-                          fontFamily: 'Rubik',
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                      SizedBox(height: 16),
-                      buildReportCard(),
-                      buildReportCard(),
-                      SizedBox(height: 32),
-                      const Text(
-                        "RECOMMENDED",
-                        style: TextStyle(
-                          fontFamily: 'Rubik',
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                      SizedBox(height: 16),
-                      buildReportCard(),
-                      buildReportCard(),
-                    ],
+                    itemCount:
+                        patientList.length + 2, // Including "Recommended"
+                    itemBuilder: (context, index) {
+                      if (index == 0) {
+                        return const Text(
+                          "RECENTS",
+                          style: TextStyle(
+                            fontFamily: 'Rubik',
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        );
+                      } else if (index <= patientList.length) {
+                        return buildReportCard(
+                          key: ValueKey(patientList[index - 1]
+                              .id), // Unique key for each item
+                          patient: patientList[index - 1],
+                        );
+                      }
+                    },
                   ),
                 ),
               ],
             ),
           ),
-          // if (isMenuOpen)
-          //   AnimatedOpacity(
-          //     opacity: isMenuOpen ? 1.0 : 0,
-          //     duration: Duration(microseconds: 300),
-          //     child: GestureDetector(
-          //       onTap: toggleMenu,
-          //       child: Container(
-          //         color: Colors.black.withOpacity(0.5),
-          //         child: BackdropFilter(
-          //           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-          //           child: Container(
-          //             color: Colors.black.withOpacity(0.2),
-          //           ),
-          //         ),
-          //       ),
-          //     ),
-          //   ),
-          // SlideTransition(
-          //   position: _offsetAnimation,
-          //   child: Container(
-          //     width: 250,
-          //     padding: const EdgeInsets.only(top: 110),
-          //     decoration: const BoxDecoration(
-          //       color: Color.fromARGB(255, 3, 7, 11),
-          //       image: DecorationImage(
-          //         image: AssetImage('lib/images/whatsappBack.jpg'),
-          //         fit: BoxFit.cover,
-          //       ),
-          //       boxShadow: [
-          //         BoxShadow(
-          //           color: Colors.black26,
-          //           blurRadius: 10,
-          //           offset: Offset(0, 5),
-          //         ),
-          //       ],
-          //       borderRadius: BorderRadius.only(
-          //         topRight: Radius.circular(20),
-          //         bottomRight: Radius.circular(20),
-          //       ),
-          //     ),
-          //     // child: ListView(
-          //     //   padding: EdgeInsets.zero,
-          //     //   children: [
-          //     //     buildMenuButton(Icons.person, 'See Profile',
-          //     //         () => switchOption('See Profile')),
-          //     //     buildMenuButton(Icons.add, 'Add a Patient', add_patient),
-          //     //     buildMenuButton(Icons.add, 'Add a Doctor', toggleMenu),
-          //     //     buildMenuButton(Icons.remove, 'Remove a Doctor', toggleMenu),
-          //     //     buildMenuButton(Icons.add, 'Add a Consultant', toggleMenu),
-          //     //     buildMenuButton(
-          //     //         Icons.remove, 'Remove a Consultant', toggleMenu),
-          //     //     buildMenuButton(Icons.add, 'Add a Role', add_role),
-          //     //     buildMenuButton(Icons.logout, 'Log Out', googleSignOut),
-          //     //     buildMenuButton(Icons.info, 'About Us', about_us),
-          //     //     buildMenuButton(Icons.add, 'Upload Image', imageUpload)
-          //     //   ],
-          //     // ),
-          //   ),
-          // ),
-          // Positioned(
-          //   top: 35,
-          //   left: 16,
-          //   child: GestureDetector(
-          //     onTap: toggleMenu,
-          //     child: Container(
-          //       height: 55.0,
-          //       width: 55.0,
-          //       decoration: BoxDecoration(
-          //         shape: BoxShape.circle,
-          //         border: Border.all(
-          //           color: Colors.white,
-          //           width: 1.3,
-          //         ),
-          //         boxShadow: [
-          //           BoxShadow(
-          //             color: Colors.black.withOpacity(0.2),
-          //             spreadRadius: 1,
-          //             blurRadius: 6,
-          //             offset: const Offset(0, 4),
-          //           ),
-          //         ],
-          //       ),
-          // child: ClipOval(
-          //   child: Material(
-          //     color: Colors.transparent,
-          //     child: InkWell(
-          //       splashColor: Colors.white24,
-          //       onTap: toggleMenu,
-          //       child: Image.asset(
-          //         'lib/images/icon1.png',
-          //         fit: BoxFit.cover,
-          //       ),
-          //     ),
-          //   ),
-          // ),
-          //     ),
-          //   ),
-          // ),
         ],
       ),
     );
   }
+}
+
+Widget buildReportCard({Key? key, required Patient patient}) {
+  // Example report card implementation
+  return Card(
+    key: key,
+    margin: const EdgeInsets.symmetric(vertical: 8),
+    color: Colors.white.withOpacity(0.8),
+    child: Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            patient.patientName,
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Text("Id: ${patient.patientId}"),
+          Text("DOB: ${patient.dob}"),
+          Text("Gender: ${patient.gender}"),
+          const SizedBox(height: 8),
+        ],
+      ),
+    ),
+  );
 }
 
 void main() {

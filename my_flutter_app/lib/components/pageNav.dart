@@ -18,6 +18,8 @@ class Pagenav extends StatefulWidget {
 class _PagenavState extends State<Pagenav> {
   int _selectedIndex = 0;
   String pageName = 'Home';
+  PageController _pageController = PageController();
+
   List<Widget> widgetOptions = <Widget>[
     HomePage(),
     SearchPage(),
@@ -43,7 +45,14 @@ class _PagenavState extends State<Pagenav> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-      print('Index: $_selectedIndex');
+      pageName = getPageName(index);
+    });
+    _pageController.jumpToPage(index);
+  }
+
+  void _onPageChanged(int index) {
+    setState(() {
+      _selectedIndex = index;
       pageName = getPageName(index);
     });
   }
@@ -87,7 +96,11 @@ class _PagenavState extends State<Pagenav> {
           ),
         ),
       ),
-      body: widgetOptions.elementAt(_selectedIndex),
+      body: PageView(
+        controller: _pageController,
+        children: widgetOptions,
+        onPageChanged: _onPageChanged,
+      ),
       bottomNavigationBar: CurvedNavigationBar(
         items: const <Widget>[
           Icon(Icons.home),

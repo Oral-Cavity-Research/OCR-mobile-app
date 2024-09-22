@@ -10,11 +10,12 @@ class AboutUsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
         leading: BackButton(
           color: Colors.black,
           onPressed: () {
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
-          } ,
+            Navigator.pushNamed(context, '/pageNav');
+          },
         ),
         //title: const Text('About Us'),
       ),
@@ -28,17 +29,15 @@ class AboutUsPage extends StatelessWidget {
         ),
         child: Center(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 0.h),  
+            padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 0.h),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
                   decoration: BoxDecoration(
-
-                    shape: BoxShape.circle,                
+                    shape: BoxShape.circle,
                   ),
                   child: Image.asset('lib/images/icon1light.png', height: 150),
-
                 ), // Add your logo image to assets folder and update path
                 const SizedBox(height: 20),
                 Text(
@@ -55,13 +54,10 @@ class AboutUsPage extends StatelessWidget {
                   'We are a team of passionate individuals dedicated to crafting innovative engineering solutions for everyday challenges.',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-
                     fontSize: 16,
                     color: Color.fromARGB(255, 56, 76, 111),
                     fontFamily: 'PlayfairDisplay',
                     fontWeight: FontWeight.bold,
-
-
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -103,4 +99,3 @@ class AboutUsPage extends StatelessWidget {
     );
   }
 }
-
