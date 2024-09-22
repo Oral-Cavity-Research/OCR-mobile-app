@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:my_flutter_app/dto/PatientModelRequest.dart';
@@ -12,7 +11,8 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:signature/signature.dart';
-
+import '../../components/AddRiskFactor.dart';
+import '../../components/DatePicker.dart';
 import '../../components/ResponsePopup.dart';
 import '../../dto/RiskFactors.dart';
 
@@ -33,8 +33,8 @@ class _PatientConsentFormState extends State<PatientConsentForm> {
   final TextEditingController patientIdController = TextEditingController();
   final TextEditingController clinicianIdController = TextEditingController();
   final TextEditingController patientNameController = TextEditingController();
-  final List<TextEditingController> riskFactorsController =
-      List.generate(1, (index) => TextEditingController());
+  final List<Map<String, String>> riskFactors = [];
+  final List<TextEditingController> riskFactorsController = [];
   final TextEditingController dobController = TextEditingController();
   final TextEditingController genderController = TextEditingController();
   final TextEditingController histoDiagnosisController =
@@ -52,6 +52,7 @@ class _PatientConsentFormState extends State<PatientConsentForm> {
     _signatureController.dispose();
     super.dispose();
   }
+
 
   // Request storage permission
   Future<bool> _requestPermission() async {
@@ -159,6 +160,23 @@ class _PatientConsentFormState extends State<PatientConsentForm> {
     await _submitForm(context, file);
   }
 
+  // Add risk factor controller
+  void addRiskFactorController(){
+    final controller = TextEditingController();
+    riskFactorsController.add(controller);
+    riskFactors.add({"habit": "", "frequency": "", "duration": ""});// Initialize corresponding risk factor
+  }
+
+  //parse risk factor
+  List<RiskFactors> parseRiskFactors(){
+    return riskFactors.map((riskFactors){
+      return RiskFactors(habit: riskFactors['habit']!,
+          frequency: riskFactors['frequency']!,
+        duration: riskFactors['duration']!,
+      );
+    }).toList();
+  }
+
   Future<void> _submitForm(BuildContext context, File file) async {
     if (_formKey.currentState!.validate() && file != null) {
       List<RiskFactors> ParseRiskFactors(
@@ -176,9 +194,7 @@ class _PatientConsentFormState extends State<PatientConsentForm> {
         patientId: patientIdController.text,
         clinicianId: TokenStorage().getId()!,
         patientName: patientNameController.text,
-        riskFactors: riskFactorsController.isNotEmpty
-            ? ParseRiskFactors(riskFactorsController)
-            : null,
+        riskFactors: parseRiskFactors(),
         dob: dobController.text,
         gender: genderController.text,
         histoDiagnosis: histoDiagnosisController.text,
@@ -259,7 +275,7 @@ class _PatientConsentFormState extends State<PatientConsentForm> {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(20.0),
           child: Form(
             key: _formKey,
             child: ListView(
@@ -279,24 +295,20 @@ class _PatientConsentFormState extends State<PatientConsentForm> {
                   validator: (value) =>
                       value!.isEmpty ? "Patient Name is required" : null,
                 ),
-                // Risk Factors (Optional)
-                Column(
-                  children:
-                      List.generate(riskFactorsController.length, (index) {
-                    return TextFormField(
-                      controller: riskFactorsController[index],
-                      decoration: InputDecoration(
-                          labelText: "Risk Factor ${index + 1}"),
-                    );
-                  }),
+                const SizedBox(height: 18.0),
+                RiskFactorForm(
+                  onRiskFactorAdded: (newRiskFactor) {
+                    setState(() {
+                      riskFactors.add(newRiskFactor);
+                    });
+                  },
                 ),
+                const SizedBox(height: 18.0),
+                const SizedBox(height: 18.0),
                 // Date of Birth (DOB)
-                TextFormField(
-                  controller: dobController,
-                  decoration: InputDecoration(labelText: "Date of Birth"),
-                  validator: (value) =>
-                      value!.isEmpty ? "Date of Birth is required" : null,
-                ),
+                DOBPicker(dobController: dobController),
+                const SizedBox(height: 18.0),
+
                 // Gender
                 TextFormField(
                   controller: genderController,
@@ -372,6 +384,9 @@ class _PatientConsentFormState extends State<PatientConsentForm> {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blue[900], // Navy blue color
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15), // Adjust the radius as needed
+                        ),
                       ),
                       child: Text("Clear Signature",
                           style: TextStyle(color: Colors.white)),
@@ -386,8 +401,11 @@ class _PatientConsentFormState extends State<PatientConsentForm> {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blue[900], // Navy blue color
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15), // Adjust the radius as needed
+                        ),
                       ),
-                      child: Text("Generate PDF",
+                      child: Text("Submit",
                           style: TextStyle(color: Colors.white)),
                     ),
                   ],
