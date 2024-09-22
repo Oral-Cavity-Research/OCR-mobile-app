@@ -12,7 +12,7 @@ import 'package:my_flutter_app/model/hospitalModel.dart';
 import 'dto/RiskFactors.dart';
 
 class URL {
-  static const String BASE_URL = "http://10.0.2.2:8080/api";
+  static const String BASE_URL = "http://192.168.1.4:8080/api";
 }
 
 // /user/self/hospitals
@@ -133,13 +133,12 @@ Future<int> imageUpload(
   }
 }
 
-
 // /api/user/upload/reports
 Future<int> reportUpload(
-    String teleconEntryId,
-    String reportName,
-    File file,
-    ) async {
+  String teleconEntryId,
+  String reportName,
+  File file,
+) async {
   const url = URL.BASE_URL + "/user/upload/reports/6426fef2906bd94313ebe93d";
   final dio.Dio dioClient = dio.Dio(); // Initialize Dio
 
@@ -191,7 +190,6 @@ Future<int> reportUpload(
     return 500; // Return an error status code if something goes wrong
   }
 }
-
 
 // /api/user/upload/patient
 Future<int> patientUpload(

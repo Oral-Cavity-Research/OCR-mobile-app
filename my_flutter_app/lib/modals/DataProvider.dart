@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:my_flutter_app/URL.dart';
 import 'package:my_flutter_app/components/error_message.dart';
 import 'dart:convert';
 
@@ -8,9 +9,9 @@ import 'package:my_flutter_app/modals/Patient.dart';
 
 import 'package:provider/provider.dart';
 
-class URL {
-  static const String BASE_URL = "http://10.0.2.2:8080/api";
-}
+// class URL {
+//   static const String BASE_URL = "http://10.0.2.2:8080/api";
+// }
 
 class DataProvider extends ChangeNotifier {
   // Move the line inside a method or constructor where the context is available
@@ -35,7 +36,7 @@ class DataProvider extends ChangeNotifier {
 
       final response = await http.get(
         Uri.parse(
-            'http://10.0.2.2:8080/api/user/patient/get?page=1&search=$search&filter=$filter&sort=$sort'),
+            '${URL.BASE_URL}/user/patient/get?page=1&search=$search&filter=$filter&sort=$sort'),
         headers: {
           'Authorization': 'Bearer ${TokenStorage().getToken()}',
           'email': TokenStorage().getEmail()!,
