@@ -7,10 +7,10 @@ class PatientModelRequest {
   final List<RiskFactors>? riskFactors;
   final String dob;
   final String gender;
-  final String histoDiagnosis;
-  final List<String> medicalHistory;
-  final List<String> familyHistory;
-  final String systemicDisease;
+  final String? histoDiagnosis;
+  final List<String>? medicalHistory;
+  final List<String>? familyHistory;
+  final String? systemicDisease;
   final String contactNo;
   final String consentForm;
 
@@ -21,10 +21,10 @@ class PatientModelRequest {
     this.riskFactors,
     required this.dob,
     required this.gender,
-    required this.histoDiagnosis,
-    required this.medicalHistory,
-    required this.familyHistory,
-    required this.systemicDisease,
+    this.histoDiagnosis,
+    this.medicalHistory,
+    this.familyHistory,
+    this.systemicDisease,
     required this.contactNo,
     required this.consentForm,
   });

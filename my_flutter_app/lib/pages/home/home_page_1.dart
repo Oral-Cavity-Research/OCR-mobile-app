@@ -1,22 +1,7 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:my_flutter_app/Service/patient_controler.dart';
-import 'package:my_flutter_app/URL.dart';
-import 'package:my_flutter_app/components/menu_button.dart';
-import 'package:my_flutter_app/components/my_dropdown_bar.dart';
-import 'package:my_flutter_app/components/user_notification_1.dart';
 import 'package:my_flutter_app/modals/Patient.dart';
-import 'package:my_flutter_app/pages/aboutUs/about_us.dart';
-import 'package:my_flutter_app/pages/add_methods/add_role_page.dart';
-import 'package:my_flutter_app/pages/auth/google_sign.dart';
-import 'package:my_flutter_app/pages/profiles/doctor_profile_page.dart';
-
-import '../ReportUpload/reportUploadScreen.dart';
-import '../imageUpload/ImageUploadScreen.dart';
-import '../patient/patient_upload.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
