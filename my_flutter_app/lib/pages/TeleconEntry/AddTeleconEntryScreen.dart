@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:my_flutter_app/dto/HabbitDto.dart';
 import '../../components/ResponsePopup.dart';
 import '../../components/addCurrentHabbits.dart';
@@ -17,12 +19,63 @@ class TeleconEntryFormState extends State<TeleconEntryForm> {
   final _formKey = GlobalKey<FormState>();
 
   // Form field controllers
+  //final TextEditingController startTimeController = TextEditingController();
+
   final TextEditingController startTimeController = TextEditingController();
+  final TextEditingController dayController = TextEditingController();
+  final TextEditingController yearController = TextEditingController();
   final TextEditingController endTimeController = TextEditingController();
   final TextEditingController complaintController = TextEditingController();
   final TextEditingController findingController = TextEditingController();
   final List<Map<String, String>> Habbits = [];
   final List<TextEditingController> currentHabbitsController = [];
+
+  String? selectedMonth;
+  TimeOfDay? selectedStartTime;
+  TimeOfDay? selectedEndTime;
+
+  List<String> months = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+
+  // Convert selected date and time to ISO format
+  String formatDateTime({
+    required String? selectedMonth,
+    required TextEditingController dayController,
+    required TextEditingController yearController,
+    required TimeOfDay? selectedTime,
+  }) {
+    if (selectedMonth != null && dayController.text.isNotEmpty && yearController.text.isNotEmpty &&
+        selectedTime != null) {
+      // Get month index
+      int monthIndex = months.indexOf(selectedMonth!) + 1;
+      String formattedDate = '${yearController.text}-${monthIndex.toString().padLeft(2, '0')}-${dayController.text.padLeft(2, '0')}';
+
+      // Format time
+      final now = DateTime.now();
+      final selectedDateTime = DateTime(now.year, now.month, now.day, selectedTime!.hour, selectedTime!.minute);
+      String formattedTime = DateFormat('HH:mm:ss.SSS').format(selectedDateTime);
+
+      return '$formattedDate"T"$formattedTime+00:00';
+    }
+    return '';
+  }
+
+  // Show time picker
+  Future<void> selectTime(BuildContext context,TimeOfDay? selectedTime) async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+    if (picked != null && picked != selectedTime) {
+      setState(() {
+        selectedTime = picked;
+      });
+    }
+  }
+
+
 
   // Add a new habit controller
   void addHabbitsController(){
@@ -57,9 +110,22 @@ class TeleconEntryFormState extends State<TeleconEntryForm> {
   // Function to handle form submission
   Future<void> teleconFormSubmit(BuildContext context) async {
     if (_formKey.currentState!.validate() ) {
+      String formattedStartTime = formatDateTime(
+        selectedMonth: selectedMonth!,
+        dayController: dayController,
+        yearController: yearController,
+        selectedTime: selectedStartTime!,
+      );
+      String formattedEndTime = formatDateTime(
+        selectedMonth : selectedMonth!,
+        dayController: dayController,
+        yearController: yearController,
+        selectedTime : selectedEndTime!,
+
+      );
       TeleconEntryRequest entryData = TeleconEntryRequest(
-          startTime: startTimeController.text,
-          endTime: endTimeController.text,
+          startTime: formattedStartTime,
+          endTime: formattedEndTime,
           complaints: complaintController.text,
           finding: findingController.text,
           currentHabits: parseCurrentHabbits(),
@@ -92,7 +158,7 @@ class TeleconEntryFormState extends State<TeleconEntryForm> {
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
         title: Text(
-          "Create new Teleconsultation Entry",
+          "Create Telecon Entry",
           style: TextStyle(
             fontFamily: 'Rubik',
             color: Colors.white,
@@ -130,31 +196,146 @@ class TeleconEntryFormState extends State<TeleconEntryForm> {
             key: _formKey,
             child: ListView(
               children: [
-                // startTime
-                TextFormField(
-                  controller: startTimeController,
-                  decoration: InputDecoration(labelText: "Start Time :"),
-                  validator: (value) =>
-                  value!.isEmpty ? "Start Time required" : null,
+                // Month, Day, Year
+                Row(
+                  children: [
+                    // Month dropdown
+                    Expanded(
+                      child: DropdownButtonFormField<String>(
+                        value: selectedMonth,
+                        hint: Text("Month"),
+                        items: months.map((String month) {
+                          return DropdownMenuItem<String>(
+                            value: month,
+                            child: Text(month),
+                          );
+                        }).toList(),
+                        onChanged: (newValue) {
+                          setState(() {
+                            selectedMonth = newValue;
+                          });
+                        },
+                        decoration: InputDecoration(
+                            labelText: 'Date of the entry:',
+                          labelStyle: TextStyle(fontSize: 20.0)),
+                        validator: (value) =>
+                        value == null ? 'Month is required' : null,
+                      ),
+                    ),
+                    SizedBox(width: 8),
+
+                    // Day input field
+                    Expanded(
+                      child: TextFormField(
+                        controller: dayController,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                        decoration: InputDecoration(labelText: 'Day'),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Day is required';
+                          }
+                          int? day = int.tryParse(value);
+                          if (day == null || day < 1 || day > 31) {
+                            return 'Invalid day';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    SizedBox(width: 8),
+
+                    // Year input field
+                    Expanded(
+                      child: TextFormField(
+                        controller: yearController,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                        decoration: InputDecoration(labelText: 'Year'),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Year is required';
+                          }
+                          int? year = int.tryParse(value);
+                          if (year == null || year < 1900 || year > DateTime.now().year) {
+                            return 'Invalid year';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                  ],
                 ),
+                SizedBox(height: 20),
+
+                // Start Time picker
                 TextFormField(
-                  controller: endTimeController,
-                  decoration: InputDecoration(labelText: "End Time :"),
-                  validator: (value) =>
-                  value!.isEmpty ? "End Time required" : null,
+                  controller: TextEditingController(
+                    text: selectedStartTime != null
+                        ? selectedStartTime!.format(context)
+                        : 'Select Time',
+                  ),
+                  readOnly: true,  // Make field read-only so it can only be edited via the picker
+                  decoration: InputDecoration(
+                    labelText: 'Start Time',
+                    suffixIcon: Icon(Icons.access_time),  // Icon to indicate time picker
+                  ),
+                  onTap: () async {
+                    // Show time picker when tapped
+                    await selectTime(context,selectedStartTime);
+                    setState(() {});  // Refresh UI to display selected time
+                  },
+                  validator: (value) {
+                    if (selectedStartTime == null) {
+                      return 'Start Time is required';
+                    }
+                    return null;
+                  },
                 ),
+                SizedBox(height: 20),
+                Text(
+                  "End Time : ",
+                  style: TextStyle(fontSize: 16), // Customize font size or other styles as needed
+                ),
+                // End Time picker
+                TextFormField(
+                  controller: TextEditingController(
+                    text: selectedEndTime != null
+                        ? selectedEndTime!.format(context)
+                        : 'Select Time',
+                  ),
+                  readOnly: true,  // Make field read-only so it can only be edited via the picker
+                  decoration: InputDecoration(
+                    suffixIcon: Icon(Icons.access_time),  // Icon to indicate time picker
+                  ),
+                  onTap: () async {
+                    // Show time picker when tapped
+                    await selectTime(context,selectedEndTime);
+                    setState(() {});  // Refresh UI to display selected time
+                  },
+                  validator: (value) {
+                    if (selectedEndTime == null) {
+                      return 'End Time is required';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 20),
+
                 TextFormField(
                   controller: complaintController,
                   decoration: InputDecoration(labelText: "Complaint :"),
                   validator: (value) =>
                   value!.isEmpty ? "Complaint is required" : null,
                 ),
+                SizedBox(height: 20),
                 TextFormField(
                   controller: findingController,
                   decoration: InputDecoration(labelText: "Findings :"),
                   validator: (value) =>
                   value!.isEmpty ? "Findings is required" : null,
                 ),
+                SizedBox(height: 20),
                 const SizedBox(height: 18.0),
                 CurrentHabbitsForm(
                   onCurrentHabbitsAdded: (newCurrentHabbit) {
@@ -163,6 +344,7 @@ class TeleconEntryFormState extends State<TeleconEntryForm> {
                     });
                   },
                 ),
+                SizedBox(height: 20),
                 const SizedBox(height: 20.0),
                 ElevatedButton(
                   onPressed: () {

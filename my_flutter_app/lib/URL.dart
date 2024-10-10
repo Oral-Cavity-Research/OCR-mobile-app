@@ -12,7 +12,7 @@ import 'dto/RiskFactors.dart';
 import 'dto/TeleconEntryRequest.dart';
 
 class URL {
-  static const String BASE_URL = "http://10.0.2.2:8080/api";
+  static const String BASE_URL = "http://192.168.1.2:8080/api";
 }
 
 // /user/self/hospitals
@@ -288,7 +288,7 @@ Future<int> createTeleconEntry(String startTime,
                                 String finding,
                                 List<HabbitDto> currentHabits,
                                 String PatientId) async{
-  final url = URL.BASE_URL + "user/entry/add/$PatientId";//patient id should be added here
+  final url = URL.BASE_URL + "/user/entry/add/$PatientId";//patient id should be added here
   final uri = Uri.parse(url);
   //getting the token and email of the clinician
   String? token = TokenStorage().getToken();
