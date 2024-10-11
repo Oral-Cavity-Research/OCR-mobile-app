@@ -5,11 +5,11 @@ import 'package:dio/dio.dart' as dio;
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:my_flutter_app/dto/TokenStorage.dart';
-
 import 'package:my_flutter_app/dto/VerifyResponse.dart';
-import 'package:my_flutter_app/model/hospitalModel.dart';
 
+import 'dto/HabbitDto.dart';
 import 'dto/RiskFactors.dart';
+import 'dto/TeleconEntryRequest.dart';
 
 class URL {
   static const String BASE_URL = "http://10.0.2.2:8080/api";
@@ -280,6 +280,49 @@ Future<int> patientUpload(
     return 500; // Return an error status code if something goes wrong
   }
 }
+
+//creating a teleconsultation entry
+Future<int> createTeleconEntry(String startTime,
+                                String endTime,
+                                String complaints,
+                                String finding,
+                                List<HabbitDto> currentHabits,
+                                String PatientId) async{
+  final url = URL.BASE_URL + "/user/entry/add/$PatientId";//patient id should be added here
+  final uri = Uri.parse(url);
+  //getting the token and email of the clinician
+  String? token = TokenStorage().getToken();
+  String? email = TokenStorage().getEmail();
+
+  if(token == null || email == null){
+    throw Exception("No token or email found. Please log in again");
+  }
+  //creating teleconEntryRequest instance
+  TeleconEntryRequest entryRequest = TeleconEntryRequest(
+    startTime : startTime,
+    endTime :endTime,
+    complaints: complaints,
+    finding: finding,
+    currentHabits: currentHabits
+  );
+
+  final response = await http.post(
+    uri,
+    headers: {
+      'Authorization': 'Bearer ${token}',
+      'email': email,
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(entryRequest.toJson()),
+  );
+
+  if(response.statusCode == 200){
+    return response.statusCode;
+  }else{
+    throw Exception('Failed to create telecon entry. Status code: ${response.statusCode}');
+  }
+}
+
 
 Future<VerifyResponse> verify(String email, String photoUrl) async {
   const url = URL.BASE_URL + "/auth/verify";

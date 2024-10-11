@@ -30,6 +30,10 @@ class side_bar extends StatelessWidget {
     Navigator.pushNamed(context, '/report_upload');
   }
 
+  void createTeleconEntry(BuildContext context) {
+    Navigator.pushNamed(context, '/create_TeleconEntry');
+  }
+
   GoogleSignIn signIn = GoogleSignIn();
 
   void googleSignOut(BuildContext context) async {
@@ -97,6 +101,8 @@ class side_bar extends StatelessWidget {
                 Icons.logout, 'Log Out', () => googleSignOut(context)),
             buildMenuButton(
                 Icons.add, 'Upload Report', () => reportUpload(context)),
+            buildMenuButton(
+                Icons.add, 'Add TeleconEntry', () => createTeleconEntry(context)),
           ],
         ),
       ),
