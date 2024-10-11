@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:my_flutter_app/URL.dart';
-import 'package:my_flutter_app/components/NotificationMessage.dart';
 import 'package:my_flutter_app/components/error_message.dart';
 import 'package:my_flutter_app/components/my_button.dart';
 import 'package:my_flutter_app/dto/TokenStorage.dart';
