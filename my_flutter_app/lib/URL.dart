@@ -12,7 +12,7 @@ import 'package:my_flutter_app/model/hospitalModel.dart';
 import 'dto/RiskFactors.dart';
 
 class URL {
-  static const String BASE_URL = "http://192.168.1.4:8080/api";
+  static const String BASE_URL = "http://10.0.2.2:8080/api";
 }
 
 // /user/self/hospitals

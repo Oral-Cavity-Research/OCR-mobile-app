@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:my_flutter_app/components/patientCard.dart';
 import 'package:my_flutter_app/modals/DataProvider.dart';
 import 'package:my_flutter_app/modals/Patient.dart';
+import 'package:my_flutter_app/pages/profiles/patient_profile_page.dart';
 import 'package:provider/provider.dart';
 
 class SearchPage extends StatefulWidget {
@@ -178,12 +179,24 @@ class _SearchPageState extends State<SearchPage> {
                                 itemCount: patientsCards.length,
                                 itemBuilder: (context, index) {
                                   final patientDetails = patientsCards[index];
-                                  return patientCard(
-                                    name: patientDetails.getPatientName,
-                                    id: patientDetails
-                                        .getPatientId, // Safely handled
-                                    dob: patientDetails.getDob,
-                                    gender: patientDetails.getGender,
+                                  return InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => PatientProfile(
+                                            onTap: () {},
+                                            patientId: patientDetails.getId,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    child: patientCard(
+                                      name: patientDetails.getPatientName,
+                                      id: patientDetails.getPatientId,
+                                      dob: patientDetails.getDob,
+                                      gender: patientDetails.getGender,
+                                    ),
                                   );
                                 },
                               ),

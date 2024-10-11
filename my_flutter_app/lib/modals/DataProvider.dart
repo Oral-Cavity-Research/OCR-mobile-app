@@ -6,6 +6,7 @@ import 'dart:convert';
 
 import 'package:my_flutter_app/dto/TokenStorage.dart';
 import 'package:my_flutter_app/modals/Patient.dart';
+import 'package:my_flutter_app/modals/PatientDetails.dart';
 
 import 'package:provider/provider.dart';
 
@@ -30,7 +31,6 @@ class DataProvider extends ChangeNotifier {
     setNoMore(false);
 
     try {
-      print("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
       print(TokenStorage().getToken());
       print(TokenStorage().getEmail()!);
 
@@ -51,6 +51,39 @@ class DataProvider extends ChangeNotifier {
             .map((patientJson) => Patient.fromJson(patientJson))
             .toList();
         return patients;
+      } else {
+        final errorData = json.decode(response.body);
+        errorMessage(errorData['message']);
+        return null;
+      }
+    } catch (err) {
+      errorMessage(err.toString());
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  Future<PatientDetails?> getPatientById(String id) async {
+    setLoading(true);
+
+    try {
+      final response = await http.get(
+        Uri.parse('${URL.BASE_URL}/user/patient/$id'),
+        headers: {
+          'Authorization': 'Bearer ${TokenStorage().getToken()}',
+          'email': TokenStorage().getEmail()!,
+        },
+      );
+      print("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        final resData = json.decode(response.body);
+        print(resData);
+        PatientDetails patient = PatientDetails.fromJson(resData);
+        print("/////////////////////////");
+        print(patient.getPatientId);
+        return patient;
       } else {
         final errorData = json.decode(response.body);
         errorMessage(errorData['message']);

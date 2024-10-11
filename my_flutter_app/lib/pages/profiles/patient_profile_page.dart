@@ -1,10 +1,19 @@
-
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:my_flutter_app/components/my_button_2.dart';
+import 'package:my_flutter_app/modals/DataProvider.dart';
+import 'package:my_flutter_app/modals/Patient.dart';
+import 'package:my_flutter_app/modals/PatientDetails.dart';
 
 class PatientProfile extends StatefulWidget {
   final void Function()? onTap;
-  const PatientProfile({super.key, required this.onTap});
+  final String patientId;
+
+  const PatientProfile({
+    super.key,
+    required this.onTap,
+    required this.patientId,
+  });
 
   @override
   State<PatientProfile> createState() => _PatientProfileState();
@@ -13,7 +22,7 @@ class PatientProfile extends StatefulWidget {
 class _PatientProfileState extends State<PatientProfile> {
   final TextEditingController patientNameController = TextEditingController();
   String selectedItem = 'Access I';
-
+  PatientDetails? patientDetails;
   void _showForwardSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -35,6 +44,22 @@ class _PatientProfileState extends State<PatientProfile> {
         },
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    DataProvider dataProvider = DataProvider();
+
+    dataProvider.getPatientById(widget.patientId).then((patient) {
+      if (patient != null) {
+        setState(() {
+          patientDetails = patient;
+        });
+
+        // Add more print statements for other properties as needed
+      }
+    });
   }
 
   @override
@@ -77,8 +102,8 @@ class _PatientProfileState extends State<PatientProfile> {
                             print('See Photos button tapped!');
                           },
                           text: 'See Photos',
-                          backgroundColor:
-                              const Color.fromARGB(255, 55, 123, 206), // Solid color
+                          backgroundColor: const Color.fromARGB(
+                              255, 55, 123, 206), // Solid color
                           width: 120.0, // Custom width
                           height: 60.0, // Custom height
                         ),
@@ -91,8 +116,8 @@ class _PatientProfileState extends State<PatientProfile> {
                             print('Edit Photos button tapped!');
                           },
                           text: 'Edit Photos',
-                          backgroundColor:
-                              const Color.fromARGB(255, 255, 88, 88), // Solid color
+                          backgroundColor: const Color.fromARGB(
+                              255, 255, 88, 88), // Solid color
                           width: 120.0, // Custom width
                           height: 60.0, // Custom height
                         ),
@@ -120,64 +145,54 @@ class _PatientProfileState extends State<PatientProfile> {
                       width: 270,
                       child: Container(
                         padding: const EdgeInsets.all(20.0),
-                        child: const Column(
+                        child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'Name: Sahan Perera',
-                              style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromARGB(255, 43, 54, 60),
-                                fontFamily: 'Rubik',
+                            ListTile(
+                              title: const Text(
+                                'Patient ID:',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontFamily: "Rubik",
+                                ),
                               ),
-                              textAlign: TextAlign.center,
+                              subtitle: TextField(
+                                controller: TextEditingController(
+                                  text: patientDetails?.getPatientId ?? '',
+                                ),
+                                // onChanged: (value) {
+                                //   new_name = value;
+                                // },
+                                style: const TextStyle(
+                                  fontSize: 23,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            ListTile(
+                              title: const Text(
+                                'Patient Name:',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontFamily: "Rubik",
+                                ),
+                              ),
+                              subtitle: TextField(
+                                controller: TextEditingController(
+                                  text: patientDetails?.getPatientName ?? '',
+                                ),
+                                // onChanged: (value) {
+                                //   new_name = value;
+                                // },
+                                style: const TextStyle(
+                                  fontSize: 23,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
                             ),
                             SizedBox(height: 10),
-                            Text(
-                              'ID            : ABCD',
-                              style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromARGB(255, 43, 54, 60),
-                                fontFamily: 'Rubik',
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              'District   : Kandy',
-                              style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromARGB(255, 43, 54, 60),
-                                fontFamily: 'Rubik',
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              'Province : Central',
-                              style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromARGB(255, 43, 54, 60),
-                                fontFamily: 'Rubik',
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              'Age        : 34',
-                              style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromARGB(255, 43, 54, 60),
-                                fontFamily: 'Rubik',
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
                           ],
                         ),
                       ),
@@ -206,35 +221,250 @@ class _PatientProfileState extends State<PatientProfile> {
                     color: const Color.fromARGB(255, 159, 196, 230),
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  height: 450,
+                  height: 420,
                   width: 390,
                   child: Container(
                     padding: const EdgeInsets.all(20.0),
                     width: 20,
-                    child: TextField(
-                      decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                              color: Color.fromARGB(255, 0, 179, 255)),
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                              color: Color.fromARGB(255, 255, 255, 255)),
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
-                        hintText: "Enter status",
-                        hintStyle: const TextStyle(color: Colors.grey),
-                        contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          ListTile(
+                            title: const Text(
+                              'DOB:',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontFamily: "Rubik",
+                              ),
+                            ),
+                            subtitle: TextField(
+                              controller: TextEditingController(
+                                text: patientDetails?.getDob ?? '',
+                              ),
+                              // onChanged: (value) {
+                              //   new_name = value;
+                              // },
+                              style: const TextStyle(
+                                fontSize: 23,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                          ListTile(
+                            title: const Text(
+                              'Age:',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontFamily: "Rubik",
+                              ),
+                            ),
+                            subtitle: TextField(
+                              controller: TextEditingController(
+                                text: patientDetails?.getAge().toString(),
+                              ),
+                              // onChanged: (value) {
+                              //   new_name = value;
+                              // },
+                              style: const TextStyle(
+                                fontSize: 23,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                          ListTile(
+                            title: const Text(
+                              'Gender:',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontFamily: "Rubik",
+                              ),
+                            ),
+                            subtitle: TextField(
+                              controller: TextEditingController(
+                                text: patientDetails?.getGender ?? '',
+                              ),
+                              // onChanged: (value) {
+                              //   new_name = value;
+                              // },
+                              style: const TextStyle(
+                                fontSize: 23,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                          ListTile(
+                            title: const Text(
+                              'Contact Number:',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontFamily: "Rubik",
+                              ),
+                            ),
+                            subtitle: TextField(
+                              controller: TextEditingController(
+                                text: patientDetails?.getContactNo ?? '',
+                              ),
+                              // onChanged: (value) {
+                              //   new_name = value;
+                              // },
+                              style: const TextStyle(
+                                fontSize: 23,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                          ListTile(
+                            title: const Text(
+                              'Previous history of cancer:',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontFamily: "Rubik",
+                              ),
+                            ),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: patientDetails!.getMedicalHistory
+                                      ?.map((item) => Text(
+                                            '• $item',
+                                            style: const TextStyle(
+                                              fontSize: 23,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ))
+                                      .toList() ??
+                                  [],
+                            ),
+                          ),
+                          ListTile(
+                            title: const Text(
+                              'Histo Diagnosis:',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontFamily: "Rubik",
+                              ),
+                            ),
+                            subtitle: TextField(
+                              controller: TextEditingController(
+                                text: patientDetails?.getHistoDiagnosis ?? '',
+                              ),
+                              // onChanged: (value) {
+                              //   new_name = value;
+                              // },
+                              style: const TextStyle(
+                                fontSize: 23,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                          ListTile(
+                            title: const Text(
+                              'Family history of cancer:',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontFamily: "Rubik",
+                              ),
+                            ),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: patientDetails!.getFamilyHistory
+                                      ?.map((item) => Text(
+                                            '• $item',
+                                            style: const TextStyle(
+                                              fontSize: 23,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ))
+                                      .toList() ??
+                                  [],
+                            ),
+                          ),
+                          ListTile(
+                            title: const Text(
+                              'Systemic disease:',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontFamily: "Rubik",
+                              ),
+                            ),
+                            subtitle: TextField(
+                              controller: TextEditingController(
+                                text: patientDetails?.getSystemicDisease ?? '',
+                              ),
+                              // onChanged: (value) {
+                              //   new_name = value;
+                              // },
+                              style: const TextStyle(
+                                fontSize: 23,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                          ListTile(
+                            title: const Text(
+                              'Risk Habits:',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontFamily: "Rubik",
+                              ),
+                            ),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: patientDetails!.getRiskFactors
+                                      ?.map((item) => Text(
+                                            '• Habit: ${item.habit},\n  Frequency: ${item.frequency},\n  Duration: ${item.duration}',
+                                            style: const TextStyle(
+                                              fontSize: 23,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ))
+                                      .toList() ??
+                                  [],
+                            ),
+                          ),
+                          ListTile(
+                            title: const Text(
+                              'Consent Form:',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontFamily: "Rubik",
+                              ),
+                            ),
+                            subtitle: TextField(
+                              controller: TextEditingController(
+                                text: patientDetails?.getConsentForm ?? '',
+                              ),
+                              // onChanged: (value) {
+                              //   new_name = value;
+                              // },
+                              style: const TextStyle(
+                                fontSize: 23,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                          ListTile(
+                            title: const Text(
+                              'Created At:',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontFamily: "Rubik",
+                              ),
+                            ),
+                            subtitle: TextField(
+                              controller: TextEditingController(
+                                text: patientDetails?.getCreatedAt ?? '',
+                              ),
+                              // onChanged: (value) {
+                              //   new_name = value;
+                              // },
+                              style: const TextStyle(
+                                fontSize: 23,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      style: const TextStyle(
-                        fontSize: 16,
-                      ),
-                      maxLines: 20,
-                      minLines: 1,
                     ),
                   ),
                 ),
@@ -349,13 +579,15 @@ class ForwardSheet extends StatelessWidget {
                 ),
                 hintText: 'Search',
                 hintStyle: TextStyle(
-                  color: const Color.fromARGB(255, 73, 113, 147).withOpacity(0.5),
+                  color:
+                      const Color.fromARGB(255, 73, 113, 147).withOpacity(0.5),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
                   borderSide: BorderSide(
-                      color: const Color.fromARGB(255, 73, 113, 147).withOpacity(
-                          0.5)), // Color of the border when focused
+                      color: const Color.fromARGB(255, 73, 113, 147)
+                          .withOpacity(
+                              0.5)), // Color of the border when focused
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
@@ -407,8 +639,8 @@ class ForwardSheet extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8.0),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide:
-                      const BorderSide(color: Color.fromARGB(255, 255, 255, 255)),
+                  borderSide: const BorderSide(
+                      color: Color.fromARGB(255, 255, 255, 255)),
                   borderRadius: BorderRadius.circular(8.0),
                 ),
                 filled: true,
