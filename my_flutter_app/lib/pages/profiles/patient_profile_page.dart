@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:my_flutter_app/components/my_button_2.dart';
-import 'package:my_flutter_app/modals/DataProvider.dart';
+import 'package:my_flutter_app/controller/DataProvider.dart';
 import 'package:my_flutter_app/modals/Patient.dart';
 import 'package:my_flutter_app/modals/PatientDetails.dart';
+import 'package:my_flutter_app/pages/viewers/pdfViewerPage.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PatientProfile extends StatefulWidget {
   final void Function()? onTap;
   final String patientId;
-
+  final String consentFormPath = "http://localhost:8080/Storage/ConsentForms";
   const PatientProfile({
     super.key,
     required this.onTap,
@@ -423,27 +425,6 @@ class _PatientProfileState extends State<PatientProfile> {
                           ),
                           ListTile(
                             title: const Text(
-                              'Consent Form:',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontFamily: "Rubik",
-                              ),
-                            ),
-                            subtitle: TextField(
-                              controller: TextEditingController(
-                                text: patientDetails?.getConsentForm ?? '',
-                              ),
-                              // onChanged: (value) {
-                              //   new_name = value;
-                              // },
-                              style: const TextStyle(
-                                fontSize: 23,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                          ListTile(
-                            title: const Text(
                               'Created At:',
                               style: TextStyle(
                                 fontSize: 18,
@@ -463,6 +444,38 @@ class _PatientProfileState extends State<PatientProfile> {
                               ),
                             ),
                           ),
+                          const ListTile(
+                            title: Text(
+                              'Consent Form:',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontFamily: "Rubik",
+                              ),
+                            ),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => PdfViewerPage(
+                                      filename:
+                                          patientDetails?.getPatientId ?? ''),
+                                ),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Color.fromARGB(255, 200, 235,
+                                  255), // Add your desired color here
+                            ),
+                            child: Text(
+                              'Open pdf ${patientDetails?.getConsentForm ?? ''}',
+                              style: const TextStyle(
+                                color: Color.fromARGB(255, 54, 54,
+                                    54), // Add your desired text color here
+                              ),
+                            ),
+                          )
                         ],
                       ),
                     ),
