@@ -9,6 +9,7 @@ import 'TeleconService.dart';
 
 class TeleconEntryForm extends StatefulWidget {
   final String patientId;
+
   TeleconEntryForm({required this.patientId});
 
   @override
@@ -57,20 +58,26 @@ class TeleconEntryFormState extends State<TeleconEntryForm> {
       final selectedDateTime = DateTime(now.year, now.month, now.day, selectedTime!.hour, selectedTime!.minute);
       String formattedTime = DateFormat('HH:mm:ss.SSS').format(selectedDateTime);
 
-      return '$formattedDate"T"$formattedTime+00:00';
+      return '$formattedDate"T"$formattedTime'.replaceAll('"', '');
     }
     return '';
   }
 
   // Show time picker
-  Future<void> selectTime(BuildContext context,TimeOfDay? selectedTime) async {
+  Future<void> selectTime(BuildContext context, bool isStartTime) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
     );
-    if (picked != null && picked != selectedTime) {
+    if (picked != null) {
       setState(() {
-        selectedTime = picked;
+        if (isStartTime) {
+          selectedStartTime = picked;
+          startTimeController.text = picked.format(context);
+        } else {
+          selectedEndTime = picked;
+          endTimeController.text = picked.format(context);
+        }
       });
     }
   }
@@ -126,26 +133,28 @@ class TeleconEntryFormState extends State<TeleconEntryForm> {
       TeleconEntryRequest entryData = TeleconEntryRequest(
           startTime: formattedStartTime,
           endTime: formattedEndTime,
-          complaints: complaintController.text,
-          finding: findingController.text,
+          complaint: complaintController.text,
+          findings: findingController.text,
           currentHabits: parseCurrentHabbits(),
       );
 
       // Call the TeleconService to create the entry
-      final responseCode = await TeleconService()
+      final response = await TeleconService()
           .createEntry(entryData,widget.patientId);
 
-      if (responseCode == 200) {
+      if (response == 200) {
         print('Teleconsultation Entry created successfully');
         await responsePopup(
             context, "Success", "Teleconsultation Entry created successfully!");
+        // print(response.body);
         resetForm();
       } else {
+        int statusCode = response;
         print(
-            'Teleconsultation Entry creating failed. Status code: $responseCode');
+            'Teleconsultation Entry creating failed. Status code: $statusCode');
         responsePopup(
             context, "Failure",
-            "Error creating Teleconsultation Entry: $responseCode");
+            "Error creating Teleconsultation Entry: $statusCode");
       }
     }
   }
@@ -270,20 +279,14 @@ class TeleconEntryFormState extends State<TeleconEntryForm> {
 
                 // Start Time picker
                 TextFormField(
-                  controller: TextEditingController(
-                    text: selectedStartTime != null
-                        ? selectedStartTime!.format(context)
-                        : 'Select Time',
-                  ),
-                  readOnly: true,  // Make field read-only so it can only be edited via the picker
+                  controller: startTimeController,
+                  readOnly: true,
                   decoration: InputDecoration(
                     labelText: 'Start Time',
-                    suffixIcon: Icon(Icons.access_time),  // Icon to indicate time picker
+                    suffixIcon: Icon(Icons.access_time),
                   ),
                   onTap: () async {
-                    // Show time picker when tapped
-                    await selectTime(context,selectedStartTime);
-                    setState(() {});  // Refresh UI to display selected time
+                    await selectTime(context, true);
                   },
                   validator: (value) {
                     if (selectedStartTime == null) {
@@ -293,25 +296,15 @@ class TeleconEntryFormState extends State<TeleconEntryForm> {
                   },
                 ),
                 SizedBox(height: 20),
-                Text(
-                  "End Time : ",
-                  style: TextStyle(fontSize: 16), // Customize font size or other styles as needed
-                ),
-                // End Time picker
                 TextFormField(
-                  controller: TextEditingController(
-                    text: selectedEndTime != null
-                        ? selectedEndTime!.format(context)
-                        : 'Select Time',
-                  ),
-                  readOnly: true,  // Make field read-only so it can only be edited via the picker
+                  controller: endTimeController,
+                  readOnly: true,
                   decoration: InputDecoration(
-                    suffixIcon: Icon(Icons.access_time),  // Icon to indicate time picker
+                    labelText: 'End Time',
+                    suffixIcon: Icon(Icons.access_time),
                   ),
                   onTap: () async {
-                    // Show time picker when tapped
-                    await selectTime(context,selectedEndTime);
-                    setState(() {});  // Refresh UI to display selected time
+                    await selectTime(context, false);
                   },
                   validator: (value) {
                     if (selectedEndTime == null) {
@@ -326,7 +319,7 @@ class TeleconEntryFormState extends State<TeleconEntryForm> {
                   controller: complaintController,
                   decoration: InputDecoration(labelText: "Complaint :"),
                   validator: (value) =>
-                  value!.isEmpty ? "Complaint is required" : null,
+                  value!.isEmpty ? "Complaint is required" :null,
                 ),
                 SizedBox(height: 20),
                 TextFormField(
@@ -356,7 +349,6 @@ class TeleconEntryFormState extends State<TeleconEntryForm> {
                   ),
                   child: const Text('Submit'),
                 ),
-
               ],
             ),
           ),

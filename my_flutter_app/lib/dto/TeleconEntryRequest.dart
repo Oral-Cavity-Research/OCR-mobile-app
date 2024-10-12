@@ -3,15 +3,15 @@ import 'HabbitDto.dart';
 class TeleconEntryRequest {
   final String startTime;
   final String endTime;
-  final String complaints;
-  final String finding;
+  final String complaint;
+  final String findings;
   final List<HabbitDto>? currentHabits;
 
   TeleconEntryRequest({
     required this.startTime,
     required this.endTime,
-    required this.complaints,
-    required this.finding,
+    required this.complaint,
+    required this.findings,
     this.currentHabits
   });
 
@@ -19,8 +19,8 @@ class TeleconEntryRequest {
     return {
       'start_time': startTime,
       'end_time': endTime,
-      'complaints': complaints,
-      'finding': finding,
+      'complaint': complaint,
+      'findings': findings,
       'current_habits': currentHabits
     };
   }
@@ -28,8 +28,8 @@ class TeleconEntryRequest {
     return TeleconEntryRequest(
         startTime: json['start_time'],
         endTime: json['end_time'],
-        complaints: json['complaints'],
-        finding: json['finding'],
+        complaint: json['complaint'],
+        findings: json['findings'],
         currentHabits: json['current_habits']);
   }
 

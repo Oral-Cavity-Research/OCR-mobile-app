@@ -6,13 +6,14 @@ import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:my_flutter_app/dto/TokenStorage.dart';
 import 'package:my_flutter_app/dto/VerifyResponse.dart';
+import 'package:my_flutter_app/model/TeleconEntryModel.dart';
 
 import 'dto/HabbitDto.dart';
 import 'dto/RiskFactors.dart';
 import 'dto/TeleconEntryRequest.dart';
 
 class URL {
-  static const String BASE_URL = "http://10.0.2.2:8080/api";
+  static const String BASE_URL = "http://192.168.1.5:8080/api";
 }
 
 // /user/self/hospitals
@@ -301,8 +302,8 @@ Future<int> createTeleconEntry(String startTime,
   TeleconEntryRequest entryRequest = TeleconEntryRequest(
     startTime : startTime,
     endTime :endTime,
-    complaints: complaints,
-    finding: finding,
+    complaint: complaints,
+    findings: finding,
     currentHabits: currentHabits
   );
 
