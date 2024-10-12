@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:my_flutter_app/modals/DataProvider.dart';
+import 'package:my_flutter_app/controller/DataProvider.dart';
 import 'package:my_flutter_app/modals/Patient.dart';
 import 'package:my_flutter_app/pages/auth/route_generator.dart';
 

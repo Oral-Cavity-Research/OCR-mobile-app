@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:my_flutter_app/components/patientCard.dart';
-import 'package:my_flutter_app/modals/DataProvider.dart';
+import 'package:my_flutter_app/controller/DataProvider.dart';
 import 'package:my_flutter_app/modals/Patient.dart';
 import 'package:my_flutter_app/pages/profiles/patient_profile_page.dart';
 import 'package:provider/provider.dart';

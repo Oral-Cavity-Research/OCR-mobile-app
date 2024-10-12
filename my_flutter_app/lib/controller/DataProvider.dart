@@ -75,8 +75,6 @@ class DataProvider extends ChangeNotifier {
           'email': TokenStorage().getEmail()!,
         },
       );
-      print("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
-      print(response.statusCode);
       if (response.statusCode == 200) {
         final resData = json.decode(response.body);
         print(resData);

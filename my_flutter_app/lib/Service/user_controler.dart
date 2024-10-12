@@ -3,7 +3,7 @@ import 'package:my_flutter_app/URL.dart';
 import 'package:my_flutter_app/dto/TokenStorage.dart';
 import 'dart:convert';
 
-import 'package:my_flutter_app/modals/DataProvider.dart';
+import 'package:my_flutter_app/controller/DataProvider.dart';
 
 // api/user/self/update
 Future<int> updateUserSelf(String new_name, String new_hospital,
