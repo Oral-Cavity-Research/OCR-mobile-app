@@ -64,9 +64,6 @@ class RouteGenerator {
         print("search");
         return MaterialPageRoute(builder: (_) => SearchPage());
 
-      case '/image_upload':
-        return MaterialPageRoute(builder: (_) => const ImageUploadForm());
-
       case '/report_upload':
         return MaterialPageRoute(builder: (_) => const ReportUploadForm());
 

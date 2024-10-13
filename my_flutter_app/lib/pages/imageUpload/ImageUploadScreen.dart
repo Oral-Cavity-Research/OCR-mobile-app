@@ -7,7 +7,8 @@ import '../../model/imageUploadModel.dart';
 import 'ImageUploadService.dart';
 
 class ImageUploadForm extends StatefulWidget {
-  const ImageUploadForm({Key? key}) : super(key: key);
+  final String teleconEntryId;
+  const ImageUploadForm({Key? key, required this.teleconEntryId}) : super(key: key);
 
   @override
   _ImageUploadFormState createState() => _ImageUploadFormState();
@@ -42,7 +43,7 @@ class _ImageUploadFormState extends State<ImageUploadForm> {
   Future<void> _submitForm(BuildContext context) async {
     if (_formKey.currentState!.validate() && _image != null) {
       ImageUploadModel imageData = ImageUploadModel(
-        teleconEntryId: "6426fef2906bd94313ebe93d",
+        teleconEntryId: widget.teleconEntryId,
         imageName: imageNameController.text,
         location: locationController.text,
         clinicalDiagnosis: clinicalDiagnosisController.text,
