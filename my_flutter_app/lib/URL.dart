@@ -68,7 +68,7 @@ Future<int> imageUpload(
   String predictedCat,
   File file,
 ) async {
-  const url = URL.BASE_URL + "/user/upload/images/6426fef2906bd94313ebe93d";
+  final url = URL.BASE_URL + "/user/upload/images/$teleconEntryId";
   final dio.Dio dioClient = dio.Dio(); // Initialize Dio
 
   // Get the token from the token storage
@@ -89,7 +89,7 @@ Future<int> imageUpload(
       "data": dio.MultipartFile.fromString(
         jsonEncode({
           'telecon_entry_id': teleconEntryId,
-          'image_name': imageName,
+          'image_name': imageName+'.jpg',
           'location': location,
           'clinical_diagnosis': clinicalDiagnosis,
           'lesions_appear': lesionsAppear.toString(),
@@ -283,7 +283,7 @@ Future<int> patientUpload(
 }
 
 //creating a teleconsultation entry
-Future<int> createTeleconEntry(String startTime,
+Future<http.Response> createTeleconEntry(String startTime,
                                 String endTime,
                                 String complaints,
                                 String finding,
@@ -318,7 +318,7 @@ Future<int> createTeleconEntry(String startTime,
   );
 
   if(response.statusCode == 200){
-    return response.statusCode;
+    return response;
   }else{
     throw Exception('Failed to create telecon entry. Status code: ${response.statusCode}');
   }

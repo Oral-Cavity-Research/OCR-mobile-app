@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:my_flutter_app/dto/HabbitDto.dart';
+import 'package:my_flutter_app/pages/TeleconEntry/TeleconEntryDetails.dart';
 import '../../components/ResponsePopup.dart';
 import '../../components/addCurrentHabbits.dart';
 import '../../dto/TeleconEntryRequest.dart';
@@ -111,6 +114,7 @@ class TeleconEntryFormState extends State<TeleconEntryForm> {
     complaintController.clear();
     findingController.clear();
     currentHabbitsController.clear();
+    Habbits.clear();
 
   }
 
@@ -142,14 +146,18 @@ class TeleconEntryFormState extends State<TeleconEntryForm> {
       final response = await TeleconService()
           .createEntry(entryData,widget.patientId);
 
-      if (response == 200) {
+      if (response.statusCode == 200) {
         print('Teleconsultation Entry created successfully');
         await responsePopup(
             context, "Success", "Teleconsultation Entry created successfully!");
-        // print(response.body);
+        print(response.body);
         resetForm();
+        final teleconEntryData = response.body;
+        var parsedData = jsonDecode(teleconEntryData);
+        Navigator.push(context,
+        MaterialPageRoute(builder: (context)=> TeleconEntryDetails(data: parsedData)));
       } else {
-        int statusCode = response;
+        int statusCode = response.statusCode;
         print(
             'Teleconsultation Entry creating failed. Status code: $statusCode');
         responsePopup(
