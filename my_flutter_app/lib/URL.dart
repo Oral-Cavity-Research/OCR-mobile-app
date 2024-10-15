@@ -1,19 +1,17 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:dio/dio.dart' as dio;
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
+import 'package:my_flutter_app/dto/ReviewerDetailsDto.dart';
 import 'package:my_flutter_app/dto/TokenStorage.dart';
 import 'package:my_flutter_app/dto/VerifyResponse.dart';
-import 'package:my_flutter_app/model/TeleconEntryModel.dart';
-
 import 'dto/HabbitDto.dart';
 import 'dto/RiskFactors.dart';
 import 'dto/TeleconEntryRequest.dart';
 
 class URL {
-  static const String BASE_URL = "http://192.168.1.5:8080/api";
+  static const String BASE_URL = "http://192.168.25.15:8080/api";
 }
 
 // /user/self/hospitals
@@ -23,7 +21,6 @@ Future<List<String>> hospitallist() async {
   final response = await http.get(uri);
   final body = response.body;
   final List<dynamic> json = jsonDecode(body);
-
   List<String> hospitalsNames = [];
 
   for (var hospital in json) {
@@ -89,7 +86,7 @@ Future<int> imageUpload(
       "data": dio.MultipartFile.fromString(
         jsonEncode({
           'telecon_entry_id': teleconEntryId,
-          'image_name': imageName+'.jpg',
+          'image_name': imageName+'.jpg', //add the image type
           'location': location,
           'clinical_diagnosis': clinicalDiagnosis,
           'lesions_appear': lesionsAppear.toString(),
@@ -134,13 +131,59 @@ Future<int> imageUpload(
   }
 }
 
+Future<http.Response> receivedTeleconEntries(int pageNo,String filter)async{
+  final url = URL.BASE_URL + '/user/entry/get?page=${pageNo.toString()}&filter=${Uri.encodeComponent(filter)}';
+  final uri = Uri.parse(url);
+  String? token = TokenStorage().getToken();
+  String? email = TokenStorage().getEmail();
+  if (token == null || email == null) {
+    throw Exception("No token or email found. Please log in again");
+  }
+  final response = await http.get(
+    uri,
+    headers: {
+      'Authorization': 'Bearer ${token}',
+      'email': email,
+    },
+  );
+
+  if(response.statusCode == 200){
+    return response;
+  }else{
+    throw Exception('Failed to create telecon entry. Status code: ${response.statusCode}');
+  }
+}
+//user/entry/shared/patient/65e7f1e5b9a41292b631ec29?page=1&filter=Updated Date
+Future<http.Response> sharedTeleconEntries(int pageNo,String filter,String id)async{
+  final url = URL.BASE_URL + '/user/entry/shared/patient/${id}?page=${pageNo.toString()}&filter=${Uri.encodeComponent(filter)}';
+  final uri = Uri.parse(url);
+  String? token = TokenStorage().getToken();
+  String? email = TokenStorage().getEmail();
+  if (token == null || email == null) {
+    throw Exception("No token or email found. Please log in again");
+  }
+  final response = await http.get(
+    uri,
+    headers: {
+      'Authorization': 'Bearer ${token}',
+      'email': email,
+    },
+  );
+
+  if(response.statusCode == 200){
+    return response;
+  }else{
+    throw Exception('Failed to create telecon entry. Status code: ${response.statusCode}');
+  }
+}
+
 // /api/user/upload/reports
 Future<int> reportUpload(
   String teleconEntryId,
   String reportName,
   File file,
 ) async {
-  const url = URL.BASE_URL + "/user/upload/reports/6426fef2906bd94313ebe93d";
+  final url = URL.BASE_URL + "/user/upload/reports/$teleconEntryId";
   final dio.Dio dioClient = dio.Dio(); // Initialize Dio
 
   // Get the token from the token storage
@@ -321,6 +364,27 @@ Future<http.Response> createTeleconEntry(String startTime,
     return response;
   }else{
     throw Exception('Failed to create telecon entry. Status code: ${response.statusCode}');
+  }
+}
+
+///api/user/patient/reviewer/all
+Future<List<ReviewerDetails>> getAllReviewers()async{
+  const url = URL.BASE_URL + "/user/patient/reviewer/all";
+  final uri = Uri.parse(url);
+  final response = await http.get(
+      uri,
+      headers: {
+      'Authorization': 'Bearer ${TokenStorage().getToken()}',
+      'email': TokenStorage().getEmail()!,
+      },
+  );
+  if (response.statusCode == 200){
+    List<dynamic> reviewersJson = jsonDecode(response.body);
+    List<ReviewerDetails> reviewerList = reviewersJson.map((json)=> ReviewerDetails.fromJson(json)).
+  toList();
+    return reviewerList;
+  }else{
+    throw Exception('Failed to retrieve Reviewers. Status Code : ${response.statusCode}');
   }
 }
 

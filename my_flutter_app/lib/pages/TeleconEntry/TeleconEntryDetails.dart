@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../ReportUpload/reportUploadScreen.dart';
 import '../imageUpload/ImageUploadScreen.dart';
 
 class TeleconEntryDetails extends StatelessWidget {
@@ -107,10 +108,26 @@ class TeleconEntryDetails extends StatelessWidget {
                   // Add image upload logic here
                   print("Upload Images button pressed");
                 },
-                icon: Icon(Icons.image),
+                icon: Icon(Icons.image_outlined),
                 label: Text('Upload Images'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue[900], // Button color
+                  backgroundColor: Colors.blue[500], // Button color
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context)=> ReportUploadForm(teleconEntryId: data['id'],)));
+                  // Add image upload logic here
+                  print("Upload Reports button pressed");
+                },
+                icon: Icon(Icons.upload_file_outlined),
+                label: Text('Upload Reports'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue[500], // Button color
                 ),
               ),
             ),

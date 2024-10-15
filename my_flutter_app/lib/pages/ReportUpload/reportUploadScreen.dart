@@ -9,7 +9,8 @@ import '../../model/imageUploadModel.dart';
 import '../../model/reportUploadModel.dart';
 
 class ReportUploadForm extends StatefulWidget {
-  const ReportUploadForm({Key? key}) : super(key: key);
+  final String teleconEntryId;
+  const ReportUploadForm({Key? key,required this.teleconEntryId}) : super(key: key);
 
   @override
   _ReportUploadFormState createState() => _ReportUploadFormState();
@@ -40,7 +41,7 @@ class _ReportUploadFormState extends State<ReportUploadForm> {
   Future<void> _submitForm(BuildContext context) async {
     if (_formKey.currentState!.validate() && _report != null) {
       ReportUploadModel reportData = ReportUploadModel(
-        teleconEntryId: "6426fef2906bd94313ebe93d",
+        teleconEntryId: widget.teleconEntryId,
         reportName: reportNameController.text
       );
 
