@@ -64,17 +64,12 @@ class RouteGenerator {
         print("search");
         return MaterialPageRoute(builder: (_) => SearchPage());
 
-      case '/report_upload':
-        return MaterialPageRoute(builder: (_) => const ReportUploadForm());
-
       case '/search':
         return MaterialPageRoute(builder: (_) => const SearchPage());
 
       case '/sent_reports':
         return MaterialPageRoute(builder: (_) => const SentFiles());
 
-      case '/receive_reports':
-        return MaterialPageRoute(builder: (_) => const RecievFiles());
 
       case '/doctor_profile':
         return MaterialPageRoute(builder: (_) => const DoctorProfilePage());

@@ -14,9 +14,6 @@ class side_bar extends StatelessWidget {
     Navigator.pushNamed(context, '/about_us');
   }
 
-  void imageUpload(BuildContext context) {
-    Navigator.pushNamed(context, '/image_upload');
-  }
 
   void add_patient(BuildContext context) {
     Navigator.pushNamed(context, '/add_patient');
@@ -24,10 +21,6 @@ class side_bar extends StatelessWidget {
 
   void add_role(BuildContext context) {
     Navigator.pushNamed(context, '/add_a_role');
-  }
-
-  void reportUpload(BuildContext context) {
-    Navigator.pushNamed(context, '/report_upload');
   }
 
   void createTeleconEntry(BuildContext context) {
@@ -94,13 +87,9 @@ class side_bar extends StatelessWidget {
             buildMenuButton(Icons.add, 'Add a Role', () => add_role(context)),
             buildMenuButton(
                 Icons.remove, 'Remove a User', () => about_us(context)),
-            buildMenuButton(
-                Icons.add, 'Upload Image', () => imageUpload(context)),
             buildMenuButton(Icons.info, 'About Us', () => about_us(context)),
             buildMenuButton(
                 Icons.logout, 'Log Out', () => googleSignOut(context)),
-            buildMenuButton(
-                Icons.add, 'Upload Report', () => reportUpload(context)),
             buildMenuButton(
                 Icons.add, 'Add TeleconEntry', () => createTeleconEntry(context)),
           ],

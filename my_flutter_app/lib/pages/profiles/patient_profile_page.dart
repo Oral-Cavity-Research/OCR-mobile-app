@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:my_flutter_app/components/my_button_2.dart';
 import 'package:my_flutter_app/controller/DataProvider.dart';
-import 'package:my_flutter_app/modals/Patient.dart';
 import 'package:my_flutter_app/modals/PatientDetails.dart';
 import 'package:my_flutter_app/pages/viewers/pdfViewerPage.dart';
-import 'package:url_launcher/url_launcher.dart';
+
+import '../Reviewers/ReviewerSheet.dart';
+import '../TeleconEntry/AddTeleconEntryScreen.dart';
 
 class PatientProfile extends StatefulWidget {
   final void Function()? onTap;
@@ -501,8 +501,13 @@ class _PatientProfileState extends State<PatientProfile> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: widget.onTap,
-                  child: Text("See report",
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) => TeleconEntryForm(patientId: patientDetails!.getId!),
+                    ),
+                    );
+                  },
+                  child: Text("New Entry",
                       style: TextStyle(
                           color: Theme.of(context).colorScheme.inversePrimary,
                           fontWeight: FontWeight.bold,
@@ -512,9 +517,12 @@ class _PatientProfileState extends State<PatientProfile> {
                   padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                   child: MyButton2(
                     onTap: () {
-                      _showForwardSheet(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) =>ReviewerSelectionScreen(), )
+                      );
                     },
-                    text: 'Forward',
+                    text: 'Reviewers',
                     backgroundColor: const Color.fromARGB(255, 90, 160, 225),
                     width: 120.0,
                     height: 60.0,
@@ -678,7 +686,7 @@ class ForwardSheet extends StatelessWidget {
                   color: Color.fromARGB(255, 255, 0, 0)),
             ),
             const Text(
-              'This data only includes patient’s report details only!. Anyother personal details cannor forward through this method!',
+              'This data only includes patient’s report details only!. Anyother personal details cannot forward through this method!',
               style: TextStyle(
                   fontSize: 17,
                   fontFamily: 'Rubik',
