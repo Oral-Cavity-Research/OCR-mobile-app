@@ -1,25 +1,21 @@
 import 'dart:convert';
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:my_flutter_app/components/doctor_notification.dart';
-import 'package:my_flutter_app/components/menu_button.dart';
-
 import '../../URL.dart';
 
-class ReceivedEntriesScreen extends StatefulWidget {
-  const ReceivedEntriesScreen({super.key});
+class shareEntriesScreen extends StatefulWidget {
+  final String patientId;
+  shareEntriesScreen({super.key,required this.patientId});
   @override
-  _ReceivedEntriesScreenState createState() => _ReceivedEntriesScreenState();
+  _shareEntriesScreenState createState() => _shareEntriesScreenState();
 }
 
-class _ReceivedEntriesScreenState extends State<ReceivedEntriesScreen> {
-  String _selectedSortOption = 'Created Date';
+class _shareEntriesScreenState extends State<shareEntriesScreen> {
+  String _selectedSortOption = 'Updated Date';
   int _currentPage = 1;
   bool _isLoading = false;
   List<Map<String, dynamic>> _entries = []; // List to store fetched entries
 
-  final List<String> _sortOptions = ['Assigned', 'Unassigned', 'Reviewed', 'Unreviewed', 'Newly Reviewed','Created Date'];
+  final List<String> _sortOptions = ['Updated Date','Created Date'];
 
   @override
   void initState() {
@@ -34,7 +30,7 @@ class _ReceivedEntriesScreenState extends State<ReceivedEntriesScreen> {
     });
 
     try {
-      final response = await receivedTeleconEntries(_currentPage, _selectedSortOption);
+      final response = await shareTeleconEntries(_currentPage, _selectedSortOption,widget.patientId);
       if (response.statusCode == 200) {
         print(json.decode(response.body));
         final List<dynamic> jsonResponse = json.decode(response.body);
@@ -64,11 +60,23 @@ class _ReceivedEntriesScreenState extends State<ReceivedEntriesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    appBar: AppBar(
-      title: const Text('My Telecon Entries',
-        style: TextStyle(color: Colors.white),),
-      backgroundColor: const Color(0xFF1565C0),
-    ),
+      appBar: AppBar(
+        title: Text('Patient Telecon Entries',
+          style: TextStyle(color: Colors.white),),
+        backgroundColor: Colors.blue[900],
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color.fromARGB(255, 59, 158, 215), // Dodger blue
+                Color.fromARGB(255, 122, 188, 245), // Royal blue
+              ],
+            ),
+          ),
+        ),
+      ),
       body: Column(
         children: [
           // Sorting Dropdown
@@ -106,15 +114,41 @@ class _ReceivedEntriesScreenState extends State<ReceivedEntriesScreen> {
               itemCount: _entries.length,
               itemBuilder: (context, index) {
                 final entry = _entries[index];
+                List<dynamic> reviewers = entry['reviewers'] ?? [];
                 return Card(
                   child: ListTile(
                     title: Text('Teleconsultation Id: ${entry['id'] ?? 'N/A'}'),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Patient Id: ${entry['patient']['patientId'] ?? 'N/A'}'),
-                        Text('Patient Name: ${entry['patient']['patientName'] ?? 'N/A'}'),
-                        Text('Start Time: ${entry['startTime'] ?? 'N/A'}'),
+                        Text('Complaint: ${entry['complaint']?? 'N/A'}'),
+                        Text('Start Time: ${entry['startTime']?? 'N/A'}'),
+                        Text('End Time: ${entry['endTime']?? 'N/A'}'),
+                        Text('Findings: ${entry['findings']?? 'N/A'}'),
+                        Text(
+                          'Reviewer Names:',
+                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(height: 10), // Adds spacing
+                        reviewers.isNotEmpty
+                            ? ListView.builder(
+                          shrinkWrap: true, // Ensures it fits in the parent Column
+                          physics: NeverScrollableScrollPhysics(), // Avoids conflicts with scroll
+                          itemCount: reviewers.length,
+                          itemBuilder: (context, index) {
+                            var reviewer = reviewers[index];
+                            return Text(
+                              reviewer['username'] ?? 'N/A', // Safely access the username
+                              style: TextStyle(fontSize: 16),
+                            );
+                          },
+                        )
+                            : Text(
+                          'No reviewers available.',
+                          style: TextStyle(fontSize: 16, color: Colors.grey),
+                        ),
+                        Text('Created At: ${entry['createdAt'] ?? 'N/A'}'),
+                        Text('Updated At: ${entry['updatedAt'] ?? 'N/A'}'),
                       ],
                     ),
                   ),

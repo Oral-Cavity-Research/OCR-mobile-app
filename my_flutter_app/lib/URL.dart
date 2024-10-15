@@ -131,7 +131,7 @@ Future<int> imageUpload(
   }
 }
 
-Future<http.Response> receivedTeleconEntries(int pageNo,String filter)async{
+Future<http.Response> receivedTeleconEntries(int pageNo,String filter)async{ //Refactor to all teleconEntries
   final url = URL.BASE_URL + '/user/entry/get?page=${pageNo.toString()}&filter=${Uri.encodeComponent(filter)}';
   final uri = Uri.parse(url);
   String? token = TokenStorage().getToken();
@@ -153,29 +153,29 @@ Future<http.Response> receivedTeleconEntries(int pageNo,String filter)async{
     throw Exception('Failed to create telecon entry. Status code: ${response.statusCode}');
   }
 }
-// //user/entry/shared/patient/65e7f1e5b9a41292b631ec29?page=1&filter=Updated Date
-// Future<http.Response> sharedTeleconEntries(int pageNo,String filter,String id)async{
-//   final url = URL.BASE_URL + '/user/entry/shared/patient/${id}?page=${pageNo.toString()}&filter=${Uri.encodeComponent(filter)}';
-//   final uri = Uri.parse(url);
-//   String? token = TokenStorage().getToken();
-//   String? email = TokenStorage().getEmail();
-//   if (token == null || email == null) {
-//     throw Exception("No token or email found. Please log in again");
-//   }
-//   final response = await http.get(
-//     uri,
-//     headers: {
-//       'Authorization': 'Bearer ${token}',
-//       'email': email,
-//     },
-//   );
-//
-//   if(response.statusCode == 200){
-//     return response;
-//   }else{
-//     throw Exception('Failed to create telecon entry. Status code: ${response.statusCode}');
-//   }
-// }
+// share these telecon entries of patient to other clinicians
+Future<http.Response> shareTeleconEntries(int pageNo,String filter,String id)async{
+  final url = URL.BASE_URL + '/user/entry/get/patient/${id}?page=${pageNo.toString()}&filter=${Uri.encodeComponent(filter)}';
+  final uri = Uri.parse(url);
+  String? token = TokenStorage().getToken();
+  String? email = TokenStorage().getEmail();
+  if (token == null || email == null) {
+    throw Exception("No token or email found. Please log in again");
+  }
+  final response = await http.get(
+    uri,
+    headers: {
+      'Authorization': 'Bearer ${token}',
+      'email': email,
+    },
+  );
+
+  if(response.statusCode == 200){
+    return response;
+  }else{
+    throw Exception('Failed to create telecon entry. Status code: ${response.statusCode}');
+  }
+}
 
 // /api/user/upload/reports
 Future<int> reportUpload(

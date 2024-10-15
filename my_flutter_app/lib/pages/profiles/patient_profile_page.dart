@@ -6,11 +6,12 @@ import 'package:my_flutter_app/pages/viewers/pdfViewerPage.dart';
 
 import '../Reviewers/ReviewerSheet.dart';
 import '../TeleconEntry/AddTeleconEntryScreen.dart';
+import '../TeleconEntry/shareTeleconEntries.dart';
 
 class PatientProfile extends StatefulWidget {
   final void Function()? onTap;
   final String patientId;
-  final String consentFormPath = "http://localhost:8080/Storage/ConsentForms";
+  final String consentFormPath = "http://192.168.25.15:8080/Storage/ConsentForms";
   const PatientProfile({
     super.key,
     required this.onTap,
@@ -493,6 +494,10 @@ class _PatientProfileState extends State<PatientProfile> {
                   child: MyButton2(
                     onTap: () {
                       print('Edit Status button tapped!');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context)=> shareEntriesScreen(patientId: patientDetails!.getId!,))
+                      );
                     },
                     text: 'Edit Status',
                     backgroundColor: const Color.fromARGB(255, 255, 88, 88),
