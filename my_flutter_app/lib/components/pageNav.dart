@@ -9,6 +9,7 @@ import 'package:my_flutter_app/pages/home/sent_files_page.dart';
 import 'package:my_flutter_app/pages/search/search_page.dart';
 
 import '../pages/TeleconEntry/receivedTeleconEntries.dart';
+import '../pages/TeleconEntry/sharedTeleconEntries.dart';
 
 class Pagenav extends StatefulWidget {
   const Pagenav({super.key});
@@ -26,7 +27,7 @@ class _PagenavState extends State<Pagenav> {
     HomePage(),
     SearchPage(),
     SentFiles(),
-    ReceivedEntriesScreen(),
+    SharedEntriesScreen(),
   ];
 
   String getPageName(int index) {

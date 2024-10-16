@@ -35,6 +35,11 @@ class _ImageUploadFormState extends State<ImageUploadForm> {
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
+        String imageExtension = pickedFile.path.split('.').last;
+        String currentImageName = imageNameController.text;
+        if(imageExtension.isNotEmpty){
+          imageNameController.text = '$currentImageName.$imageExtension';
+        }
         print(_image);
       }
     });

@@ -1,10 +1,6 @@
 import 'dart:convert';
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:my_flutter_app/components/doctor_notification.dart';
-import 'package:my_flutter_app/components/menu_button.dart';
-
 import '../../URL.dart';
 
 class ReceivedEntriesScreen extends StatefulWidget {
