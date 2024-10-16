@@ -98,6 +98,9 @@ class _ShareEntriesScreenState extends State<ShareEntriesScreen> {
                 leading: Icon(Icons.delete),
                 title: Text('Remove Reviewer'),
                 onTap: () {
+                  print(entry['reviewers']);
+                  _showDeleteReviewerSelectionSheet(context, entry['id'],entry['reviewers'] );
+
                   Navigator.pop(context);
                 },
               ),
@@ -137,39 +140,208 @@ class _ShareEntriesScreenState extends State<ShareEntriesScreen> {
       context: context,
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)), // Smoother, slightly larger radius
       ),
+      backgroundColor: Colors.white, // Clean white background for contrast
       builder: (context) => DraggableScrollableSheet(
         expand: false,
-        initialChildSize: 0.67,
-        minChildSize: 0.67,
+        initialChildSize: 0.7, // A bit larger to start with
+        minChildSize: 0.7,
         maxChildSize: 1.0,
         builder: (context, scrollController) {
-          return _ReviewerList(
-            scrollController: scrollController,
-            reviewerList: reviewerList,
-            onReviewerSelected: (ReviewerDetails reviewer) async {
-              final response = await addReviewer(teleconId, reviewer.id);
-              if (response == 200) {
-                Navigator.pop(context); // Close the sheet after successful addition
-                responsePopup(
-                    context, "Successful",
-                    "Reviewer added successfully");
-                setState(() {
-                  _fetchTeleconEntries();
-                });
-              }else{
-                Navigator.pop(context);
-                responsePopup(
-                    context, "Failure",
-                    "Error adding reviewer. Error code : $response");
-              }
-            },
+          return Container(
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
+              gradient: LinearGradient(
+                colors: [Color(0xFFE3F2FD), Color(0xFFBBDEFB)], // Subtle blue gradient
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 16.0),
+                  child: Text(
+                    'Select Reviewer',
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue[900], // Professional dark blue
+                      fontFamily: 'Rubik',
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: _ReviewerList(
+                    scrollController: scrollController,
+                    reviewerList: reviewerList,
+                    onReviewerSelected: (ReviewerDetails reviewer) async {
+                      // Show a loading indicator
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (BuildContext context) {
+                          return Center(
+                            child: CircularProgressIndicator(
+                              color: Colors.blue[900], // Match color scheme
+                            ),
+                          );
+                        },
+                      );
+
+                      final response = await addReviewer(teleconId, reviewer.id);
+
+                      Navigator.pop(context); // Close the loading dialog
+
+                      if (response == 200) {
+                        Navigator.pop(context); // Close the bottom sheet
+                        responsePopup(context, "Success", "Reviewer added successfully");
+                        setState(() {
+                          _fetchTeleconEntries(); // Update the entries
+                        });
+                      } else {
+                        responsePopup(context, "Failure", "Error adding reviewer. Error code: $response");
+                      }
+                    },
+                  ),
+                ),
+              ],
+            ),
           );
         },
       ),
     );
   }
+
+  List<ReviewerDetails> mapReviewers(List<dynamic> reviewers) {
+    return reviewers.map<ReviewerDetails>((reviewer) {
+      try {
+        print('Mapping reviewer: $reviewer'); // Print each reviewer before mapping
+        return ReviewerDetails(
+          id: reviewer['id'] ?? '', // Correct key usage
+          userName: reviewer['username'] ?? '', // This is correct
+          regNo: reviewer['regNo'] ?? '', // Handle cases where regNo might not be present
+        );
+      } catch (e) {
+        // Print error for debugging
+        print('Error mapping reviewer: $e');
+        return ReviewerDetails(id: '', userName: '', regNo: ''); // Fallback
+      }
+    }).toList();
+  }
+
+
+
+
+  void _showDeleteReviewerSelectionSheet(BuildContext context, String teleconId, List<dynamic> existingReviewers) {
+    // Check if existingReviewers is null or empty
+    if (existingReviewers == null || existingReviewers.isEmpty) {
+      // Handle the case where there are no existing reviewers
+      responsePopup(context, "Info", "No existing reviewers to display.");
+      // Exit if no reviewers
+    }
+
+    // Proceed to map reviewers only if the list is not empty
+    List<ReviewerDetails> deleteReviewers = mapReviewers(existingReviewers);
+
+    // Show the bottom sheet
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
+      ),
+      backgroundColor: Colors.white,
+      builder: (context) => DraggableScrollableSheet(
+        expand: false,
+        initialChildSize: 0.7,
+        minChildSize: 0.7,
+        maxChildSize: 1.0,
+        builder: (context, scrollController) {
+          return Container(
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
+              gradient: LinearGradient(
+                colors: [Color(0xFFE3F2FD), Color(0xFFBBDEFB)],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 16.0),
+                  child: Text(
+                    'Select Reviewer',
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue[900],
+                      fontFamily: 'Rubik',
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    controller: scrollController,
+                    itemCount: deleteReviewers.length,
+                    itemBuilder: (context, index) {
+                      final reviewer = deleteReviewers[index];
+                      return ListTile(
+                        title: Text(reviewer.userName),
+                        subtitle: Text(reviewer.regNo), // If you want to display regNo too
+                        onTap: () async {
+                          // Show a loading indicator
+                          print('Selected reviewer: ${reviewer.userName}');
+                          showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (BuildContext context) {
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  color: Colors.blue[900],
+                                ),
+                              );
+                            },
+                          );
+
+                          try {
+                            final response = await removeReviewer(teleconId, reviewer.id);
+                            Navigator.pop(context); // Close the loading dialog
+
+                            if (response == 200) {
+                              Navigator.pop(context); // Close the bottom sheet
+                              responsePopup(context, "Success", "Reviewer removed successfully");
+                              setState(() {
+                                _fetchTeleconEntries(); // Update the entries
+                              });
+                            } else {
+                              responsePopup(context, "Failure", "Error removing reviewer. Error code: $response");
+                            }
+                          } catch (e) {
+                            Navigator.pop(context); // Close loading dialog on error
+                            responsePopup(context, "Error", "An unexpected error occurred: $e");
+                          }
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+
+
+
+
 
   void _changePage(int page) {
     setState(() {
@@ -324,40 +496,49 @@ class _ReviewerList extends StatelessWidget {
     required this.reviewerList,
     required this.onReviewerSelected,
   });
-
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('Select a Reviewer',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-          SizedBox(height: 16),
-          Expanded(
-            child: reviewerList.isEmpty // Check if the list is empty
-                ? Center(
-                child: CircularProgressIndicator()) // Show loading if no data
-                : ListView.builder(
-              controller: scrollController,
-              itemCount: reviewerList.length,
-              itemBuilder: (context, index) {
-                ReviewerDetails reviewer = reviewerList[index];
-                return ListTile(
-                  title: Text(reviewer.userName),
-                  subtitle: Text('Reg No: ${reviewer.regNo}'),
-                  leading: Icon(Icons.person),
-                  onTap: () {
-                    onReviewerSelected(
-                        reviewer); // Call callback when a reviewer is clicked
-                  },
-                );
-              },
+    return ListView.builder(
+      controller: scrollController,
+      itemCount: reviewerList.length,
+      itemBuilder: (context, index) {
+        print(reviewerList[index]);
+        final reviewer = reviewerList[index];
+        return GestureDetector(
+          onTap: () => onReviewerSelected(reviewer),
+          child: Container(
+            margin: EdgeInsets.symmetric(vertical: 5),
+            padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+            decoration: BoxDecoration(
+              color: Colors.blue[100],
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 6,
+                  spreadRadius: 2,
+                  offset: Offset(0, 3),
+                ),
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Clinician Name: ' + reviewer.userName, style: TextStyle(fontSize: 16)),
+                      Text('Reg No: ' + reviewer.id, style: TextStyle(fontSize: 16)),
+                    ],
+                  ),
+                ),
+                Icon(Icons.manage_accounts, color: Colors.blue[900]),
+              ],
             ),
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

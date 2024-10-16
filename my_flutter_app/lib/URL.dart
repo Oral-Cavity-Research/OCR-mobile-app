@@ -250,6 +250,31 @@ Future<int> addReviewer(String teleconId,String reviewerId)async{
   }
 }
 
+Future<int> removeReviewer(String teleconId,String reviewerId)async{
+  final url = URL.BASE_URL + "/user/entry/reviewer/remove/${teleconId}";
+  final uri = Uri.parse(url);
+  String? token = TokenStorage().getToken();
+  String? email = TokenStorage().getEmail();
+  if(token == null || email == null){
+    throw Exception("No token or email found. Please log in again");
+  }
+  final response = await http.post(
+    uri,
+    headers: {
+      'Authorization' : 'Bearer ${token}',
+      'email' : email,
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode({'reviewer_id': reviewerId}),
+
+  );
+  if(response.statusCode == 200){
+    return response.statusCode;
+  }else{
+    throw Exception('Failed to add reviewer. Status code: ${response.statusCode}');
+  }
+}
+
 //Telecon entries shared to the user
 ///api/user/entry/shared/all?page=1&filter=All
 Future<http.Response> sharedTeleconEntries(int pageNo,String filter)async{
