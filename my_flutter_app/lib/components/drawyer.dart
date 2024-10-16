@@ -23,8 +23,8 @@ class side_bar extends StatelessWidget {
     Navigator.pushNamed(context, '/add_a_role');
   }
 
-  void createTeleconEntry(BuildContext context) {
-    Navigator.pushNamed(context, '/create_TeleconEntry');
+  void allTeleconEntries(BuildContext context) {
+    Navigator.pushNamed(context, '/receivedTeleconEntries');
   }
 
   GoogleSignIn signIn = GoogleSignIn();
@@ -91,7 +91,7 @@ class side_bar extends StatelessWidget {
             buildMenuButton(
                 Icons.logout, 'Log Out', () => googleSignOut(context)),
             buildMenuButton(
-                Icons.add, 'Add TeleconEntry', () => createTeleconEntry(context)),
+                Icons.medical_information_outlined, 'My TeleconEntries', () => allTeleconEntries(context)),
           ],
         ),
       ),

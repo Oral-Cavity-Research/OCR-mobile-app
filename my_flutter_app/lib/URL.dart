@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart' as dio;
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
+import 'package:my_flutter_app/dto/ReviewRequestDto.dart';
 import 'package:my_flutter_app/dto/ReviewerDetailsDto.dart';
 import 'package:my_flutter_app/dto/TokenStorage.dart';
 import 'package:my_flutter_app/dto/VerifyResponse.dart';
@@ -131,7 +132,7 @@ Future<int> imageUpload(
   }
 }
 
-Future<http.Response> receivedTeleconEntries(int pageNo,String filter)async{
+Future<http.Response> receivedTeleconEntries(int pageNo,String filter)async{ //Refactor to all teleconEntries
   final url = URL.BASE_URL + '/user/entry/get?page=${pageNo.toString()}&filter=${Uri.encodeComponent(filter)}';
   final uri = Uri.parse(url);
   String? token = TokenStorage().getToken();
@@ -153,29 +154,126 @@ Future<http.Response> receivedTeleconEntries(int pageNo,String filter)async{
     throw Exception('Failed to create telecon entry. Status code: ${response.statusCode}');
   }
 }
-// //user/entry/shared/patient/65e7f1e5b9a41292b631ec29?page=1&filter=Updated Date
-// Future<http.Response> sharedTeleconEntries(int pageNo,String filter,String id)async{
-//   final url = URL.BASE_URL + '/user/entry/shared/patient/${id}?page=${pageNo.toString()}&filter=${Uri.encodeComponent(filter)}';
-//   final uri = Uri.parse(url);
-//   String? token = TokenStorage().getToken();
-//   String? email = TokenStorage().getEmail();
-//   if (token == null || email == null) {
-//     throw Exception("No token or email found. Please log in again");
-//   }
-//   final response = await http.get(
-//     uri,
-//     headers: {
-//       'Authorization': 'Bearer ${token}',
-//       'email': email,
-//     },
-//   );
-//
-//   if(response.statusCode == 200){
-//     return response;
-//   }else{
-//     throw Exception('Failed to create telecon entry. Status code: ${response.statusCode}');
-//   }
-// }
+// share these telecon entries of patient to other clinicians
+Future<http.Response> shareTeleconEntries(int pageNo,String filter,String id)async{
+  final url = URL.BASE_URL + '/user/entry/get/patient/${id}?page=${pageNo.toString()}&filter=${Uri.encodeComponent(filter)}';
+  final uri = Uri.parse(url);
+  String? token = TokenStorage().getToken();
+  String? email = TokenStorage().getEmail();
+  if (token == null || email == null) {
+    throw Exception("No token or email found. Please log in again");
+  }
+  final response = await http.get(
+    uri,
+    headers: {
+      'Authorization': 'Bearer ${token}',
+      'email': email,
+    },
+  );
+
+  if(response.statusCode == 200){
+    return response;
+  }else{
+    throw Exception('Failed to create telecon entry. Status code: ${response.statusCode}');
+  }
+}
+//Get shared telecon Netry details
+Future<http.Response> sharedTeleconEntryDetails(String teleconId)async{
+  final url = URL.BASE_URL + '/user/entry/shared/${teleconId}';
+  final uri = Uri.parse(url);
+  String? token = TokenStorage().getToken();
+  String? email = TokenStorage().getEmail();
+  if (token == null || email == null) {
+    throw Exception("No token or email found. Please log in again");
+  }
+  final response = await http.get(
+    uri,
+    headers: {
+      'Authorization': 'Bearer ${token}',
+      'email': email,
+    },
+  );
+
+  if(response.statusCode == 200){
+    return response;
+  }else{
+    throw Exception('Failed to create retrieve data. Status code: ${response.statusCode}');
+  }
+}
+
+//delete telecon Entry
+Future<int> deleteEntry(String teleconId) async{
+  final url = URL.BASE_URL + "/user/entry/delete/${teleconId}";
+  final uri = Uri.parse(url);
+  String? token = TokenStorage().getToken();
+  String? email = TokenStorage().getEmail();
+  if(token == null || email == null){
+    throw Exception("No token or email found. Please log in again");
+  }
+  final response = await http.post(
+    uri,
+    headers: {
+      'Authorization' : 'Bearer ${token}',
+      'email' : email
+    },
+  );
+  if(response.statusCode == 200){
+    return response.statusCode;
+  }else{
+    throw Exception('Failed to delete telecon entry. Status code:${teleconId} ${response.statusCode}');
+  }
+}
+//add reviewer to the entry
+///reviewer/add/{id}
+Future<int> addReviewer(String teleconId,String reviewerId)async{
+  final url = URL.BASE_URL + "/user/entry/reviewer/add/${teleconId}";
+  final uri = Uri.parse(url);
+  String? token = TokenStorage().getToken();
+  String? email = TokenStorage().getEmail();
+  if(token == null || email == null){
+    throw Exception("No token or email found. Please log in again");
+  }
+  final response = await http.post(
+    uri,
+    headers: {
+      'Authorization' : 'Bearer ${token}',
+      'email' : email,
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode({'reviewer_id': reviewerId}),
+
+  );
+  if(response.statusCode == 200){
+    return response.statusCode;
+  }else{
+    throw Exception('Failed to add reviewer. Status code: ${response.statusCode}');
+  }
+}
+
+//Telecon entries shared to the user
+///api/user/entry/shared/all?page=1&filter=All
+Future<http.Response> sharedTeleconEntries(int pageNo,String filter)async{
+  final url = URL.BASE_URL + '/user/entry/shared/all?page=${pageNo.toString()}&filter=${Uri.encodeComponent(filter)}';
+  final uri = Uri.parse(url);
+  String? token = TokenStorage().getToken();
+  String? email = TokenStorage().getEmail();
+  if (token == null || email == null) {
+    throw Exception("No token or email found. Please log in again");
+  }
+  final response = await http.get(
+    uri,
+    headers: {
+      'Authorization': 'Bearer ${token}',
+      'email': email,
+    },
+  );
+
+  if(response.statusCode == 200){
+    return response;
+  }else{
+    throw Exception('Failed to create telecon entry. Status code: ${response.statusCode}');
+  }
+}
 
 // /api/user/upload/reports
 Future<int> reportUpload(
@@ -358,6 +456,46 @@ Future<http.Response> createTeleconEntry(String startTime,
       'Content-Type': 'application/json; charset=UTF-8',
     },
     body: jsonEncode(entryRequest.toJson()),
+  );
+
+  if(response.statusCode == 200){
+    return response;
+  }else{
+    throw Exception('Failed to create telecon entry. Status code: ${response.statusCode}');
+  }
+}
+
+//
+Future<http.Response> addReview(String provisionalDiagnosis,
+    String managementSuggestions,
+    String referralSuggestions,
+    String otherComments,
+    String teleconId) async{
+  final url = URL.BASE_URL + "/user/entry/review/${teleconId}";//patient id should be added here
+  final uri = Uri.parse(url);
+  //getting the token and email of the clinician
+  String? token = TokenStorage().getToken();
+  String? email = TokenStorage().getEmail();
+
+  if(token == null || email == null){
+    throw Exception("No token or email found. Please log in again");
+  }
+  //creating teleconEntryRequest instance
+  ReviewRequest reviewRequest = ReviewRequest(
+    provisionalDiagnosis : provisionalDiagnosis,
+    managementSuggestions : managementSuggestions,
+    referralSuggestions : referralSuggestions,
+    otherComments : otherComments,
+  );
+
+  final response = await http.post(
+    uri,
+    headers: {
+      'Authorization': 'Bearer ${token}',
+      'email': email,
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(reviewRequest.toJson()),
   );
 
   if(response.statusCode == 200){

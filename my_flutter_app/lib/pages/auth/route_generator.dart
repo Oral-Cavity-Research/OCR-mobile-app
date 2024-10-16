@@ -21,6 +21,7 @@ import 'package:my_flutter_app/pages/search/search_page2.dart';
 
 import '../ReportUpload/reportUploadScreen.dart';
 import '../TeleconEntry/AddTeleconEntryScreen.dart';
+import '../TeleconEntry/receivedTeleconEntries.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -77,8 +78,8 @@ class RouteGenerator {
       case '/edit-profile':
         return MaterialPageRoute(builder: (_) => const DoctorEditProfile());
 
-      case '/create_TeleconEntry':
-        return MaterialPageRoute(builder: (_) => TeleconEntryForm( patientId: '66e9a9a8e6943f3d97c3279a',));
+      case '/receivedTeleconEntries':
+        return MaterialPageRoute(builder: (_) => ReceivedEntriesScreen());
 
       default:
         // If there is no such named route in the switch statement, e.g. /third

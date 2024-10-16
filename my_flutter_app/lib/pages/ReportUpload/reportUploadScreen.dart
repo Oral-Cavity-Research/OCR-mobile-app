@@ -31,8 +31,19 @@ class _ReportUploadFormState extends State<ReportUploadForm> {
     if (result != null) {
       setState(() {
         _report = File(result.files.single.path!);
-        print(_report);
+
+        // Extract the file extension from the selected file
+        String fileExtension = result.files.single.extension ?? '';
+
+        // Get the current text from the form's report name field
+        String currentReportName = reportNameController.text;
+
+        // Set the report name with the current name plus the file extension
+        if (fileExtension.isNotEmpty) {
+          reportNameController.text = '$currentReportName.$fileExtension';
+        }
       });
+      print(_report);
     }
   }
 

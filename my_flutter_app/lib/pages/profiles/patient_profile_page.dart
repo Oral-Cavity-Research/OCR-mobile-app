@@ -1,16 +1,16 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_flutter_app/components/my_button_2.dart';
 import 'package:my_flutter_app/controller/DataProvider.dart';
 import 'package:my_flutter_app/modals/PatientDetails.dart';
 import 'package:my_flutter_app/pages/viewers/pdfViewerPage.dart';
-
-import '../Reviewers/ReviewerSheet.dart';
 import '../TeleconEntry/AddTeleconEntryScreen.dart';
+import '../TeleconEntry/shareTeleconEntries.dart';
 
 class PatientProfile extends StatefulWidget {
   final void Function()? onTap;
   final String patientId;
-  final String consentFormPath = "http://localhost:8080/Storage/ConsentForms";
+  final String consentFormPath = "http://192.168.25.15:8080/Storage/ConsentForms";
   const PatientProfile({
     super.key,
     required this.onTap,
@@ -25,28 +25,6 @@ class _PatientProfileState extends State<PatientProfile> {
   final TextEditingController patientNameController = TextEditingController();
   String selectedItem = 'Access I';
   PatientDetails? patientDetails;
-  void _showForwardSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
-      ),
-      builder: (context) => DraggableScrollableSheet(
-        expand: false,
-        initialChildSize: 0.67, // 2/3 of the screen
-        minChildSize: 0.67,
-        maxChildSize: 1.0,
-        builder: (context, scrollController) {
-          return ForwardSheet(
-            patientId: '123456',
-            patientName: 'Sahan Perera',
-            scrollController: scrollController,
-          );
-        },
-      ),
-    );
-  }
 
   @override
   void initState() {
@@ -58,8 +36,6 @@ class _PatientProfileState extends State<PatientProfile> {
         setState(() {
           patientDetails = patient;
         });
-
-        // Add more print statements for other properties as needed
       }
     });
   }
@@ -490,46 +466,72 @@ class _PatientProfileState extends State<PatientProfile> {
               children: [
                 Padding(
                   padding: const EdgeInsets.fromLTRB(22, 0, 20, 0),
-                  child: MyButton2(
-                    onTap: () {
-                      print('Edit Status button tapped!');
-                    },
-                    text: 'Edit Status',
-                    backgroundColor: const Color.fromARGB(255, 255, 88, 88),
+                  child: Container(
                     width: 120.0,
                     height: 60.0,
+                    decoration: BoxDecoration(
+                      color: CupertinoColors.activeBlue, // Blue background
+                      borderRadius: BorderRadius.circular(10), // Rounded corners
+                    ),
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ShareEntriesScreen(
+                              patientId: patientDetails!.getId!,
+                            ),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        'Share Entry',
+                        style: TextStyle(
+                          color: Colors.white, // White text color
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-                GestureDetector(
-                  onTap: (){
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => TeleconEntryForm(patientId: patientDetails!.getId!),
-                    ),
-                    );
-                  },
-                  child: Text("New Entry",
-                      style: TextStyle(
-                          color: Theme.of(context).colorScheme.inversePrimary,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16)),
-                ),
+
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                  child: MyButton2(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) =>ReviewerSelectionScreen(), )
-                      );
-                    },
-                    text: 'Reviewers',
-                    backgroundColor: const Color.fromARGB(255, 90, 160, 225),
+                  padding: const EdgeInsets.fromLTRB(20, 0, 22, 0), // Adjust padding to match
+                  child: Container(
                     width: 120.0,
                     height: 60.0,
+                    decoration: BoxDecoration(
+                      color: CupertinoColors.activeBlue, // Blue background
+                      borderRadius: BorderRadius.circular(10), // Rounded corners
+                    ),
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TeleconEntryForm(
+                              patientId: patientDetails!.getId!,
+                            ),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        "New Entry",
+                        style: TextStyle(
+                          color: Colors.white, // White text color
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ],
             ),
+
+
+
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
@@ -551,187 +553,187 @@ class _PatientProfileState extends State<PatientProfile> {
   }
 }
 
-class ForwardSheet extends StatelessWidget {
-  final String patientId;
-  final String patientName;
-  final ScrollController scrollController;
+// class ForwardSheet extends StatelessWidget {
+//   final String patientId;
+//   final String patientName;
+//   final ScrollController scrollController;
+//
+//   const ForwardSheet({
+//     super.key,
+//     required this.patientId,
+//     required this.patientName,
+//     required this.scrollController,
+//   });
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       decoration: const BoxDecoration(
+//         borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
+//         gradient: LinearGradient(
+//           colors: [
+//             Color(0xFF87CEFA), // Light sky blue
+//             Colors.white, // White
+//           ],
+//           begin: Alignment.topLeft,
+//           end: Alignment.bottomRight,
+//         ),
+//       ),
+//       child: Padding(
+//         padding: const EdgeInsets.all(20.0),
+//         child: Column(
+//           mainAxisSize: MainAxisSize.min,
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             const Text(
+//               'Share With,',
+//               style: TextStyle(
+//                   fontSize: 24,
+//                   fontWeight: FontWeight.bold,
+//                   fontFamily: 'Rubik',
+//                   color: Color.fromARGB(255, 73, 113, 147)),
+//             ),
+//             const SizedBox(height: 10),
+//             TextField(
+//               decoration: InputDecoration(
+//                 prefixIcon: const Icon(
+//                   Icons.search,
+//                   color: Color.fromARGB(255, 73, 113, 147),
+//                 ),
+//                 hintText: 'Search',
+//                 hintStyle: TextStyle(
+//                   color:
+//                       const Color.fromARGB(255, 73, 113, 147).withOpacity(0.5),
+//                 ),
+//                 focusedBorder: OutlineInputBorder(
+//                   borderRadius: BorderRadius.circular(10.0),
+//                   borderSide: BorderSide(
+//                       color: const Color.fromARGB(255, 73, 113, 147)
+//                           .withOpacity(
+//                               0.5)), // Color of the border when focused
+//                 ),
+//                 enabledBorder: OutlineInputBorder(
+//                   borderRadius: BorderRadius.circular(10.0),
+//                   borderSide: const BorderSide(
+//                       color:
+//                           Colors.white), // Color of the border when not focused
+//                 ),
+//                 filled: true,
+//                 fillColor: Colors.white,
+//                 contentPadding: const EdgeInsets.all(10.0),
+//               ),
+//             ),
+//             const SizedBox(height: 20),
+//             const Text(
+//               'Suggested,',
+//               style: TextStyle(
+//                   fontSize: 18,
+//                   fontFamily: 'Rubik',
+//                   color: Color.fromARGB(255, 73, 113, 147)),
+//             ),
+//             const SizedBox(height: 20),
+//             Row(
+//               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//               children: [
+//                 _circularImage('lib/images/sampleDoc.jpg'),
+//                 _circularImage('lib/images/sampleDoc.jpg'),
+//                 _circularImage('lib/images/sampleDoc.jpg'),
+//                 _circularImage('lib/images/sampleDoc.jpg'),
+//                 _circularImage('lib/images/sampleDoc.jpg'),
+//               ],
+//             ),
+//             const SizedBox(height: 20),
+//             const Text(
+//               'Patient: #12345',
+//               style: TextStyle(
+//                   fontSize: 20,
+//                   fontWeight: FontWeight.bold,
+//                   fontFamily: 'Rubik',
+//                   color: Color.fromARGB(255, 73, 113, 147)),
+//             ),
+//             const SizedBox(
+//               height: 20,
+//             ),
+//             TextField(
+//               decoration: InputDecoration(
+//                 enabledBorder: OutlineInputBorder(
+//                   borderSide:
+//                       const BorderSide(color: Color.fromARGB(255, 0, 179, 255)),
+//                   borderRadius: BorderRadius.circular(8.0),
+//                 ),
+//                 focusedBorder: OutlineInputBorder(
+//                   borderSide: const BorderSide(
+//                       color: Color.fromARGB(255, 255, 255, 255)),
+//                   borderRadius: BorderRadius.circular(8.0),
+//                 ),
+//                 filled: true,
+//                 fillColor: Colors.white, // Background color of the TextField
+//                 hintText: "Add a note",
+//                 hintStyle: const TextStyle(color: Colors.grey),
+//                 contentPadding: const EdgeInsets.symmetric(horizontal: 20.0),
+//               ),
+//               style: const TextStyle(
+//                 fontSize: 16, // Adjust the font size
+//               ),
+//               maxLines: 10, // Adjust the number of lines
+//               minLines: 1, // Adjust the number of lines
+//             ),
+//             const SizedBox(height: 20),
+//             const Text(
+//               'Warning!',
+//               style: TextStyle(
+//                   fontSize: 22,
+//                   fontWeight: FontWeight.bold,
+//                   //  fontFamily: 'Rubik',
+//                   color: Color.fromARGB(255, 255, 0, 0)),
+//             ),
+//             const Text(
+//               'This data only includes patient’s report details only!. Anyother personal details cannot forward through this method!',
+//               style: TextStyle(
+//                   fontSize: 17,
+//                   fontFamily: 'Rubik',
+//                   color: Color.fromARGB(255, 255, 0, 0)),
+//             ),
+//             const SizedBox(height: 20),
+//             Padding(
+//               padding: const EdgeInsets.only(left: 130),
+//               child: Row(
+//                 children: [
+//                   Center(
+//                     child: MyButton2(
+//                       onTap: () {
+//                         Navigator.pop(context); // Close the bottom sheet
+//                       },
+//                       text: 'Send',
+//                       backgroundColor: const Color.fromARGB(255, 90, 160, 225),
+//                       width: 120.0,
+//                       height: 60.0,
+//                     ),
+//                   ),
+//                   const SizedBox(width: 20),
+//                   const Icon(
+//                     Icons.send, // Replace with your desired icon
+//                     size: 30.0, // Adjust the size as needed
+//                     color: Color.fromARGB(
+//                         255, 56, 122, 183), // Change the color if necessary
+//                   ),
+//                 ],
+//               ),
+//             )
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
 
-  const ForwardSheet({
-    super.key,
-    required this.patientId,
-    required this.patientName,
-    required this.scrollController,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
-        gradient: LinearGradient(
-          colors: [
-            Color(0xFF87CEFA), // Light sky blue
-            Colors.white, // White
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Share With,',
-              style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Rubik',
-                  color: Color.fromARGB(255, 73, 113, 147)),
-            ),
-            const SizedBox(height: 10),
-            TextField(
-              decoration: InputDecoration(
-                prefixIcon: const Icon(
-                  Icons.search,
-                  color: Color.fromARGB(255, 73, 113, 147),
-                ),
-                hintText: 'Search',
-                hintStyle: TextStyle(
-                  color:
-                      const Color.fromARGB(255, 73, 113, 147).withOpacity(0.5),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: BorderSide(
-                      color: const Color.fromARGB(255, 73, 113, 147)
-                          .withOpacity(
-                              0.5)), // Color of the border when focused
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: const BorderSide(
-                      color:
-                          Colors.white), // Color of the border when not focused
-                ),
-                filled: true,
-                fillColor: Colors.white,
-                contentPadding: const EdgeInsets.all(10.0),
-              ),
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              'Suggested,',
-              style: TextStyle(
-                  fontSize: 18,
-                  fontFamily: 'Rubik',
-                  color: Color.fromARGB(255, 73, 113, 147)),
-            ),
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _circularImage('lib/images/sampleDoc.jpg'),
-                _circularImage('lib/images/sampleDoc.jpg'),
-                _circularImage('lib/images/sampleDoc.jpg'),
-                _circularImage('lib/images/sampleDoc.jpg'),
-                _circularImage('lib/images/sampleDoc.jpg'),
-              ],
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              'Patient: #12345',
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Rubik',
-                  color: Color.fromARGB(255, 73, 113, 147)),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            TextField(
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderSide:
-                      const BorderSide(color: Color.fromARGB(255, 0, 179, 255)),
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                      color: Color.fromARGB(255, 255, 255, 255)),
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                filled: true,
-                fillColor: Colors.white, // Background color of the TextField
-                hintText: "Add a note",
-                hintStyle: const TextStyle(color: Colors.grey),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 20.0),
-              ),
-              style: const TextStyle(
-                fontSize: 16, // Adjust the font size
-              ),
-              maxLines: 10, // Adjust the number of lines
-              minLines: 1, // Adjust the number of lines
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              'Warning!',
-              style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  //  fontFamily: 'Rubik',
-                  color: Color.fromARGB(255, 255, 0, 0)),
-            ),
-            const Text(
-              'This data only includes patient’s report details only!. Anyother personal details cannot forward through this method!',
-              style: TextStyle(
-                  fontSize: 17,
-                  fontFamily: 'Rubik',
-                  color: Color.fromARGB(255, 255, 0, 0)),
-            ),
-            const SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.only(left: 130),
-              child: Row(
-                children: [
-                  Center(
-                    child: MyButton2(
-                      onTap: () {
-                        Navigator.pop(context); // Close the bottom sheet
-                      },
-                      text: 'Send',
-                      backgroundColor: const Color.fromARGB(255, 90, 160, 225),
-                      width: 120.0,
-                      height: 60.0,
-                    ),
-                  ),
-                  const SizedBox(width: 20),
-                  const Icon(
-                    Icons.send, // Replace with your desired icon
-                    size: 30.0, // Adjust the size as needed
-                    color: Color.fromARGB(
-                        255, 56, 122, 183), // Change the color if necessary
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-Widget _circularImage(String imagePath) {
-  return ClipOval(
-    child: Image.asset(
-      imagePath,
-      width: 60, // You can adjust the size
-      height: 60, // You can adjust the size
-      fit: BoxFit.cover,
-    ),
-  );
-}
+// Widget _circularImage(String imagePath) {
+//   return ClipOval(
+//     child: Image.asset(
+//       imagePath,
+//       width: 60, // You can adjust the size
+//       height: 60, // You can adjust the size
+//       fit: BoxFit.cover,
+//     ),
+//   );
+// }
