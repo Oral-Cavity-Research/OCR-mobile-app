@@ -152,10 +152,7 @@ class TeleconEntryFormState extends State<TeleconEntryForm> {
             context, "Success", "Teleconsultation Entry created successfully!");
         print(response.body);
         resetForm();
-        final teleconEntryData = response.body;
-        var parsedData = jsonDecode(teleconEntryData);
-        Navigator.push(context,
-        MaterialPageRoute(builder: (context)=> TeleconEntryDetails(data: parsedData)));
+
       } else {
         int statusCode = response.statusCode;
         print(

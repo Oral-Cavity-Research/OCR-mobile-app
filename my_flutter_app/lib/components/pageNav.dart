@@ -26,7 +26,7 @@ class _PagenavState extends State<Pagenav> {
   List<Widget> widgetOptions = <Widget>[
     HomePage(),
     SearchPage(),
-    SentFiles(),
+    ReceivedEntriesScreen(),
     SharedEntriesScreen(),
   ];
 
@@ -37,9 +37,9 @@ class _PagenavState extends State<Pagenav> {
       case 1:
         return 'Search';
       case 2:
-        return 'Sent TeleCon';
+        return 'Created Entries';
       case 3:
-        return 'Recieved TeleCon';
+        return 'Recieved Entries';
       default:
         return 'Home';
     }
@@ -108,7 +108,7 @@ class _PagenavState extends State<Pagenav> {
         items: const <Widget>[
           Icon(Icons.home),
           Icon(Icons.search),
-          Icon(Icons.send),
+          Icon(Icons.medical_information_outlined),
           Icon(Icons.call_received),
         ],
         index: _selectedIndex,

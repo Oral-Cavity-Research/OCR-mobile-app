@@ -78,8 +78,8 @@ class RouteGenerator {
       case '/edit-profile':
         return MaterialPageRoute(builder: (_) => const DoctorEditProfile());
 
-      case '/receivedTeleconEntries':
-        return MaterialPageRoute(builder: (_) => ReceivedEntriesScreen());
+      // case '/receivedTeleconEntries':
+      //   return MaterialPageRoute(builder: (_) => ReceivedEntriesScreen());
 
       default:
         // If there is no such named route in the switch statement, e.g. /third

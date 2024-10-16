@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:my_flutter_app/dto/ReviewerDetailsDto.dart';
 import '../../URL.dart';
 
 class ReceivedEntriesScreen extends StatefulWidget {
@@ -10,7 +11,7 @@ class ReceivedEntriesScreen extends StatefulWidget {
 }
 
 class _ReceivedEntriesScreenState extends State<ReceivedEntriesScreen> {
-  String _selectedSortOption = 'Created Date';
+  String _selectedSortOption = 'Assigned';
   int _currentPage = 1;
   bool _isLoading = false;
   List<Map<String, dynamic>> _entries = []; // List to store fetched entries
@@ -60,11 +61,11 @@ class _ReceivedEntriesScreenState extends State<ReceivedEntriesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    appBar: AppBar(
-      title: const Text('My Telecon Entries',
-        style: TextStyle(color: Colors.white),),
-      backgroundColor: const Color(0xFF1565C0),
-    ),
+    // appBar: AppBar(
+    //   title: const Text('My Telecon Entries',
+    //     style: TextStyle(color: Colors.white),),
+    //   backgroundColor: const Color(0xFF1565C0),
+    // ),
       body: Column(
         children: [
           // Sorting Dropdown
@@ -111,6 +112,33 @@ class _ReceivedEntriesScreenState extends State<ReceivedEntriesScreen> {
                         Text('Patient Id: ${entry['patient']['patientId'] ?? 'N/A'}'),
                         Text('Patient Name: ${entry['patient']['patientName'] ?? 'N/A'}'),
                         Text('Start Time: ${entry['startTime'] ?? 'N/A'}'),
+                        Text('End Time: ${entry['endTime'] ?? 'N/A'}'),
+                        Text('Updated: ${entry['updated']  ? 'Yes': 'No'}'),
+                        Text(
+                          'Reviewer Names:',
+                          style: TextStyle(fontSize: 15),
+                        ),
+                        entry['reviewers'].isNotEmpty
+                            ? ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: entry['reviewers'].length,
+                          itemBuilder: (context, index) {
+                            var reviewer = entry['reviewers'][index];
+                            return Padding(
+                              padding: const EdgeInsets.only(left: 16.0),
+                              child: Text(
+                                reviewer['username'] ?? 'N/A',
+                                style: TextStyle(fontSize: 15),
+                              ),
+                            );
+                          },
+                        )
+                            : Text(
+                          'No reviewers available.',
+                          style: TextStyle(fontSize: 16, color: Colors.grey),
+                        ),
+                        SizedBox(height: 10),
                       ],
                     ),
                   ),

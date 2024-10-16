@@ -23,9 +23,9 @@ class side_bar extends StatelessWidget {
     Navigator.pushNamed(context, '/add_a_role');
   }
 
-  void allTeleconEntries(BuildContext context) {
-    Navigator.pushNamed(context, '/receivedTeleconEntries');
-  }
+  // void allTeleconEntries(BuildContext context) {
+  //   Navigator.pushNamed(context, '/receivedTeleconEntries');
+  // }
 
   GoogleSignIn signIn = GoogleSignIn();
 
@@ -90,8 +90,8 @@ class side_bar extends StatelessWidget {
             buildMenuButton(Icons.info, 'About Us', () => about_us(context)),
             buildMenuButton(
                 Icons.logout, 'Log Out', () => googleSignOut(context)),
-            buildMenuButton(
-                Icons.medical_information_outlined, 'My TeleconEntries', () => allTeleconEntries(context)),
+            // buildMenuButton(
+            //     Icons.medical_information_outlined, 'My TeleconEntries', () => allTeleconEntries(context)),
           ],
         ),
       ),
