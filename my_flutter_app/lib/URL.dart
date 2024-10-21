@@ -12,8 +12,8 @@ import 'dto/RiskFactors.dart';
 import 'dto/TeleconEntryRequest.dart';
 
 class URL {
-  static const String BASE_URL_STORE = "http://10.30.10.123:8080";
-  static const String BASE_URL = "http://10.30.10.123:8080/api";
+  static const String BASE_URL_STORE = "http://192.168.25.15:8080";
+  static const String BASE_URL = "http://192.168.25.15:8080/api";
 }
 
 // /user/self/hospitals

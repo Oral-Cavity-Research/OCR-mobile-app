@@ -1,11 +1,11 @@
 import 'dart:convert';
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:my_flutter_app/dto/ReviewerDetailsDto.dart';
 import '../../URL.dart';
 
 class ReceivedEntriesScreen extends StatefulWidget {
   const ReceivedEntriesScreen({super.key});
+
   @override
   _ReceivedEntriesScreenState createState() => _ReceivedEntriesScreenState();
 }
@@ -39,7 +39,7 @@ class _ReceivedEntriesScreenState extends State<ReceivedEntriesScreen> {
 
     try {
       final response =
-          await receivedTeleconEntries(_currentPage, _selectedSortOption);
+      await receivedTeleconEntries(_currentPage, _selectedSortOption);
       if (response.statusCode == 200) {
         print(json.decode(response.body));
         final List<dynamic> jsonResponse = json.decode(response.body);
@@ -70,11 +70,6 @@ class _ReceivedEntriesScreenState extends State<ReceivedEntriesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('My Telecon Entries',
-      //     style: TextStyle(color: Colors.white),),
-      //   backgroundColor: const Color(0xFF1565C0),
-      // ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -92,8 +87,8 @@ class _ReceivedEntriesScreenState extends State<ReceivedEntriesScreen> {
             // Sorting Dropdown
             Row(
               children: [
-                Text('Sort by: ', style: TextStyle(fontSize: 16)),
-                SizedBox(width: 10),
+                const Text('Sort by: ', style: TextStyle(fontSize: 16)),
+                const SizedBox(width: 10),
                 DropdownButton<String>(
                   value: _selectedSortOption,
                   items: _sortOptions.map((String option) {
@@ -112,102 +107,71 @@ class _ReceivedEntriesScreenState extends State<ReceivedEntriesScreen> {
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
-          // List of Entries
-          Expanded(
-            child: _isLoading
-                ? Center(child: CircularProgressIndicator()) // Show loading indicator
-                : _entries.isEmpty
-                ? Center(child: Text('No entries found')) // Handle empty state
-                : ListView.builder(
-              itemCount: _entries.length,
-              itemBuilder: (context, index) {
-                final entry = _entries[index];
-                return Card(
-                  child: ListTile(
-                    title: Text('Teleconsultation Id: ${entry['id'] ?? 'N/A'}',
-                      style: TextStyle(
-                        fontFamily: 'Rubik',
-                        color: Colors.blue,
-                      ),),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 10),
-                        Text('Patient Id: ${entry['patient']['patientId'] ?? 'N/A'}'),
-                        Text('Patient Name: ${entry['patient']['patientName'] ?? 'N/A'}'),
-                        SizedBox(height: 10),
-                        Text('Start Time: ${entry['startTime'] ?? 'N/A'}'),
-                        Text('End Time: ${entry['endTime'] ?? 'N/A'}'),
-                        Text('Updated: ${entry['updated']  ? 'Yes': 'No'}'),
-                        SizedBox(height: 10),
-                        Text(
-                          'Reviewer Names:',
-                          style: TextStyle(fontSize: 15),
+            // List of Entries
+            Expanded(
+              child: _isLoading
+                  ? const Center(child: CircularProgressIndicator()) // Show loading indicator
+                  : _entries.isEmpty
+                  ? const Center(child: Text('No entries found')) // Handle empty state
+                  : ListView.builder(
+                itemCount: _entries.length,
+                itemBuilder: (context, index) {
+                  final entry = _entries[index];
+                  return Card(
+                    child: ListTile(
+                      title: Text(
+                        'Teleconsultation Id: ${entry['id'] ?? 'N/A'}',
+                        style: const TextStyle(
+                          fontFamily: 'Rubik',
+                          color: Colors.blue,
                         ),
-                        entry['reviewers'].isNotEmpty
-                            ? ListView.builder(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: entry['reviewers'].length,
-                          itemBuilder: (context, index) {
-                            final entry = _entries[index];
-                            return Card(
-                              child: ListTile(
-                                title: Text(
-                                    'Teleconsultation Id: ${entry['id'] ?? 'N/A'}'),
-                                subtitle: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                        'Patient Id: ${entry['patient']['patientId'] ?? 'N/A'}'),
-                                    Text(
-                                        'Patient Name: ${entry['patient']['patientName'] ?? 'N/A'}'),
-                                    Text(
-                                        'Start Time: ${entry['startTime'] ?? 'N/A'}'),
-                                    Text(
-                                        'End Time: ${entry['endTime'] ?? 'N/A'}'),
-                                    Text(
-                                        'Updated: ${entry['updated'] ? 'Yes' : 'No'}'),
-                                    Text(
-                                      'Reviewer Names:',
-                                      style: TextStyle(fontSize: 15),
-                                    ),
-                                    entry['reviewers'].isNotEmpty
-                                        ? ListView.builder(
-                                            shrinkWrap: true,
-                                            physics:
-                                                NeverScrollableScrollPhysics(),
-                                            itemCount:
-                                                entry['reviewers'].length,
-                                            itemBuilder: (context, index) {
-                                              var reviewer =
-                                                  entry['reviewers'][index];
-                                              return Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 16.0),
-                                                child: Text(
-                                                  reviewer['username'] ?? 'N/A',
-                                                  style:
-                                                      TextStyle(fontSize: 15),
-                                                ),
-                                              );
-                                            },
-                                          )
-                                        : Text(
-                                            'No reviewers available.',
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                color: Colors.grey),
-                                          ),
-                                    SizedBox(height: 10),
-                                  ],
+                      ),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 10),
+                          Text(
+                              'Patient Id: ${entry['patient']['patientId'] ?? 'N/A'}'),
+                          Text(
+                              'Patient Name: ${entry['patient']['patientName'] ?? 'N/A'}'),
+                          const SizedBox(height: 10),
+                          Text('Start Time: ${entry['startTime'] ?? 'N/A'}'),
+                          Text('End Time: ${entry['endTime'] ?? 'N/A'}'),
+                          Text('Updated: ${entry['updated'] ? 'Yes' : 'No'}'),
+                          const SizedBox(height: 10),
+                          const Text(
+                            'Reviewer Names:',
+                            style: TextStyle(fontSize: 15),
+                          ),
+                          entry['reviewers'].isNotEmpty
+                              ? ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: entry['reviewers'].length,
+                            itemBuilder: (context, reviewerIndex) {
+                              var reviewer = entry['reviewers'][reviewerIndex];
+                              return Padding(
+                                padding: const EdgeInsets.only(left: 16.0),
+                                child: Text(
+                                  reviewer['username'] ?? 'N/A',
+                                  style: const TextStyle(fontSize: 15),
                                 ),
-                              ),
-                            );
-                          },
-                        ),
+                              );
+                            },
+                          )
+                              : const Text(
+                            'No reviewers available.',
+                            style: TextStyle(fontSize: 16, color: Colors.grey),
+                          ),
+                          const SizedBox(height: 10),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
 
             // Pagination Buttons
@@ -218,18 +182,18 @@ class _ReceivedEntriesScreenState extends State<ReceivedEntriesScreen> {
                   onPressed: _currentPage > 1
                       ? () => _changePage(_currentPage - 1)
                       : null,
-                  child: Text('Previous'),
+                  child: const Text('Previous'),
                 ),
-                SizedBox(width: 20),
+                const SizedBox(width: 20),
                 Text('Page $_currentPage'),
-                SizedBox(width: 20),
+                const SizedBox(width: 20),
                 ElevatedButton(
                   onPressed: () => _changePage(_currentPage + 1),
-                  child: Text('Next'),
+                  child: const Text('Next'),
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
           ],
         ),
       ),
