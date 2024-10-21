@@ -170,137 +170,142 @@ class _DoctorEditProfileState extends State<DoctorEditProfile> {
             const SizedBox(height: 20),
             Expanded(
               child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    ListTile(
-                      title: const Text(
-                        'Name:',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontFamily: "Rubik",
-                        ),
-                      ),
-                      leading: Icon(Icons.person),
-                      subtitle: TextField(
-                        controller: TextEditingController(
-                          text: TokenStorage().getUsername() ?? '',
-                        ),
-                        onChanged: (value) {
-                          new_name = value;
-                        },
-                        style: const TextStyle(
-                          fontSize: 23,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ),
-                    ListTile(
-                      title: const Text(
-                        'Hospital:',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontFamily: "Rubik",
-                        ),
-                      ),
-                      leading: Icon(Icons.local_hospital),
-                      subtitle: DropdownButtonFormField<String>(
-                        value: new_hospital,
-                        items: hospitalNames
-                            ?.map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            new_hospital = newValue!;
-                          });
-                        },
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(vertical: 10.h),
-                        ),
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 23,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ),
-                    ListTile(
-                      title: const Text(
-                        'Contact No:',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontFamily: "Rubik",
-                        ),
-                      ),
-                      leading: Icon(Icons.phone),
-                      subtitle: TextField(
-                        controller: TextEditingController(
-                          text: TokenStorage().getContactNo() ?? '',
-                        ),
-                        keyboardType: TextInputType.number,
-                        onChanged: (value) {
-                          new_contactNo = value;
-                        },
-                        style: const TextStyle(
-                          fontSize: 23,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ),
-                    ListTile(
-                      title: const Text(
-                        'Availability:',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontFamily: "Rubik",
-                        ),
-                      ),
-                      leading: Icon(Icons.schedule),
-                      subtitle: StatefulBuilder(
-                        builder: (BuildContext context, StateSetter setState) {
-                          return SwitchListTile(
-                            title: Text(
-                                new_availability
-                                    ? 'Available'
-                                    : 'Not Available',
-                                style: const TextStyle(
-                                  fontSize: 23,
-                                  fontWeight: FontWeight.w400,
-                                )),
-                            value: new_availability,
-                            activeColor: Color.fromARGB(255, 4, 87, 156),
-                            inactiveTrackColor: Colors.red[50],
-                            onChanged: (bool value) {
-                              setState(() {
-                                new_availability = value;
-                              });
-                            },
-                          );
-                        },
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(15.w, 40.h, 0, 0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          MyButton2(
-                            text: 'Save',
-                            backgroundColor: Colors.blue[400]!,
-                            onTap: () {
-                              save_changers(new_name, new_hospital,
-                                  new_contactNo, new_availability);
-                              print('Changes saved');
-                              // Save the changes
-                            },
+                child: Container(
+                  height: MediaQuery.of(context).size.height,
+                  child: Column(
+                    children: [
+                      ListTile(
+                        title: const Text(
+                          'Name:',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontFamily: "Rubik",
                           ),
-                        ],
+                        ),
+                        leading: Icon(Icons.person),
+                        subtitle: TextField(
+                          controller: TextEditingController(
+                            text: TokenStorage().getUsername() ?? '',
+                          ),
+                          onChanged: (value) {
+                            new_name = value;
+                          },
+                          style: const TextStyle(
+                            fontSize: 23,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
                       ),
-                    )
-                  ],
+                      ListTile(
+                        title: const Text(
+                          'Hospital:',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontFamily: "Rubik",
+                          ),
+                        ),
+                        leading: Icon(Icons.local_hospital),
+                        subtitle: DropdownButtonFormField<String>(
+                          value: new_hospital,
+                          items: hospitalNames
+                              ?.map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              new_hospital = newValue!;
+                            });
+                          },
+                          decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.symmetric(vertical: 10.h),
+                          ),
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 23,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ),
+                      ListTile(
+                        title: const Text(
+                          'Contact No:',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontFamily: "Rubik",
+                          ),
+                        ),
+                        leading: Icon(Icons.phone),
+                        subtitle: TextField(
+                          controller: TextEditingController(
+                            text: TokenStorage().getContactNo() ?? '',
+                          ),
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) {
+                            new_contactNo = value;
+                          },
+                          style: const TextStyle(
+                            fontSize: 23,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ),
+                      ListTile(
+                        title: const Text(
+                          'Availability:',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontFamily: "Rubik",
+                          ),
+                        ),
+                        leading: Icon(Icons.schedule),
+                        subtitle: StatefulBuilder(
+                          builder:
+                              (BuildContext context, StateSetter setState) {
+                            return SwitchListTile(
+                              title: Text(
+                                  new_availability
+                                      ? 'Available'
+                                      : 'Not Available',
+                                  style: const TextStyle(
+                                    fontSize: 23,
+                                    fontWeight: FontWeight.w400,
+                                  )),
+                              value: new_availability,
+                              activeColor: Color.fromARGB(255, 4, 87, 156),
+                              inactiveTrackColor: Colors.red[50],
+                              onChanged: (bool value) {
+                                setState(() {
+                                  new_availability = value;
+                                });
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(15.w, 40.h, 0, 0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            MyButton2(
+                              text: 'Save',
+                              backgroundColor: Colors.blue[400]!,
+                              onTap: () {
+                                save_changers(new_name, new_hospital,
+                                    new_contactNo, new_availability);
+                                print('Changes saved');
+                                // Save the changes
+                              },
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
