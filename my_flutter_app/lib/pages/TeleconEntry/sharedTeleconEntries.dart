@@ -7,7 +7,6 @@ import '../../dto/ReviewerDetailsDto.dart';
 import 'TeleconEntryDetails.dart';
 
 class SharedEntriesScreen extends StatefulWidget {
-
   SharedEntriesScreen({super.key});
 
   @override
@@ -19,7 +18,7 @@ class _SharedEntriesScreenState extends State<SharedEntriesScreen> {
   int _currentPage = 1;
   bool _isLoading = false;
   List<Map<String, dynamic>> _entries = [];
-  final List<String> _sortOptions = [ 'Created Date','All'];
+  final List<String> _sortOptions = ['Created Date', 'All'];
   List<ReviewerDetails> reviewerList = [];
 
   @override
@@ -33,7 +32,8 @@ class _SharedEntriesScreenState extends State<SharedEntriesScreen> {
       _isLoading = true;
     });
     try {
-      final response = await sharedTeleconEntries(_currentPage, _selectedSortOption);
+      final response =
+          await sharedTeleconEntries(_currentPage, _selectedSortOption);
       if (response.statusCode == 200) {
         final List<dynamic> jsonResponse = json.decode(response.body);
         setState(() {
@@ -61,103 +61,134 @@ class _SharedEntriesScreenState extends State<SharedEntriesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Row(
-            children: [
-              Text('Sort by: ', style: TextStyle(fontSize: 16)),
-              SizedBox(width: 10),
-              DropdownButton<String>(
-                value: _selectedSortOption,
-                items: _sortOptions.map((String option) {
-                  return DropdownMenuItem<String>(
-                    value: option,
-                    child: Text(option),
-                  );
-                }).toList(),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _selectedSortOption = newValue!;
-                    _currentPage = 1;
-                    _fetchTeleconEntries();
-                  });
-                },
-              ),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color.fromARGB(255, 171, 227, 255), // Sky blue
+              Color.fromARGB(255, 91, 164, 209), // Light sky blue
+              Colors.white, // White
             ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
           ),
-          SizedBox(height: 20),
-          Expanded(
-            child: _isLoading
-                ? Center(child: CircularProgressIndicator())
-                : _entries.isEmpty && !_isLoading // Check if entries are empty only after loading is complete
-                ? Center(child: Text('No entries found'))
-                : ListView.builder(
-              itemCount: _entries.length,
-              itemBuilder: (context, index) {
-                final entry = _entries[index];
-                final teleconEntry = entry['teleconEntry'];
-                final patient = teleconEntry['patient'];
-                final clinician = teleconEntry['clinician'];
-
-                return GestureDetector(
-                  onTap: () async{
-                  final response = await sharedTeleconEntryDetails(teleconEntry['id']);
-                var parsedData = jsonDecode(response.body);
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context)=> TeleconEntryDetails(data: parsedData)));
+        ),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Text('Sort by: ', style: TextStyle(fontSize: 16)),
+                SizedBox(width: 10),
+                DropdownButton<String>(
+                  value: _selectedSortOption,
+                  items: _sortOptions.map((String option) {
+                    return DropdownMenuItem<String>(
+                      value: option,
+                      child: Text(option),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _selectedSortOption = newValue!;
+                      _currentPage = 1;
+                      _fetchTeleconEntries();
+                    });
                   },
-                  child: Card(
-                    child: ListTile(
-                      title: Text(
-                        'Teleconsultation Id: ${teleconEntry['id'] ?? 'N/A'}',
-                        style: TextStyle(
-                          fontFamily: 'Rubik',
-                          color: Colors.blue,
-                        ),
-                      ),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(height: 10),
-                          Text('Patient Name: ${patient['patientName'] ?? 'N/A'}'),
-                          Text('Patient ID: ${patient['patientId'] ?? 'N/A'}'),
-                          Text('Clinician Name: ${clinician['username'] ?? 'N/A'}'),
-                          Text('Clinician Reg No: ${clinician['regNo'] ?? 'N/A'}'),
-                          SizedBox(height: 10),
-                          Text(
-                            'Status:',
-                            style: TextStyle(fontSize: 15),
-                          ),
-                          Text('Reviewed: ${entry['reviewed'] ? "Yes" : "No"}'),
-                          Text('Checked: ${entry['checked'] ? "Yes" : "No"}'),
-                          SizedBox(height: 10),
-                          Text('Created At: ${entry['createdAt'] ?? 'N/A'}'),
-                          Text('Updated At: ${entry['updatedAt'] ?? 'N/A'}'),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              },
+                ),
+              ],
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: _currentPage > 1 ? () => _changePage(_currentPage - 1) : null,
-                child: Text('Previous'),
-              ),
-              SizedBox(width: 20),
-              Text('Page $_currentPage'),
-              SizedBox(width: 20),
-              ElevatedButton(
-                onPressed: () => _changePage(_currentPage + 1),
-                child: Text('Next'),
-              ),
-            ],
-          ),
-        ],
+            SizedBox(height: 20),
+            Expanded(
+              child: _isLoading
+                  ? Center(child: CircularProgressIndicator())
+                  : _entries.isEmpty &&
+                          !_isLoading // Check if entries are empty only after loading is complete
+                      ? Center(child: Text('No entries found'))
+                      : ListView.builder(
+                          itemCount: _entries.length,
+                          itemBuilder: (context, index) {
+                            final entry = _entries[index];
+                            final teleconEntry = entry['teleconEntry'];
+                            final patient = teleconEntry['patient'];
+                            final clinician = teleconEntry['clinician'];
+
+                            return GestureDetector(
+                              onTap: () async {
+                                final response =
+                                    await sharedTeleconEntryDetails(
+                                        teleconEntry['id']);
+                                var parsedData = jsonDecode(response.body);
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            TeleconEntryDetails(
+                                                data: parsedData)));
+                              },
+                              child: Card(
+                                child: ListTile(
+                                  title: Text(
+                                    'Teleconsultation Id: ${teleconEntry['id'] ?? 'N/A'}',
+                                    style: TextStyle(
+                                      fontFamily: 'Rubik',
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                  subtitle: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(height: 10),
+                                      Text(
+                                          'Patient Name: ${patient['patientName'] ?? 'N/A'}'),
+                                      Text(
+                                          'Patient ID: ${patient['patientId'] ?? 'N/A'}'),
+                                      Text(
+                                          'Clinician Name: ${clinician['username'] ?? 'N/A'}'),
+                                      Text(
+                                          'Clinician Reg No: ${clinician['regNo'] ?? 'N/A'}'),
+                                      SizedBox(height: 10),
+                                      Text(
+                                        'Status:',
+                                        style: TextStyle(fontSize: 15),
+                                      ),
+                                      Text(
+                                          'Reviewed: ${entry['reviewed'] ? "Yes" : "No"}'),
+                                      Text(
+                                          'Checked: ${entry['checked'] ? "Yes" : "No"}'),
+                                      SizedBox(height: 10),
+                                      Text(
+                                          'Created At: ${entry['createdAt'] ?? 'N/A'}'),
+                                      Text(
+                                          'Updated At: ${entry['updatedAt'] ?? 'N/A'}'),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: _currentPage > 1
+                      ? () => _changePage(_currentPage - 1)
+                      : null,
+                  child: Text('Previous'),
+                ),
+                SizedBox(width: 20),
+                Text('Page $_currentPage'),
+                SizedBox(width: 20),
+                ElevatedButton(
+                  onPressed: () => _changePage(_currentPage + 1),
+                  child: Text('Next'),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

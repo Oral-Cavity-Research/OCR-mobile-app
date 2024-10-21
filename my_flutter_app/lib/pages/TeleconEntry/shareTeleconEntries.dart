@@ -33,7 +33,8 @@ class _ShareEntriesScreenState extends State<ShareEntriesScreen> {
       _isLoading = true;
     });
     try {
-      final response = await shareTeleconEntries(_currentPage, _selectedSortOption, widget.patientId);
+      final response = await shareTeleconEntries(
+          _currentPage, _selectedSortOption, widget.patientId);
       if (response.statusCode == 200) {
         final List<dynamic> jsonResponse = json.decode(response.body);
         setState(() {
@@ -99,7 +100,8 @@ class _ShareEntriesScreenState extends State<ShareEntriesScreen> {
                 title: Text('Remove Reviewer'),
                 onTap: () {
                   print(entry['reviewers']);
-                  _showDeleteReviewerSelectionSheet(context, entry['id'],entry['reviewers'] );
+                  _showDeleteReviewerSelectionSheet(
+                      context, entry['id'], entry['reviewers']);
 
                   Navigator.pop(context);
                 },
@@ -140,7 +142,8 @@ class _ShareEntriesScreenState extends State<ShareEntriesScreen> {
       context: context,
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)), // Smoother, slightly larger radius
+        borderRadius: BorderRadius.vertical(
+            top: Radius.circular(25.0)), // Smoother, slightly larger radius
       ),
       backgroundColor: Colors.white, // Clean white background for contrast
       builder: (context) => DraggableScrollableSheet(
@@ -153,7 +156,10 @@ class _ShareEntriesScreenState extends State<ShareEntriesScreen> {
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
               gradient: LinearGradient(
-                colors: [Color(0xFFE3F2FD), Color(0xFFBBDEFB)], // Subtle blue gradient
+                colors: [
+                  Color(0xFFE3F2FD),
+                  Color(0xFFBBDEFB)
+                ], // Subtle blue gradient
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),
@@ -162,7 +168,8 @@ class _ShareEntriesScreenState extends State<ShareEntriesScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 16.0),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 20.0, horizontal: 16.0),
                   child: Text(
                     'Select Reviewer',
                     style: TextStyle(
@@ -191,18 +198,21 @@ class _ShareEntriesScreenState extends State<ShareEntriesScreen> {
                         },
                       );
 
-                      final response = await addReviewer(teleconId, reviewer.id);
+                      final response =
+                          await addReviewer(teleconId, reviewer.id);
 
                       Navigator.pop(context); // Close the loading dialog
 
                       if (response == 200) {
                         Navigator.pop(context); // Close the bottom sheet
-                        responsePopup(context, "Success", "Reviewer added successfully");
+                        responsePopup(
+                            context, "Success", "Reviewer added successfully");
                         setState(() {
                           _fetchTeleconEntries(); // Update the entries
                         });
                       } else {
-                        responsePopup(context, "Failure", "Error adding reviewer. Error code: $response");
+                        responsePopup(context, "Failure",
+                            "Error adding reviewer. Error code: $response");
                       }
                     },
                   ),
@@ -218,11 +228,13 @@ class _ShareEntriesScreenState extends State<ShareEntriesScreen> {
   List<ReviewerDetails> mapReviewers(List<dynamic> reviewers) {
     return reviewers.map<ReviewerDetails>((reviewer) {
       try {
-        print('Mapping reviewer: $reviewer'); // Print each reviewer before mapping
+        print(
+            'Mapping reviewer: $reviewer'); // Print each reviewer before mapping
         return ReviewerDetails(
           id: reviewer['id'] ?? '', // Correct key usage
           userName: reviewer['username'] ?? '', // This is correct
-          regNo: reviewer['regNo'] ?? '', // Handle cases where regNo might not be present
+          regNo: reviewer['regNo'] ??
+              '', // Handle cases where regNo might not be present
         );
       } catch (e) {
         // Print error for debugging
@@ -232,10 +244,8 @@ class _ShareEntriesScreenState extends State<ShareEntriesScreen> {
     }).toList();
   }
 
-
-
-
-  void _showDeleteReviewerSelectionSheet(BuildContext context, String teleconId, List<dynamic> existingReviewers) {
+  void _showDeleteReviewerSelectionSheet(
+      BuildContext context, String teleconId, List<dynamic> existingReviewers) {
     // Check if existingReviewers is null or empty
     if (existingReviewers == null || existingReviewers.isEmpty) {
       // Handle the case where there are no existing reviewers
@@ -273,7 +283,8 @@ class _ShareEntriesScreenState extends State<ShareEntriesScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 16.0),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 20.0, horizontal: 16.0),
                   child: Text(
                     'Select Reviewer',
                     style: TextStyle(
@@ -292,7 +303,8 @@ class _ShareEntriesScreenState extends State<ShareEntriesScreen> {
                       final reviewer = deleteReviewers[index];
                       return ListTile(
                         title: Text(reviewer.userName),
-                        subtitle: Text(reviewer.regNo), // If you want to display regNo too
+                        subtitle: Text(
+                            reviewer.regNo), // If you want to display regNo too
                         onTap: () async {
                           // Show a loading indicator
                           print('Selected reviewer: ${reviewer.userName}');
@@ -309,21 +321,26 @@ class _ShareEntriesScreenState extends State<ShareEntriesScreen> {
                           );
 
                           try {
-                            final response = await removeReviewer(teleconId, reviewer.id);
+                            final response =
+                                await removeReviewer(teleconId, reviewer.id);
                             Navigator.pop(context); // Close the loading dialog
 
                             if (response == 200) {
                               Navigator.pop(context); // Close the bottom sheet
-                              responsePopup(context, "Success", "Reviewer removed successfully");
+                              responsePopup(context, "Success",
+                                  "Reviewer removed successfully");
                               setState(() {
                                 _fetchTeleconEntries(); // Update the entries
                               });
                             } else {
-                              responsePopup(context, "Failure", "Error removing reviewer. Error code: $response");
+                              responsePopup(context, "Failure",
+                                  "Error removing reviewer. Error code: $response");
                             }
                           } catch (e) {
-                            Navigator.pop(context); // Close loading dialog on error
-                            responsePopup(context, "Error", "An unexpected error occurred: $e");
+                            Navigator.pop(
+                                context); // Close loading dialog on error
+                            responsePopup(context, "Error",
+                                "An unexpected error occurred: $e");
                           }
                         },
                       );
@@ -337,11 +354,6 @@ class _ShareEntriesScreenState extends State<ShareEntriesScreen> {
       ),
     );
   }
-
-
-
-
-
 
   void _changePage(int page) {
     setState(() {
@@ -372,120 +384,148 @@ class _ShareEntriesScreenState extends State<ShareEntriesScreen> {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          Row(
-            children: [
-              Text('Sort by: ', style: TextStyle(fontSize: 16)),
-              SizedBox(width: 10),
-              DropdownButton<String>(
-                value: _selectedSortOption,
-                items: _sortOptions.map((String option) {
-                  return DropdownMenuItem<String>(
-                    value: option,
-                    child: Text(option),
-                  );
-                }).toList(),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _selectedSortOption = newValue!;
-                    _currentPage = 1;
-                    _fetchTeleconEntries();
-                  });
-                },
-              ),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color.fromARGB(255, 171, 227, 255), // Sky blue
+              Color.fromARGB(255, 91, 164, 209), // Light sky blue
+              Colors.white, // White
             ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
           ),
-          SizedBox(height: 20),
-          Expanded(
-            child: _isLoading
-                ? Center(child: CircularProgressIndicator())
-                : _entries.isEmpty && !_isLoading // Check if entries are empty only after loading is complete
-                ? Center(child: Text('Fetching Entries...'))
-                : ListView.builder(
-              itemCount: _entries.length,
-              itemBuilder: (context, index) {
-                final entry = _entries[index];
-                List<dynamic> reviewers = entry['reviewers'] ?? [];
-                return GestureDetector(
-                  onTap: () => _showOptionsSheet(context, entry),
-                  child: Card(
-                    child: ListTile(
-                      title: Text(
-                        'Teleconsultation Id: ${entry['id'] ?? 'N/A'}',
-                        style: TextStyle(
-                          fontFamily: 'Rubik',
-                          color: Colors.blue,
-                        ),
-                      ),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(height: 10),
-                          Text('Complaint: ${entry['complaint'] ?? 'N/A'}'),
-                          Text('Start Time: ${entry['startTime'] ?? 'N/A'}'),
-                          Text('End Time: ${entry['endTime'] ?? 'N/A'}'),
-                          Text('Findings: ${entry['findings'] ?? 'N/A'}'),
-                          SizedBox(height: 10),
-                          Text(
-                            'Reviewer Names:',
-                            style: TextStyle(fontSize: 15),
-                          ),
-                          reviewers.isNotEmpty
-                              ? ListView.builder(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: reviewers.length,
-                            itemBuilder: (context, index) {
-                              var reviewer = reviewers[index];
-                              return Padding(
-                                padding: const EdgeInsets.only(left: 16.0),
-                                child: Text(
-                                  reviewer['username'] ?? 'N/A',
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                              );
-                            },
-                          )
-                              : Text(
-                            'No reviewers available.',
-                            style: TextStyle(fontSize: 16, color: Colors.grey),
-                          ),
-                          SizedBox(height: 10),
-                          Text('Created At: ${entry['createdAt'] ?? 'N/A'}'),
-                          Text('Updated At: ${entry['updatedAt'] ?? 'N/A'}'),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              },
+        ),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Text('Sort by: ', style: TextStyle(fontSize: 16)),
+                SizedBox(width: 10),
+                DropdownButton<String>(
+                  value: _selectedSortOption,
+                  items: _sortOptions.map((String option) {
+                    return DropdownMenuItem<String>(
+                      value: option,
+                      child: Text(option),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _selectedSortOption = newValue!;
+                      _currentPage = 1;
+                      _fetchTeleconEntries();
+                    });
+                  },
+                ),
+              ],
             ),
-          ),
-
-
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: _currentPage > 1 ? () => _changePage(_currentPage - 1) : null,
-                child: Text('Previous'),
-              ),
-              SizedBox(width: 20),
-              Text('Page $_currentPage'),
-              SizedBox(width: 20),
-              ElevatedButton(
-                onPressed: () => _changePage(_currentPage + 1),
-                child: Text('Next'),
-              ),
-            ],
-          ),
-        ],
+            SizedBox(height: 20),
+            Expanded(
+              child: _isLoading
+                  ? Center(child: CircularProgressIndicator())
+                  : _entries.isEmpty &&
+                          !_isLoading // Check if entries are empty only after loading is complete
+                      ? Center(child: Text('Fetching Entries...'))
+                      : ListView.builder(
+                          itemCount: _entries.length,
+                          itemBuilder: (context, index) {
+                            final entry = _entries[index];
+                            List<dynamic> reviewers = entry['reviewers'] ?? [];
+                            return GestureDetector(
+                              onTap: () => _showOptionsSheet(context, entry),
+                              child: Card(
+                                child: ListTile(
+                                  title: Text(
+                                    'Teleconsultation Id: ${entry['id'] ?? 'N/A'}',
+                                    style: TextStyle(
+                                      fontFamily: 'Rubik',
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                  subtitle: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(height: 10),
+                                      Text(
+                                          'Complaint: ${entry['complaint'] ?? 'N/A'}'),
+                                      Text(
+                                          'Start Time: ${entry['startTime'] ?? 'N/A'}'),
+                                      Text(
+                                          'End Time: ${entry['endTime'] ?? 'N/A'}'),
+                                      Text(
+                                          'Findings: ${entry['findings'] ?? 'N/A'}'),
+                                      SizedBox(height: 10),
+                                      Text(
+                                        'Reviewer Names:',
+                                        style: TextStyle(fontSize: 15),
+                                      ),
+                                      reviewers.isNotEmpty
+                                          ? ListView.builder(
+                                              shrinkWrap: true,
+                                              physics:
+                                                  NeverScrollableScrollPhysics(),
+                                              itemCount: reviewers.length,
+                                              itemBuilder: (context, index) {
+                                                var reviewer = reviewers[index];
+                                                return Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 16.0),
+                                                  child: Text(
+                                                    reviewer['username'] ??
+                                                        'N/A',
+                                                    style:
+                                                        TextStyle(fontSize: 15),
+                                                  ),
+                                                );
+                                              },
+                                            )
+                                          : Text(
+                                              'No reviewers available.',
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Colors.grey),
+                                            ),
+                                      SizedBox(height: 10),
+                                      Text(
+                                          'Created At: ${entry['createdAt'] ?? 'N/A'}'),
+                                      Text(
+                                          'Updated At: ${entry['updatedAt'] ?? 'N/A'}'),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: _currentPage > 1
+                      ? () => _changePage(_currentPage - 1)
+                      : null,
+                  child: Text('Previous'),
+                ),
+                SizedBox(width: 20),
+                Text('Page $_currentPage'),
+                SizedBox(width: 20),
+                ElevatedButton(
+                  onPressed: () => _changePage(_currentPage + 1),
+                  child: Text('Next'),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
 }
+
 class _ReviewerList extends StatelessWidget {
   final ScrollController scrollController;
   final List<ReviewerDetails> reviewerList;
@@ -528,8 +568,10 @@ class _ReviewerList extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Clinician Name: ' + reviewer.userName, style: TextStyle(fontSize: 16)),
-                      Text('Reg No: ' + reviewer.id, style: TextStyle(fontSize: 16)),
+                      Text('Clinician Name: ' + reviewer.userName,
+                          style: TextStyle(fontSize: 16)),
+                      Text('Reg No: ' + reviewer.id,
+                          style: TextStyle(fontSize: 16)),
                     ],
                   ),
                 ),
@@ -542,4 +584,3 @@ class _ReviewerList extends StatelessWidget {
     );
   }
 }
-
