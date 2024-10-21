@@ -21,7 +21,6 @@ class _ReceivedEntriesScreenState extends State<ReceivedEntryScreen> {
   void _changePage(int page) {
     setState(() {
       _currentPage = page;
-      // Add logic to fetch new data for the selected page
     });
   }
 
