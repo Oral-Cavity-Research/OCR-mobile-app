@@ -102,15 +102,15 @@ class _GoogleSignINState extends State<GoogleSignIN> {
                           color: Color.fromARGB(255, 0, 0, 0),
                           fontWeight: FontWeight.bold),
                     )),
-                Container(
-                    padding: EdgeInsets.fromLTRB(120.w, 10.h, 120.w, 30.h),
-                    child: const Text(
-                      'Use this email to log in',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Color.fromARGB(255, 79, 78, 78),
-                      ),
-                    )),
+                // Container(
+                //     padding: EdgeInsets.fromLTRB(120.w, 10.h, 120.w, 30.h),
+                //     child: const Text(
+                //       'Use this email to log in',
+                //       style: TextStyle(
+                //         fontSize: 16,
+                //         color: Color.fromARGB(255, 79, 78, 78),
+                //       ),
+                //     )),
 
                 //email textfield
 
