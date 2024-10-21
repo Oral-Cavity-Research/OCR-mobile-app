@@ -85,8 +85,8 @@ class side_bar extends StatelessWidget {
             buildMenuButton(
                 Icons.add, 'Add a Patient', () => add_patient(context)),
             buildMenuButton(Icons.add, 'Add a Role', () => add_role(context)),
-            buildMenuButton(
-                Icons.remove, 'Remove a User', () => about_us(context)),
+            // buildMenuButton(
+            //     Icons.remove, 'Remove a User', () => about_us(context)),
             buildMenuButton(Icons.info, 'About Us', () => about_us(context)),
             buildMenuButton(
                 Icons.logout, 'Log Out', () => googleSignOut(context)),
