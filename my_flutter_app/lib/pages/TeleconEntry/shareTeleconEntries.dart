@@ -106,30 +106,30 @@ class _ShareEntriesScreenState extends State<ShareEntriesScreen> {
                   Navigator.pop(context);
                 },
               ),
-              ListTile(
-                leading: Icon(Icons.delete_forever),
-                title: Text('Delete Entry'),
-                onTap: () async {
-                  final response = await deleteEntry(entry['id']);
-                  if (response == 200) {
-                    await responsePopup(
-                      context,
-                      "Success",
-                      "Teleconsultation Entry deleted successfully!",
-                    );
-                    setState(() {
-                      _fetchTeleconEntries();
-                    });
-                  } else {
-                    await responsePopup(
-                      context,
-                      "Failure",
-                      "Error deleting Teleconsultation Entry: $response",
-                    );
-                  }
-                  Navigator.pop(context);
-                },
-              ),
+              // ListTile(
+              //   leading: Icon(Icons.delete_forever),
+              //   title: Text('Delete Entry'),
+              //   onTap: () async {
+              //     final response = await deleteEntry(entry['id']);
+              //     if (response == 200) {
+              //       await responsePopup(
+              //         context,
+              //         "Success",
+              //         "Teleconsultation Entry deleted successfully!",
+              //       );
+              //       setState(() {
+              //         _fetchTeleconEntries();
+              //       });
+              //     } else {
+              //       await responsePopup(
+              //         context,
+              //         "Failure",
+              //         "Error deleting Teleconsultation Entry: $response",
+              //       );
+              //     }
+              //     Navigator.pop(context);
+              //   },
+              // ),
             ],
           ),
         );
@@ -495,6 +495,7 @@ class _ShareEntriesScreenState extends State<ShareEntriesScreen> {
                                           'Updated At: ${entry['updatedAt'] ?? 'N/A'}'),
                                     ],
                                   ),
+
                                 ),
                               ),
                             );
