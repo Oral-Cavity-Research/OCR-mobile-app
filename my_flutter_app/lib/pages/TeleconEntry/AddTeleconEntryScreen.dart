@@ -230,7 +230,7 @@ class TeleconEntryFormState extends State<TeleconEntryForm> {
                           });
                         },
                         decoration: InputDecoration(
-                            labelText: 'Date of the entry:',
+                            labelText: 'Date :',
                           labelStyle: TextStyle(fontSize: 20.0)),
                         validator: (value) =>
                         value == null ? 'Month is required' : null,
@@ -287,7 +287,7 @@ class TeleconEntryFormState extends State<TeleconEntryForm> {
                   controller: startTimeController,
                   readOnly: true,
                   decoration: InputDecoration(
-                    labelText: 'Start Time',
+                    labelText: 'Start Time :',
                     suffixIcon: Icon(Icons.access_time),
                   ),
                   onTap: () async {
@@ -305,7 +305,7 @@ class TeleconEntryFormState extends State<TeleconEntryForm> {
                   controller: endTimeController,
                   readOnly: true,
                   decoration: InputDecoration(
-                    labelText: 'End Time',
+                    labelText: 'End Time :',
                     suffixIcon: Icon(Icons.access_time),
                   ),
                   onTap: () async {
@@ -329,7 +329,7 @@ class TeleconEntryFormState extends State<TeleconEntryForm> {
                 SizedBox(height: 20),
                 TextFormField(
                   controller: findingController,
-                  decoration: InputDecoration(labelText: "Findings :"),
+                  decoration: InputDecoration(labelText: "Findings "),
                   validator: (value) =>
                   value!.isEmpty ? "Findings is required" : null,
                 ),

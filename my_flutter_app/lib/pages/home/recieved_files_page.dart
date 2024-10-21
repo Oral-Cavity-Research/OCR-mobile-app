@@ -105,15 +105,22 @@ class _ReceivedEntriesScreenState extends State<ReceivedEntriesScreen> {
                 final entry = _entries[index];
                 return Card(
                   child: ListTile(
-                    title: Text('Teleconsultation Id: ${entry['id'] ?? 'N/A'}'),
+                    title: Text('Teleconsultation Id: ${entry['id'] ?? 'N/A'}',
+                      style: TextStyle(
+                        fontFamily: 'Rubik',
+                        color: Colors.blue,
+                      ),),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        SizedBox(height: 10),
                         Text('Patient Id: ${entry['patient']['patientId'] ?? 'N/A'}'),
                         Text('Patient Name: ${entry['patient']['patientName'] ?? 'N/A'}'),
+                        SizedBox(height: 10),
                         Text('Start Time: ${entry['startTime'] ?? 'N/A'}'),
                         Text('End Time: ${entry['endTime'] ?? 'N/A'}'),
                         Text('Updated: ${entry['updated']  ? 'Yes': 'No'}'),
+                        SizedBox(height: 10),
                         Text(
                           'Reviewer Names:',
                           style: TextStyle(fontSize: 15),

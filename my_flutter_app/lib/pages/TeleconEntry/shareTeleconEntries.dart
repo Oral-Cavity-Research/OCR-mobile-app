@@ -401,7 +401,7 @@ class _ShareEntriesScreenState extends State<ShareEntriesScreen> {
             child: _isLoading
                 ? Center(child: CircularProgressIndicator())
                 : _entries.isEmpty && !_isLoading // Check if entries are empty only after loading is complete
-                ? Center(child: Text('Fetching Entries...'))
+                ? Center(child: Text(''))
                 : ListView.builder(
               itemCount: _entries.length,
               itemBuilder: (context, index) {
