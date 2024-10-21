@@ -14,7 +14,6 @@ class side_bar extends StatelessWidget {
     Navigator.pushNamed(context, '/about_us');
   }
 
-
   void add_patient(BuildContext context) {
     Navigator.pushNamed(context, '/add_patient');
   }
@@ -85,8 +84,8 @@ class side_bar extends StatelessWidget {
             buildMenuButton(
                 Icons.add, 'Add a Patient', () => add_patient(context)),
             buildMenuButton(Icons.add, 'Add a Role', () => add_role(context)),
-            buildMenuButton(
-                Icons.remove, 'Remove a User', () => about_us(context)),
+            // buildMenuButton(
+            //     Icons.remove, 'Remove a User', () => about_us(context)),
             buildMenuButton(Icons.info, 'About Us', () => about_us(context)),
             buildMenuButton(
                 Icons.logout, 'Log Out', () => googleSignOut(context)),
