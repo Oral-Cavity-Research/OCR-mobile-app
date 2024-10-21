@@ -114,17 +114,43 @@ class _ReceivedEntriesScreenState extends State<ReceivedEntriesScreen> {
             ),
             SizedBox(height: 20),
 
-            // List of Entries
-            Expanded(
-              child: _isLoading
-                  ? Center(
-                      child:
-                          CircularProgressIndicator()) // Show loading indicator
-                  : _entries.isEmpty
-                      ? Center(
-                          child: Text('No entries found')) // Handle empty state
-                      : ListView.builder(
-                          itemCount: _entries.length,
+          // List of Entries
+          Expanded(
+            child: _isLoading
+                ? Center(child: CircularProgressIndicator()) // Show loading indicator
+                : _entries.isEmpty
+                ? Center(child: Text('No entries found')) // Handle empty state
+                : ListView.builder(
+              itemCount: _entries.length,
+              itemBuilder: (context, index) {
+                final entry = _entries[index];
+                return Card(
+                  child: ListTile(
+                    title: Text('Teleconsultation Id: ${entry['id'] ?? 'N/A'}',
+                      style: TextStyle(
+                        fontFamily: 'Rubik',
+                        color: Colors.blue,
+                      ),),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 10),
+                        Text('Patient Id: ${entry['patient']['patientId'] ?? 'N/A'}'),
+                        Text('Patient Name: ${entry['patient']['patientName'] ?? 'N/A'}'),
+                        SizedBox(height: 10),
+                        Text('Start Time: ${entry['startTime'] ?? 'N/A'}'),
+                        Text('End Time: ${entry['endTime'] ?? 'N/A'}'),
+                        Text('Updated: ${entry['updated']  ? 'Yes': 'No'}'),
+                        SizedBox(height: 10),
+                        Text(
+                          'Reviewer Names:',
+                          style: TextStyle(fontSize: 15),
+                        ),
+                        entry['reviewers'].isNotEmpty
+                            ? ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: entry['reviewers'].length,
                           itemBuilder: (context, index) {
                             final entry = _entries[index];
                             return Card(
