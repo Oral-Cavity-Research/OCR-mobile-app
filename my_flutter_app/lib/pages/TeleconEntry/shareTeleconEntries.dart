@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../../URL.dart';
 import '../../components/ResponsePopup.dart';
 import '../../dto/ReviewerDetailsDto.dart';
+import '../ReportUpload/reportUploadScreen.dart';
+import '../imageUpload/ImageUploadScreen.dart';
 
 class ShareEntriesScreen extends StatefulWidget {
   final String patientId;
@@ -83,10 +85,17 @@ class _ShareEntriesScreenState extends State<ShareEntriesScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                'Actions for Entry: ${entry['id'] ?? 'N/A'}',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ListTile(
+                leading: Icon(
+                  Icons.info_outline, // Choose a suitable icon
+                  color: Colors.blue,  // Set the icon color (optional)
+                ),
+                title: Text(
+                  'Actions for the selected Entry:',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color: Colors.blue),
+                ),
               ),
+
               const SizedBox(height: 10),
               ListTile(
                 leading: Icon(Icons.add),
@@ -105,7 +114,57 @@ class _ShareEntriesScreenState extends State<ShareEntriesScreen> {
 
                   Navigator.pop(context);
                 },
+              ),Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: ListTile(
+                  leading: Icon(
+                    Icons.image_outlined,
+                    color: Colors.blue,  // Set the icon color (optional)
+                  ),
+                  title: Text(
+                    'Upload Images',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,  // Set text color to white
+                    ),
+                  ),
+                  tileColor: Colors.blue[500],  // Set the background color of the tile
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ImageUploadForm(teleconEntryId: entry['id'])),
+                    );
+                    print("Upload Images button pressed");
+                  },
+                ),
               ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: ListTile(
+                  leading: Icon(
+                    Icons.upload_file_outlined,
+                    color: Colors.blue,  // Set the icon color (optional)
+                  ),
+                  title: Text(
+                    'Upload Reports',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,  // Set text color to white
+                    ),
+                  ),
+                  tileColor: Colors.blue[500],  // Set the background color of the tile
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ReportUploadForm(teleconEntryId:entry['id'])),
+                    );
+                    print("Upload Reports button pressed");
+                  },
+                ),
+              ),
+
               // ListTile(
               //   leading: Icon(Icons.delete_forever),
               //   title: Text('Delete Entry'),

@@ -12,7 +12,7 @@ import '../TeleconEntry/shareTeleconEntries.dart';
 class PatientProfile extends StatefulWidget {
   final void Function()? onTap;
   final String patientId;
-  final String consentFormPath = URL.BASE_URL_STORE + "/Storage/ConsentForms";
+  final String consentFormPath = URL.BASE_URL+ "/Storage/ConsentForms";
   const PatientProfile({
     super.key,
     required this.onTap,

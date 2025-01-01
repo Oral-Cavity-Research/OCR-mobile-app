@@ -117,18 +117,23 @@ class _SharedEntriesScreenState extends State<SharedEntriesScreen> {
                                 final response =
                                     await sharedTeleconEntryDetails(
                                         teleconEntry['id']);
+                                final clinicianDetails = teleconEntry['clinician'] ?? {
+                                  'regNo': clinician?['regNo'] ?? 'N/A',
+                                  'username': clinician?['username'] ?? 'N/A',
+                                };
+
                                 var parsedData = jsonDecode(response.body);
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             TeleconEntryDetails(
-                                                data: parsedData)));
+                                                data: parsedData, clinician: clinicianDetails)));
                               },
                               child: Card(
                                 child: ListTile(
                                   title: Text(
-                                    'Teleconsultation Id: ${teleconEntry['id'] ?? 'N/A'}',
+                                    'Patient Name: ${patient['patientName'] ?? 'N/A'}',
                                     style: TextStyle(
                                       fontFamily: 'Rubik',
                                       color: Colors.blue,
@@ -140,9 +145,8 @@ class _SharedEntriesScreenState extends State<SharedEntriesScreen> {
                                     children: [
                                       SizedBox(height: 10),
                                       Text(
-                                          'Patient Name: ${patient['patientName'] ?? 'N/A'}'),
-                                      Text(
                                           'Patient ID: ${patient['patientId'] ?? 'N/A'}'),
+                                      SizedBox(height: 10),
                                       Text(
                                           'Clinician Name: ${clinician['username'] ?? 'N/A'}'),
                                       Text(

@@ -5,13 +5,13 @@ import '../imageUpload/ImageUploadScreen.dart';
 
 class TeleconEntryDetails extends StatelessWidget {
   final Map<String, dynamic> data;
+  final Map<String ,dynamic> clinician;
 
-  TeleconEntryDetails({required this.data});
+  TeleconEntryDetails({required this.data,required this.clinician});
 
   @override
   Widget build(BuildContext context) {
     final patient = data['patient'] ?? {};
-    final clinician = data['clinician'] ?? {};
     final List<dynamic> currentHabits = data['currentHabits'] ?? [];
     final List<dynamic> imageDetails = data['imageDetails'] ?? [];
     final List<dynamic> reportDetails = data['reportDetails'] ?? [];
@@ -208,35 +208,7 @@ class TeleconEntryDetails extends StatelessWidget {
               ),
             ),
 
-            // Upload Image and Report buttons
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => ImageUploadForm(teleconEntryId: data['id'])));
-                  print("Upload Images button pressed");
-                },
-                icon: Icon(Icons.image_outlined),
-                label: Text('Upload Images'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue[500],
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => ReportUploadForm(teleconEntryId: data['id'])));
-                  print("Upload Reports button pressed");
-                },
-                icon: Icon(Icons.upload_file_outlined),
-                label: Text('Upload Reports'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue[500],
-                ),
-              ),
-            ),
+
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: ElevatedButton.icon(
@@ -244,8 +216,8 @@ class TeleconEntryDetails extends StatelessWidget {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => ReviewForm(teleconId: data['id'])));
                   print("Upload Review button pressed");
                 },
-                icon: Icon(Icons.reviews_outlined),
-                label: Text('Upload Review'),
+                icon: Icon(Icons.reviews_outlined,color :Colors.white),
+                label: Text('Add a Review', style: TextStyle(color: Colors.white),),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue[500],
                 ),

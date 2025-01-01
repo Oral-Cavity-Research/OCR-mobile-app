@@ -64,7 +64,7 @@ class TeleconEntryModel {
     return TeleconEntryModel(
       id: json['_id'],
       patient: json['patient'],
-      clinicianId: json['clinician_id'],
+      clinicianId: json['clinicianId'],
       complaint: json['complaint'],
       startTime: json['start_time'],
       endTime: json['end_time'],

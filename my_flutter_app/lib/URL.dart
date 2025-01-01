@@ -12,8 +12,7 @@ import 'dto/RiskFactors.dart';
 import 'dto/TeleconEntryRequest.dart';
 
 class URL {
-  static const String BASE_URL_STORE = "http://192.168.25.15:8080";
-  static const String BASE_URL = "http://192.168.25.15:8080/api";
+  static const String BASE_URL = "http://192.168.1.6:8080/api";
 }
 
 // /user/self/hospitals
@@ -133,7 +132,7 @@ Future<int> imageUpload(
   }
 }
 
-Future<http.Response> receivedTeleconEntries(int pageNo,String filter)async{ //Refactor to all teleconEntries
+Future<http.Response> receivedTeleconEntries(int pageNo,String filter)async{
   final url = URL.BASE_URL + '/user/entry/get?page=${pageNo.toString()}&filter=${Uri.encodeComponent(filter)}';
   final uri = Uri.parse(url);
   String? token = TokenStorage().getToken();
@@ -178,7 +177,7 @@ Future<http.Response> shareTeleconEntries(int pageNo,String filter,String id)asy
     throw Exception('Failed to create telecon entry. Status code: ${response.statusCode}');
   }
 }
-//Get shared telecon Netry details
+//Get shared telecon entry details
 Future<http.Response> sharedTeleconEntryDetails(String teleconId)async{
   final url = URL.BASE_URL + '/user/entry/shared/${teleconId}';
   final uri = Uri.parse(url);
