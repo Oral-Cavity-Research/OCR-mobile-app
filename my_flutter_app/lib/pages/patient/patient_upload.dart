@@ -46,6 +46,7 @@ class _PatientConsentFormState extends State<PatientConsentForm> {
       TextEditingController();
   final TextEditingController contactNoController = TextEditingController();
   final TextEditingController consentFormController = TextEditingController();
+  String? selectedGender;
 
   @override
   void dispose() {
@@ -309,14 +310,28 @@ class _PatientConsentFormState extends State<PatientConsentForm> {
                 DOBPicker(dobController: dobController),
                 const SizedBox(height: 18.0),
 
-                // Gender
-                TextFormField(
-                  controller: genderController,
-                  decoration: InputDecoration(labelText: "Gender"),
-                  validator: (value) =>
-                      value!.isEmpty ? "Gender is required" : null,
-                ),
-                // Histological Diagnosis
+          DropdownButtonFormField<String>(
+          value: selectedGender,
+          decoration: InputDecoration(
+            labelText: "Gender",
+            border: OutlineInputBorder(), // Optional: adds a border
+          ),
+          items: ['Male', 'Female'].map((String gender) {
+            return DropdownMenuItem<String>(
+              value: gender,
+              child: Text(gender),
+            );
+          }).toList(),
+          onChanged: (String? value) {
+            setState(() {
+              selectedGender = value;
+              genderController.text = value!;
+            });
+          },
+          validator: (value) => value == null ? "Gender is required" : null,
+        ),
+
+        // Histological Diagnosis
                 TextFormField(
                   controller: histoDiagnosisController,
                   decoration:
@@ -357,15 +372,16 @@ class _PatientConsentFormState extends State<PatientConsentForm> {
                       value!.isEmpty ? "Contact Number is required" : null,
                 ),
                 // Consent Form (Optional)
-                TextFormField(
-                  controller: consentFormController,
-                  decoration: InputDecoration(labelText: "Consent Form"),
-                  validator: (value) =>
-                      value!.isEmpty ? "Consent Form is required" : null,
-                ),
+                // TextFormField(
+                //   controller: consentFormController,
+                //   decoration: InputDecoration(labelText: "Consent Form"),
+                //   validator: (value) =>
+                //       value!.isEmpty ? "Consent Form is required" : null,
+                // ),
                 const SizedBox(height: 20),
                 // Signature Area
                 Text("Signature:", style: TextStyle(fontSize: 18)),
+                const SizedBox(height: 20),
                 Container(
                   height: 150,
                   decoration: BoxDecoration(
