@@ -65,15 +65,6 @@ class _PagenavState extends State<Pagenav> {
     return Scaffold(
       drawer: side_bar(),
       appBar: AppBar(
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.info),
-            onPressed: () {
-              // Navigate to notifications page
-              Navigator.pushNamed(context, '/about_us');
-            },
-          ),
-        ],
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

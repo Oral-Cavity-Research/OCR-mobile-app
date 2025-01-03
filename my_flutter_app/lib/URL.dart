@@ -12,7 +12,7 @@ import 'dto/RiskFactors.dart';
 import 'dto/TeleconEntryRequest.dart';
 
 class URL {
-  static const String BASE_URL = "http://10.30.10.123:8080/api";
+  static const String BASE_URL = "http://192.168.1.6:8080/api";
 }
 
 // /user/self/hospitals
@@ -87,7 +87,7 @@ Future<int> imageUpload(
       "data": dio.MultipartFile.fromString(
         jsonEncode({
           'telecon_entry_id': teleconEntryId,
-          'image_name': imageName + '.jpg', //add the image type
+          'image_name': imageName+'.jpg', //add the image type
           'location': location,
           'clinical_diagnosis': clinicalDiagnosis,
           'lesions_appear': lesionsAppear.toString(),
@@ -132,7 +132,7 @@ Future<int> imageUpload(
   }
 }
 
-Future<http.Response> receivedTeleconEntries(int pageNo,String filter)async{ //Refactor to all teleconEntries
+Future<http.Response> receivedTeleconEntries(int pageNo,String filter)async{
   final url = URL.BASE_URL + '/user/entry/get?page=${pageNo.toString()}&filter=${Uri.encodeComponent(filter)}';
   final uri = Uri.parse(url);
   String? token = TokenStorage().getToken();
@@ -148,19 +148,15 @@ Future<http.Response> receivedTeleconEntries(int pageNo,String filter)async{ //R
     },
   );
 
-  if (response.statusCode == 200) {
+  if(response.statusCode == 200){
     return response;
-  } else {
-    throw Exception(
-        'Failed to create telecon entry. Status code: ${response.statusCode}');
+  }else{
+    throw Exception('Failed to create telecon entry. Status code: ${response.statusCode}');
   }
 }
-
 // share these telecon entries of patient to other clinicians
-Future<http.Response> shareTeleconEntries(
-    int pageNo, String filter, String id) async {
-  final url = URL.BASE_URL +
-      '/user/entry/get/patient/${id}?page=${pageNo.toString()}&filter=${Uri.encodeComponent(filter)}';
+Future<http.Response> shareTeleconEntries(int pageNo,String filter,String id)async{
+  final url = URL.BASE_URL + '/user/entry/get/patient/${id}?page=${pageNo.toString()}&filter=${Uri.encodeComponent(filter)}';
   final uri = Uri.parse(url);
   String? token = TokenStorage().getToken();
   String? email = TokenStorage().getEmail();
@@ -175,14 +171,13 @@ Future<http.Response> shareTeleconEntries(
     },
   );
 
-  if (response.statusCode == 200) {
+  if(response.statusCode == 200){
     return response;
-  } else {
-    throw Exception(
-        'Failed to create telecon entry. Status code: ${response.statusCode}');
+  }else{
+    throw Exception('Failed to create telecon entry. Status code: ${response.statusCode}');
   }
 }
-//Get shared telecon Netry details
+//Get shared telecon entry details
 Future<http.Response> sharedTeleconEntryDetails(String teleconId)async{
   final url = URL.BASE_URL + '/user/entry/shared/${teleconId}';
   final uri = Uri.parse(url);
@@ -199,92 +194,91 @@ Future<http.Response> sharedTeleconEntryDetails(String teleconId)async{
     },
   );
 
-  if (response.statusCode == 200) {
+  if(response.statusCode == 200){
     return response;
-  } else {
-    throw Exception(
-        'Failed to create retrieve data. Status code: ${response.statusCode}');
+  }else{
+    throw Exception('Failed to create retrieve data. Status code: ${response.statusCode}');
   }
 }
 
 //delete telecon Entry
-Future<int> deleteEntry(String teleconId) async {
+Future<int> deleteEntry(String teleconId) async{
   final url = URL.BASE_URL + "/user/entry/delete/${teleconId}";
   final uri = Uri.parse(url);
   String? token = TokenStorage().getToken();
   String? email = TokenStorage().getEmail();
-  if (token == null || email == null) {
+  if(token == null || email == null){
     throw Exception("No token or email found. Please log in again");
   }
   final response = await http.post(
     uri,
-    headers: {'Authorization': 'Bearer ${token}', 'email': email},
+    headers: {
+      'Authorization' : 'Bearer ${token}',
+      'email' : email
+    },
   );
-  if (response.statusCode == 200) {
+  if(response.statusCode == 200){
     return response.statusCode;
-  } else {
-    throw Exception(
-        'Failed to delete telecon entry. Status code:${teleconId} ${response.statusCode}');
+  }else{
+    throw Exception('Failed to delete telecon entry. Status code:${teleconId} ${response.statusCode}');
   }
 }
-
 //add reviewer to the entry
 ///reviewer/add/{id}
-Future<int> addReviewer(String teleconId, String reviewerId) async {
+Future<int> addReviewer(String teleconId,String reviewerId)async{
   final url = URL.BASE_URL + "/user/entry/reviewer/add/${teleconId}";
   final uri = Uri.parse(url);
   String? token = TokenStorage().getToken();
   String? email = TokenStorage().getEmail();
-  if (token == null || email == null) {
+  if(token == null || email == null){
     throw Exception("No token or email found. Please log in again");
   }
   final response = await http.post(
     uri,
     headers: {
-      'Authorization': 'Bearer ${token}',
-      'email': email,
+      'Authorization' : 'Bearer ${token}',
+      'email' : email,
       'Content-Type': 'application/json; charset=UTF-8',
     },
     body: jsonEncode({'reviewer_id': reviewerId}),
+
   );
-  if (response.statusCode == 200) {
+  if(response.statusCode == 200){
     return response.statusCode;
-  } else {
-    throw Exception(
-        'Failed to add reviewer. Status code: ${response.statusCode}');
+  }else{
+    throw Exception('Failed to add reviewer. Status code: ${response.statusCode}');
   }
 }
 
-Future<int> removeReviewer(String teleconId, String reviewerId) async {
+Future<int> removeReviewer(String teleconId,String reviewerId)async{
   final url = URL.BASE_URL + "/user/entry/reviewer/remove/${teleconId}";
   final uri = Uri.parse(url);
   String? token = TokenStorage().getToken();
   String? email = TokenStorage().getEmail();
-  if (token == null || email == null) {
+  if(token == null || email == null){
     throw Exception("No token or email found. Please log in again");
   }
   final response = await http.post(
     uri,
     headers: {
-      'Authorization': 'Bearer ${token}',
-      'email': email,
+      'Authorization' : 'Bearer ${token}',
+      'email' : email,
       'Content-Type': 'application/json; charset=UTF-8',
     },
     body: jsonEncode({'reviewer_id': reviewerId}),
+
   );
-  if (response.statusCode == 200) {
+  if(response.statusCode == 200){
     return response.statusCode;
-  } else {
-    throw Exception(
-        'Failed to add reviewer. Status code: ${response.statusCode}');
+  }else{
+    throw Exception('Failed to add reviewer. Status code: ${response.statusCode}');
   }
 }
 
 //Telecon entries shared to the user
 ///api/user/entry/shared/all?page=1&filter=All
-Future<http.Response> sharedTeleconEntries(int pageNo, String filter) async {
-  final url = URL.BASE_URL +
-      '/user/entry/shared/all?page=${pageNo.toString()}&filter=${Uri.encodeComponent(filter)}';
+Future<http.Response> sharedTeleconEntries(int pageNo,String filter)async{
+  final url = URL.BASE_URL + '/user/entry/shared/all?page=${pageNo.toString()}&filter=${Uri.encodeComponent(filter)}';
   final uri = Uri.parse(url);
   String? token = TokenStorage().getToken();
   String? email = TokenStorage().getEmail();
@@ -299,11 +293,10 @@ Future<http.Response> sharedTeleconEntries(int pageNo, String filter) async {
     },
   );
 
-  if (response.statusCode == 200) {
+  if(response.statusCode == 200){
     return response;
-  } else {
-    throw Exception(
-        'Failed to create telecon entry. Status code: ${response.statusCode}');
+  }else{
+    throw Exception('Failed to create telecon entry. Status code: ${response.statusCode}');
   }
 }
 
@@ -456,30 +449,29 @@ Future<int> patientUpload(
 }
 
 //creating a teleconsultation entry
-Future<http.Response> createTeleconEntry(
-    String startTime,
-    String endTime,
-    String complaints,
-    String finding,
-    List<HabbitDto> currentHabits,
-    String PatientId) async {
-  final url = URL.BASE_URL +
-      "/user/entry/add/$PatientId"; //patient id should be added here
+Future<http.Response> createTeleconEntry(String startTime,
+                                String endTime,
+                                String complaints,
+                                String finding,
+                                List<HabbitDto> currentHabits,
+                                String PatientId) async{
+  final url = URL.BASE_URL + "/user/entry/add/$PatientId";//patient id should be added here
   final uri = Uri.parse(url);
   //getting the token and email of the clinician
   String? token = TokenStorage().getToken();
   String? email = TokenStorage().getEmail();
 
-  if (token == null || email == null) {
+  if(token == null || email == null){
     throw Exception("No token or email found. Please log in again");
   }
   //creating teleconEntryRequest instance
   TeleconEntryRequest entryRequest = TeleconEntryRequest(
-      startTime: startTime,
-      endTime: endTime,
-      complaint: complaints,
-      findings: finding,
-      currentHabits: currentHabits);
+    startTime : startTime,
+    endTime :endTime,
+    complaint: complaints,
+    findings: finding,
+    currentHabits: currentHabits
+  );
 
   final response = await http.post(
     uri,
@@ -491,37 +483,34 @@ Future<http.Response> createTeleconEntry(
     body: jsonEncode(entryRequest.toJson()),
   );
 
-  if (response.statusCode == 200) {
+  if(response.statusCode == 200){
     return response;
-  } else {
-    throw Exception(
-        'Failed to create telecon entry. Status code: ${response.statusCode}');
+  }else{
+    throw Exception('Failed to create telecon entry. Status code: ${response.statusCode}');
   }
 }
 
 //
-Future<http.Response> addReview(
-    String provisionalDiagnosis,
+Future<http.Response> addReview(String provisionalDiagnosis,
     String managementSuggestions,
     String referralSuggestions,
     String otherComments,
-    String teleconId) async {
-  final url = URL.BASE_URL +
-      "/user/entry/review/${teleconId}"; //patient id should be added here
+    String teleconId) async{
+  final url = URL.BASE_URL + "/user/entry/review/${teleconId}";//patient id should be added here
   final uri = Uri.parse(url);
   //getting the token and email of the clinician
   String? token = TokenStorage().getToken();
   String? email = TokenStorage().getEmail();
 
-  if (token == null || email == null) {
+  if(token == null || email == null){
     throw Exception("No token or email found. Please log in again");
   }
   //creating teleconEntryRequest instance
   ReviewRequest reviewRequest = ReviewRequest(
-    provisionalDiagnosis: provisionalDiagnosis,
-    managementSuggestions: managementSuggestions,
-    referralSuggestions: referralSuggestions,
-    otherComments: otherComments,
+    provisionalDiagnosis : provisionalDiagnosis,
+    managementSuggestions : managementSuggestions,
+    referralSuggestions : referralSuggestions,
+    otherComments : otherComments,
   );
 
   final response = await http.post(
@@ -534,35 +523,34 @@ Future<http.Response> addReview(
     body: jsonEncode(reviewRequest.toJson()),
   );
 
-  if (response.statusCode == 200) {
+  if(response.statusCode == 200){
     return response;
-  } else {
-    throw Exception(
-        'Failed to create telecon entry. Status code: ${response.statusCode}');
+  }else{
+    throw Exception('Failed to create telecon entry. Status code: ${response.statusCode}');
   }
 }
 
 ///api/user/patient/reviewer/all
-Future<List<ReviewerDetails>> getAllReviewers() async {
+Future<List<ReviewerDetails>> getAllReviewers()async{
   const url = URL.BASE_URL + "/user/patient/reviewer/all";
   final uri = Uri.parse(url);
   final response = await http.get(
-    uri,
-    headers: {
+      uri,
+      headers: {
       'Authorization': 'Bearer ${TokenStorage().getToken()}',
       'email': TokenStorage().getEmail()!,
-    },
+      },
   );
-  if (response.statusCode == 200) {
+  if (response.statusCode == 200){
     List<dynamic> reviewersJson = jsonDecode(response.body);
-    List<ReviewerDetails> reviewerList =
-        reviewersJson.map((json) => ReviewerDetails.fromJson(json)).toList();
+    List<ReviewerDetails> reviewerList = reviewersJson.map((json)=> ReviewerDetails.fromJson(json)).
+  toList();
     return reviewerList;
-  } else {
-    throw Exception(
-        'Failed to retrieve Reviewers. Status Code : ${response.statusCode}');
+  }else{
+    throw Exception('Failed to retrieve Reviewers. Status Code : ${response.statusCode}');
   }
 }
+
 
 Future<VerifyResponse> verify(String email, String photoUrl) async {
   const url = URL.BASE_URL + "/auth/verify";

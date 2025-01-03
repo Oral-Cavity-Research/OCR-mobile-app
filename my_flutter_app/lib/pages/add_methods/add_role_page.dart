@@ -88,56 +88,23 @@ class AddRolePageState extends State<AddRole> {
                           fontSize: 35,
                           color: Color.fromARGB(255, 46, 74, 95),
                           fontWeight: FontWeight.bold,
-                          fontFamily: 'PlayfairDisplay',
+                          //fontFamily: 'PlayfairDisplay',
                         ),
                       )),
 
-                  // MyInput2(
-                  //   controller: roleNameController,
-                  //   hintText: 'Role Name',
-                  //   obscureText: false,
-                  //   labelText: 'Role Name',
-                  // ),
-                  ListTile(
-                    title: const Text(
-                      '',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Color.fromARGB(255, 46, 74, 95),
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Rubik',
-                      ),
-                    ),
-                    subtitle: TextField(
-                      controller: roleNameController,
-                      decoration: const InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color.fromARGB(255, 0, 179, 255),
-                          ),
-                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color.fromARGB(255, 255, 255, 255),
-                          ),
-                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
-                        hintText: 'Role Name',
-                        hintStyle: TextStyle(color: Colors.grey),
-                        contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
-                      ),
-                    ),
+                  MyInput2(
+                    controller: roleNameController,
+                    hintText: 'Role Name',
+                    obscureText: false,
+                    labelText: 'Role Name',
                   ),
-
                   SizedBox(height: 20),
                   MultipleChoiceSelector(
                     question: "Select Permissions",
                     options: options.values.toList(),
                     onSelectionChanged: handleSelectionChanged,
                   ),
+
                   Row(
                     children: [
                       Padding(
@@ -149,8 +116,8 @@ class AddRolePageState extends State<AddRole> {
                             Navigator.pushNamed(context, '/pageNav');
                           },
                           text: 'Discard',
-                          backgroundColor:
-                              Color.fromARGB(255, 55, 104, 150), // Solid color
+                          backgroundColor: const Color.fromARGB(
+                              255, 255, 4, 4), // Solid color
                           width: 150.0, // Custom width
                           height: 65.0, // Custom height
                         ),
@@ -168,8 +135,8 @@ class AddRolePageState extends State<AddRole> {
                             Navigator.pushNamed(context, '/add_a_role');
                           },
                           text: 'Save',
-                          backgroundColor:
-                              Color.fromARGB(255, 95, 160, 239), // Solid color
+                          backgroundColor: const Color.fromARGB(
+                              255, 13, 62, 123), // Solid color
                           width: 150.0, // Custom width
                           height: 65.0, // Custom height
                         ),
