@@ -76,41 +76,23 @@ class _ShareEntriesScreenState extends State<ShareEntriesScreen> {
   void _showOptionsSheet(BuildContext context, Map<String, dynamic> entry) {
     showModalBottomSheet(
       context: context,
-      isScrollControlled: true,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-            top: Radius.circular(25.0)), // Smoother, slightly larger radius
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
       ),
-    backgroundColor: Colors.white, // Clean white background for contrast
-    builder: (context) => DraggableScrollableSheet(
-    expand: false,
-    initialChildSize: 0.7, // A bit larger to start with
-    minChildSize: 0.7,
-    maxChildSize: 1.0,
-    builder: (context, scrollController) {
-    return Container(
-    decoration: const BoxDecoration(
-    borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
-    gradient: LinearGradient(
-    colors: [
-    Color(0xFFE3F2FD),
-    Color(0xFFBBDEFB)
-    ], // Subtle blue gradient
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    ),
-    ),
+      builder: (BuildContext context) {
+        return Padding(
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               ListTile(
                 leading: Icon(
                   Icons.info_outline, // Choose a suitable icon
-                  color: Colors.blue[900],  // Set the icon color (optional)
+                  color: Colors.blue,  // Set the icon color (optional)
                 ),
                 title: Text(
                   'Actions for the selected Entry:',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color: Colors.blue[900]),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color: Colors.blue),
                 ),
               ),
 
@@ -126,17 +108,26 @@ class _ShareEntriesScreenState extends State<ShareEntriesScreen> {
                 leading: Icon(Icons.delete),
                 title: Text('Remove Reviewer'),
                 onTap: () {
-                  print(entry['reviewers'] );
+                  print(entry['reviewers']);
                   _showDeleteReviewerSelectionSheet(
                       context, entry['id'], entry['reviewers']);
-                  // Navigator.pop(context);
+
+                  Navigator.pop(context);
                 },
-              ),ListTile(
+              ),Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: ListTile(
                   leading: Icon(
                     Icons.image_outlined,
+                    color: Colors.blue,  // Set the icon color (optional)
                   ),
                   title: Text(
                     'Upload Images',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,  // Set text color to white
+                    ),
                   ),
                   tileColor: Colors.blue[500],  // Set the background color of the tile
                   onTap: () {
@@ -147,12 +138,21 @@ class _ShareEntriesScreenState extends State<ShareEntriesScreen> {
                     print("Upload Images button pressed");
                   },
                 ),
-              ListTile(
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: ListTile(
                   leading: Icon(
                     Icons.upload_file_outlined,
+                    color: Colors.blue,  // Set the icon color (optional)
                   ),
                   title: Text(
                     'Upload Reports',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,  // Set text color to white
+                    ),
                   ),
                   tileColor: Colors.blue[500],  // Set the background color of the tile
                   onTap: () {
@@ -163,36 +163,36 @@ class _ShareEntriesScreenState extends State<ShareEntriesScreen> {
                     print("Upload Reports button pressed");
                   },
                 ),
-
-              ListTile(
-                leading: Icon(Icons.delete_forever),
-                title: Text('Delete Entry'),
-                onTap: () async {
-                  final response = await deleteEntry(entry['id']);
-                  if (response == 200) {
-                    await responsePopup(
-                      context,
-                      "Success",
-                      "Teleconsultation Entry deleted successfully!",
-                    );
-                    setState(() {
-                      _fetchTeleconEntries();
-                    });
-                  } else {
-                    await responsePopup(
-                      context,
-                      "Failure",
-                      "Error deleting Teleconsultation Entry: $response",
-                    );
-                  }
-                  Navigator.pop(context);
-                },
               ),
+
+              // ListTile(
+              //   leading: Icon(Icons.delete_forever),
+              //   title: Text('Delete Entry'),
+              //   onTap: () async {
+              //     final response = await deleteEntry(entry['id']);
+              //     if (response == 200) {
+              //       await responsePopup(
+              //         context,
+              //         "Success",
+              //         "Teleconsultation Entry deleted successfully!",
+              //       );
+              //       setState(() {
+              //         _fetchTeleconEntries();
+              //       });
+              //     } else {
+              //       await responsePopup(
+              //         context,
+              //         "Failure",
+              //         "Error deleting Teleconsultation Entry: $response",
+              //       );
+              //     }
+              //     Navigator.pop(context);
+              //   },
+              // ),
             ],
           ),
         );
       },
-    )
     );
   }
 
@@ -230,7 +230,7 @@ class _ShareEntriesScreenState extends State<ShareEntriesScreen> {
                   padding: const EdgeInsets.symmetric(
                       vertical: 20.0, horizontal: 16.0),
                   child: Text(
-                    'Add Reviewer',
+                    'Select Reviewer',
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
@@ -287,6 +287,8 @@ class _ShareEntriesScreenState extends State<ShareEntriesScreen> {
   List<ReviewerDetails> mapReviewers(List<dynamic> reviewers) {
     return reviewers.map<ReviewerDetails>((reviewer) {
       try {
+        print(
+            'Mapping reviewer: $reviewer'); // Print each reviewer before mapping
         return ReviewerDetails(
           id: reviewer['id'] ?? '', // Correct key usage
           userName: reviewer['username'] ?? '', // This is correct
@@ -307,13 +309,12 @@ class _ShareEntriesScreenState extends State<ShareEntriesScreen> {
     if (existingReviewers == null || existingReviewers.isEmpty) {
       // Handle the case where there are no existing reviewers
       responsePopup(context, "Info", "No existing reviewers to display.");
-      return;// Exit if no reviewers
+      // Exit if no reviewers
     }
+
     // Proceed to map reviewers only if the list is not empty
     List<ReviewerDetails> deleteReviewers = mapReviewers(existingReviewers);
-    print('jf');
-    print(deleteReviewers);
-    print('jf');
+
     // Show the bottom sheet
     showModalBottomSheet(
       context: context,
@@ -344,7 +345,7 @@ class _ShareEntriesScreenState extends State<ShareEntriesScreen> {
                   padding: const EdgeInsets.symmetric(
                       vertical: 20.0, horizontal: 16.0),
                   child: Text(
-                    'Remove Reviewer',
+                    'Select Reviewer',
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
@@ -381,7 +382,6 @@ class _ShareEntriesScreenState extends State<ShareEntriesScreen> {
                           try {
                             final response =
                                 await removeReviewer(teleconId, reviewer.id);
-                            print(reviewer.id);
                             Navigator.pop(context); // Close the loading dialog
 
                             if (response == 200) {
@@ -485,7 +485,7 @@ class _ShareEntriesScreenState extends State<ShareEntriesScreen> {
                   ? Center(child: CircularProgressIndicator())
                   : _entries.isEmpty &&
                           !_isLoading // Check if entries are empty only after loading is complete
-                      ? Center(child: Text('No Entries to show'))
+                      ? Center(child: Text('Fetching Entries...'))
                       : ListView.builder(
                           itemCount: _entries.length,
                           itemBuilder: (context, index) {
